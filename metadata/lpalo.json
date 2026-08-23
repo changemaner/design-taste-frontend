@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Corporate or enterprise contexts, data-dense dashboards, dark-mode products, and any interface needing neutral grays, shadows, or conventional filled CTAs — the storybook slab-serif and crayon palette overwhelm serious or informational content.",
+  "best_for": "Playful podcast and media platforms, children's-content or creative community brands, and expressive landing pages that want an authoritative-voice-childlike-delivery tension — chunky slab-serif headlines shouting over scattered crayon doodles on peach paper.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "playful",
+    "warm",
+    "chromatic",
+    "organic"
+  ],
+  "name": "Lpalo",
+  "palette_voice": "Warm Peach Paper (#f6e0db) canvas with pure Charcoal Ink (#000000) doing all structural work — text, 2px borders, hairlines — and a crayon-box of flat saturated accents (Ember Orange, Magenta Pop, Sunbeam Yellow, Mint Wash, Powder Blue, Lilac Tint, Lime Zest) used as decorative punctuation on cards and bands, one vivid accent per content block, never mixed within a component; no grays, no shadows, no gradients — ink-on-paper metaphor.",
+  "scheme": "light",
+  "signature_moves": [
+    "Chunky single-weight slab-serif headlines (Alfa Slab One, 46–120px) at line-height ≤ 1.20 so type reads as shouting — the brand's heavy lifter",
+    "White cards with 2px pure-black borders and 40–47px pill radii — the signature outlined-card language, no shadows",
+    "Line-art doodles (headphones, robots, cassettes) scattered at varied rotations around text — asymmetry is part of the storybook feel",
+    "Full-bleed flat color bands (60–100px tall) between sections as pure color rhythm",
+    "Tilted feature cards (2–4° rotation) with offset behind-layer for a hand-placed scrapbook effect"
+  ],
+  "slug": "lpalo",
+  "source": {
+    "leading_body": 1.6,
+    "path": "refero-styles/Lpalo/",
+    "radius": "47px pills/cards/buttons / 10px small elements",
+    "shadow": "none — flat, 2px black borders carry structure",
+    "theme": "light"
+  },
+  "tagline": "A children's storybook spread on warm peach paper — one slab-serif headline shouting through scattered crayon doodles.",
+  "tone": [
+    "playful",
+    "friendly",
+    "energetic"
+  ],
+  "typographic_voice": "Alfa Slab One (subst. Bowlby One/Roboto Slab 900) at a single weight 400 carries all display and editorial headlines at 46–120px with tight 1.09–1.20 leading; Manrope (subst. Inter) is the geometric sans for everything else — 500 for nav, 400 for body at 16px/1.6, 700–800 only for inline emphasis; no neutral-gray text, no serifs outside Alfa Slab, nothing below 16px in the slab face."
+}

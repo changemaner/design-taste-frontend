@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKEA — A Tour of the Home</title>
+
+    <!-- Fonts: Noto Sans (Noto IKEA substitute, 400/700 only), per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from DESIGN.md
+           (value layer: 1:1; typography/spacing scaled ×2 for the 1920×1080 stage;
+           radius 8px exact — one radius across every component)
+           =========================================== */
+        :root {
+            /* Colors — exact, 8-color system */
+            --color-ikea-yellow: #ffdb00;
+            --color-ink-black: #111111;
+            --color-pure-white: #ffffff;
+            --color-warm-white: #fffefb;
+            --color-steel-gray: #818181;
+            --color-true-black: #000000;
+            --color-link-blue: #0159a3;
+            --color-soft-pink: #ffa6da;
+
+            --font-sans: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+            /* Type scale — ×2 for stage, negative tracking is structural */
+            --text-caption: 26px;
+            --text-body: 40px;
+            --leading-body: 1.57;
+            --tracking-body: -0.027em;
+            --text-title: 88px;
+            --text-display: 132px;
+            --tracking-display: -0.029em;
+
+            /* Spacing — ×2 (8px base) */
+            --sp-1: 16px;
+            --sp-2: 32px;
+            --sp-3: 48px;
+            --sp-4: 64px;
+            --sp-5: 80px;
+            --sp-6: 96px;
+
+            /* Radius — exact: 8px everywhere */
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: var(--color-pure-white);
+            font-family: var(--font-sans);
+            color: var(--color-ink-black);
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-pure-white);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-pure-white);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #ffffff; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           IKEA — high-contrast editorial spread
+           (black on white, flat yellow activation,
+           one 8px radius, zero shadows, zero gradients)
+           =========================================== */
+
+        /* Frame helper — content bottom safety zone 160px keeps clear of fixed chrome */
+        .frame {
+            position: absolute;
+            inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — IKEA ellipse, top-left per-slide */
+        .wordmark {
+            position: absolute;
+            top: 56px; left: var(--frame-pad-x);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* Section tag — black, structural */
+        .tag {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-ink-black);
+        }
+        .tag-blue {
+            color: var(--color-link-blue);
+        }
+
+        /* Display headline — 700, tight negative tracking */
+        .h-display {
+            font-family: var(--font-sans);
+            font-size: var(--text-display);
+            font-weight: 700;
+            line-height: 1.02;
+            letter-spacing: var(--tracking-display);
+            color: var(--color-ink-black);
+        }
+        .h-title {
+            font-family: var(--font-sans);
+            font-size: var(--text-title);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: var(--tracking-display);
+            color: var(--color-ink-black);
+        }
+
+        /* Body — 400, negative tracking */
+        .body {
+            font-family: var(--font-sans);
+            font-size: var(--text-body);
+            line-height: var(--leading-body);
+            letter-spacing: var(--tracking-body);
+            color: var(--color-ink-black);
+        }
+        .body-muted {
+            font-family: var(--font-sans);
+            font-size: 30px;
+            line-height: var(--leading-body);
+            letter-spacing: -0.02em;
+            color: var(--color-steel-gray);
+        }
+
+        /* Link — IKEA blue, text links only */
+        .text-link {
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-link-blue);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+            cursor: pointer;
+        }
+
+        /* Yellow CTA card — the singular activation surface */
+        .cta-card {
+            background: var(--color-ikea-yellow);
+            border-radius: var(--radius);
+            padding: 48px 64px;
+        }
+
+        /* Cards — white on white, defined by 2px black rules */
+        .card-line {
+            background: var(--color-pure-white);
+            border: 2px solid var(--color-ink-black);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+        .card-warm {
+            background: var(--color-warm-white);
+            border: 2px solid var(--color-ink-black);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+
+        /* Buttons — flat, no shadow */
+        .btn-yellow {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-ink-black);
+            background: var(--color-ikea-yellow);
+            border: none;
+            border-radius: var(--radius);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+        .btn-dark {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-pure-white);
+            background: var(--color-ink-black);
+            border: none;
+            border-radius: var(--radius);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+        .btn-yellow:hover { background: var(--color-ink-black); color: var(--color-pure-white); }
+        .btn-dark:hover { background: var(--color-ikea-yellow); color: var(--color-ink-black); }
+
+        /* Agenda row — black rules */
+        .agenda-row {
+            display: flex;
+            align-items: baseline;
+            gap: 48px;
+            padding: 28px 0;
+            border-bottom: 2px solid var(--color-ink-black);
+        }
+        .agenda-row:first-of-type { border-top: 2px solid var(--color-ink-black); }
+        .a-num {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1;
+            width: 110px;
+        }
+        .a-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1.3px;
+            flex: 1;
+        }
+        .a-tag {
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--color-steel-gray);
+        }
+
+        /* Stat number */
+        .stat-num {
+            font-size: 128px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -3px;
+            color: var(--color-ink-black);
+        }
+        .stat-label {
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--color-steel-gray);
+            margin-top: 20px;
+        }
+
+        /* Table — black rules, no fill */
+        .table-rows { width: 100%; border-collapse: collapse; margin-top: 28px; }
+        .table-rows th {
+            text-align: left;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-steel-gray);
+            padding: 18px 0;
+            border-bottom: 2px solid var(--color-ink-black);
+        }
+        .table-rows td {
+            font-size: 28px;
+            font-weight: 400;
+            padding: 14px 0;
+            border-bottom: 2px solid var(--color-ink-black);
+        }
+        .table-rows td:last-child, .table-rows th:last-child { text-align: right; }
+        .table-rows tr:last-child td { border-bottom: none; }
+        .td-muted { color: var(--color-steel-gray); }
+
+        /* Floor plan — line drawing card */
+        .plan-card {
+            background: var(--color-warm-white);
+            border: 2px solid var(--color-ink-black);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+        .plan-card svg { width: 100%; height: 300px; }
+        .plan-legend {
+            margin-top: 16px;
+            font-size: 24px;
+            color: var(--color-steel-gray);
+            line-height: 1.4;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-size: 24px;
+            color: var(--color-steel-gray);
+            letter-spacing: 0.04em;
+        }
+                        .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-ink-black);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-ink-black);
+            color: var(--color-pure-white);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: var(--nav-dot-gap);        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;    /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：小空间也能住出大生活。本页为讲者备注演示，按 N 切换。">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:84px;">Life at Home</div>
+                <h1 class="h-display reveal d1" style="margin-top:32px; max-width:1500px; font-size:120px;">Small spaces,<br>big calm</h1>
+                <div class="cta-card reveal d2" style="margin-top:36px; max-width:760px; padding:40px 56px; display:flex; align-items:center; gap:40px;">
+                    <div style="flex:1;">
+                        <p style="font-size:34px; font-weight:700; letter-spacing:-0.02em;">A tour of the home &mdash; in four stops.</p>
+                    </div>
+                    <button class="btn-dark" style="flex:none;">Go shopping →</button>
+                </div>
+                <p class="body-muted reveal d3" style="margin-top:24px; max-width:760px;">Ideas that make a small home feel like a big one &mdash; starting with the right mindset.</p>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Agenda</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">A tour of the home</h2>
+                <div style="margin-top:64px;">
+                    <div class="agenda-row reveal d1"><span class="a-num">01</span><span class="a-title">Why small spaces win</span><span class="a-tag">Mindset</span></div>
+                    <div class="agenda-row reveal d2"><span class="a-num">02</span><span class="a-title">Storage that disappears</span><span class="a-tag">Ideas</span></div>
+                    <div class="agenda-row reveal d3"><span class="a-num">03</span><span class="a-title">Warm light, quiet corners</span><span class="a-tag">Rooms</span></div>
+                    <div class="agenda-row reveal d3"><span class="a-num">04</span><span class="a-title">Make it yours</span><span class="a-tag">Next steps</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — PRINCIPLES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">How we think</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Three rules for a calm home</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:64px;">
+                    <div class="card-line reveal d2">
+                        <div class="tag">01 &mdash; LESS</div>
+                        <h3 style="font-size:44px; font-weight:700; letter-spacing:-0.02em; margin-top:32px;">Keep what earns its place</h3>
+                        <p class="body-muted" style="margin-top:24px;">Every object should work or warm. If it does neither, it goes.</p>
+                    </div>
+                    <div class="card-line reveal d3">
+                        <div class="tag">02 &mdash; LIGHT</div>
+                        <h3 style="font-size:44px; font-weight:700; letter-spacing:-0.02em; margin-top:32px;">Light is a room&rsquo;s second skin</h3>
+                        <p class="body-muted" style="margin-top:24px;">Three light levels in every room &mdash; bright, soft, and somewhere in between.</p>
+                    </div>
+                    <div class="card-warm reveal d3">
+                        <div class="tag">03 &mdash; YOURS</div>
+                        <h3 style="font-size:44px; font-weight:700; letter-spacing:-0.02em; margin-top:32px;">Affordable is a feature</h3>
+                        <p class="body-muted" style="margin-top:24px;">Democratic design: form, function, quality, sustainability &mdash; at a price most can pay.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — DATA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">In numbers</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Small home, big life</h2>
+                <div style="display:flex; gap:48px; margin-top:32px; align-items:flex-start;">
+                    <div style="flex:1; display:flex; flex-direction:column; gap:24px; padding-top:8px;">
+                        <div class="reveal d2">
+                            <div class="stat-num">68%</div>
+                            <div class="stat-label">of people say their home feels calmer after a proper declutter</div>
+                        </div>
+                        <div class="reveal d3">
+                            <div class="stat-num">3×</div>
+                            <div class="stat-label">more usable space in a room with wall-to-wall smart storage</div>
+                        </div>
+                    </div>
+                    <div class="card-line reveal d2" style="flex:1.2;">
+                        <div class="tag">Room by room</div>
+                        <table class="table-rows">
+                            <tr><th>Room</th><th>Idea</th><th>Effort</th></tr>
+                            <tr><td>Living</td><td class="td-muted">Low sofa, tall shelf</td><td>1 hr</td></tr>
+                            <tr><td>Bedroom</td><td class="td-muted">Under-bed storage</td><td class="td-muted">30 min</td></tr>
+                            <tr><td>Kitchen</td><td class="td-muted">Door-back racks</td><td class="td-muted">45 min</td></tr>
+                            <tr><td>Hall</td><td class="td-muted">Shoe bench + hooks</td><td class="td-muted">1 hr</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="cta-card reveal d1" style="margin-top:88px; max-width:1680px;">
+                    <p class="h-title" style="font-size:64px; font-weight:700; line-height:1.3; letter-spacing:-0.029em;">&ldquo;We moved from a three-bedroom house into a two-room flat &mdash; and our home life got easier.&rdquo;</p>
+                    <div style="display:flex; align-items:center; gap:24px; margin-top:48px;">
+                        <span style="font-size:30px; font-weight:700;">Lin &amp; Jonas</span>
+                        <span style="width:64px; height:2px; background:var(--color-ink-black);"></span>
+                        <span style="font-size:26px; color:var(--color-ink-black);">Uppsala, Sweden</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — ROOMS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Rooms</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">The rooms we&rsquo;ll visit</h2>
+                <div style="display:flex; gap:48px; margin-top:56px; align-items:flex-start;">
+                    <div class="plan-card reveal d2" style="flex:1.2;">
+                        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                            <rect x="8" y="8" width="424" height="344" fill="#fffefb" stroke="#111111" stroke-width="6"/>
+                            <line x1="288" y1="8" x2="288" y2="196" stroke="#111111" stroke-width="6"/>
+                            <line x1="288" y1="196" x2="432" y2="196" stroke="#111111" stroke-width="6"/>
+                            <line x1="288" y1="96" x2="288" y2="150" stroke="#fffefb" stroke-width="12"/>
+                            <path d="M288 96 a32 32 0 0 1 32-32" fill="none" stroke="#111111" stroke-width="5"/>
+                            <line x1="288" y1="240" x2="288" y2="300" stroke="#fffefb" stroke-width="12"/>
+                            <text x="24" y="222" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="26" fill="#111111">01</text>
+                            <rect x="52" y="250" width="136" height="80" fill="#ffa6da"/>
+                            <rect x="66" y="258" width="108" height="34" rx="6" fill="none" stroke="#111111" stroke-width="5"/>
+                            <circle cx="238" cy="286" r="12" fill="none" stroke="#111111" stroke-width="5"/>
+                            <text x="300" y="34" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="26" fill="#111111">02</text>
+                            <rect x="308" y="64" width="100" height="80" rx="6" fill="none" stroke="#111111" stroke-width="5"/>
+                            <line x1="308" y1="96" x2="408" y2="96" stroke="#111111" stroke-width="4"/>
+                            <circle cx="360" cy="150" r="8" fill="none" stroke="#111111" stroke-width="5"/>
+                            <text x="300" y="222" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="26" fill="#111111">03</text>
+                            <rect x="296" y="268" width="124" height="30" fill="none" stroke="#111111" stroke-width="5"/>
+                            <circle cx="322" cy="283" r="6" fill="#111111"/>
+                            <circle cx="342" cy="283" r="6" fill="#111111"/>
+                            <rect x="330" y="218" width="44" height="32" fill="none" stroke="#111111" stroke-width="5"/>
+                            <text x="24" y="34" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="26" fill="#111111">04</text>
+                            <line x1="60" y1="44" x2="60" y2="58" stroke="#111111" stroke-width="6"/>
+                            <line x1="104" y1="40" x2="104" y2="54" stroke="#111111" stroke-width="6"/>
+                            <line x1="148" y1="44" x2="148" y2="58" stroke="#111111" stroke-width="6"/>
+                            <rect x="96" y="120" width="64" height="40" fill="#ffa6da"/>
+                        </svg>
+                        <div class="plan-legend">01 living &middot; 02 bedroom &middot; 03 kitchen &middot; 04 hall</div>
+                    </div>
+                    <div style="flex:1; padding-top:16px;">
+                        <div class="reveal d2">
+                            <h3 style="font-size:48px; font-weight:700; letter-spacing:-0.02em;">Start with the hall</h3>
+                            <p class="body-muted" style="margin-top:20px;">A shoe bench, a mirror, three hooks &mdash; the smallest room sets the tone for the whole home.</p>
+                        </div>
+                        <div class="cta-card reveal d3" style="margin-top:48px; display:flex; align-items:center; gap:32px; padding:32px 40px;">
+                            <p style="font-size:28px; font-weight:700; flex:1;">See the hall makeover →</p>
+                            <button class="btn-dark" style="flex:none;">Shop</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — IDEAS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Ideas</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Storage that disappears</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:28px;">
+                    <div class="card-line reveal d2">
+                        <div style="background:var(--color-warm-white); border:2px solid var(--color-ink-black); border-radius:var(--radius); height:150px; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
+                            <span style="font-size:64px; font-weight:700;">⇅</span>
+                        </div>
+                        <h3 style="font-size:40px; font-weight:700; letter-spacing:-0.02em;">Go vertical</h3>
+                        <p class="body-muted" style="margin-top:16px;">Tall, slim shelving turns a wall into storage &mdash; floor space stays free.</p>
+                    </div>
+                    <div class="card-line reveal d3">
+                        <div style="background:var(--color-warm-white); border:2px solid var(--color-ink-black); border-radius:var(--radius); height:180px; display:flex; align-items:center; justify-content:center; margin-bottom:24px;">
+                            <span style="font-size:64px; font-weight:700;">▤</span>
+                        </div>
+                        <h3 style="font-size:40px; font-weight:700; letter-spacing:-0.02em;">Under everything</h3>
+                        <p class="body-muted" style="margin-top:16px;">Beds, sofas, and stairs hide more space than any closet ever could.</p>
+                    </div>
+                    <div class="card-warm reveal d3">
+                        <div style="background:var(--color-warm-white); border:2px solid var(--color-ink-black); border-radius:var(--radius); height:180px; display:flex; align-items:center; justify-content:center; margin-bottom:24px;">
+                            <span style="font-size:64px; font-weight:700;">▣</span>
+                        </div>
+                        <h3 style="font-size:40px; font-weight:700; letter-spacing:-0.02em;">Double duty</h3>
+                        <p class="body-muted" style="margin-top:16px;">One piece, two jobs: a bench that stores, a table that folds away.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING CTA ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:static; margin-bottom:64px;">
+                    <svg width="88" height="56" viewBox="0 0 88 56" aria-hidden="true">
+                        <ellipse cx="44" cy="28" rx="42" ry="26" fill="#ffdb00"/>
+                        <text x="44" y="38" text-anchor="middle" font-family="'Noto Sans', sans-serif" font-weight="700" font-size="24" fill="#111111" letter-spacing="1.5">IKEA</text>
+                    </svg>
+                    <span style="font-size:26px; color:var(--color-steel-gray);">Life at Home</span>
+                </div>
+                <div class="cta-card reveal d1" style="max-width:1560px; padding:64px 96px;">
+                    <h2 class="h-display" style="font-size:112px;">Make it yours</h2>
+                    <p class="body" style="margin-top:32px; max-width:800px; margin-left:auto; margin-right:auto;">Small changes, big calm. Start with one room this weekend &mdash; the ideas are waiting.</p>
+                    <div style="display:flex; gap:40px; align-items:center; justify-content:center; margin-top:56px;" class="reveal d2">
+                        <button class="btn-dark">Start your makeover</button>
+                        <a class="text-link" href="#">Browse the catalogue →</a>
+                    </div>
+                    <p class="body-muted" style="font-size:24px; margin-top:40px;">Free planning tools &middot; in-store or online &middot; delivery to your door</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupDotNav();
+            this.setupStageScale();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Quiet luxury or premium brand presentations, long-form reading experiences, dark-mode-first products, or restrained minimal SaaS where loud confetti and 244px type would feel noisy — color here is punctuation, not decoration to add casually.",
+  "best_for": "Fintech / trading / devtool marketing pages that want a confident, maximalist editorial manifesto register — poster-scale grotesque headlines on a light ash canvas with Bauhaus color blocks, Stripe/Replit-adjacent.",
+  "density": "compact",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "chromatic",
+    "bold"
+  ],
+  "name": "Composer",
+  "palette_voice": "Light ash Concrete (#e5e7eb) canvas with Paper (#ffffff) cards and hairline Concrete borders everywhere; black Obsidian (#000000) text on near-white is the 21:1 safety floor; a confetti of vivid rectangles (Signal Blue #1871da, Pulse Green #1ec072, Hot Pink #f6609f, Solar Yellow #ffbb38, Cotton Candy #ffb4ed) is pure decoration — never the CTA, which is always the filled black pill; blue-tinted shadow (rgba(24,113,218,0.25)) instead of neutral gray; max three chromatic accents per composition.",
+  "scheme": "light",
+  "signature_moves": [
+    "244px display headline at weight 600, line-height 1.0, positive tracking — transforms headings into posters, paired with a smaller 'headline + dek' subtitle",
+    "Confetti color blocks — zero-radius solid rectangles (40-200px) scattered across the gray canvas as geometric information, not decoration",
+    "Filled black pill CTA (Obsidian fill, white text, 9999px radius, arrow glyph) — the system's only filled button, never chromatic",
+    "Cotton Candy (#ffb4ed) marker-pen highlight on key words in body copy for editorial scannability without changing text color",
+    "Sharp-vs-pill geometric tension — 2px icon containers and 6px cards alongside 9999px pill buttons"
+  ],
+  "slug": "composer",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Composer/",
+    "radius": "9999px pills & buttons / 6px cards / 2px icon containers",
+    "shadow": "blue-tinted subtle rgba(24,113,218,0.25) 0 1px 2px 0 + multi-layer soft card shadows",
+    "theme": "light"
+  },
+  "tagline": "Bauhaus confetti on concrete",
+  "tone": [
+    "confident",
+    "energetic",
+    "playful"
+  ],
+  "typographic_voice": "One geometric grotesque (Neue Haas Grotesk Display, subst. Inter) spans 244px poster headlines to 14px nav with positive tracking (0.01-0.057em) at every size for editorial breathing room; Inter takes over for compact UI chrome below 16px; the 244px weight-600 hero is the signature 'headline as magazine cover' — no condensed faces, no negative letter-spacing."
+}

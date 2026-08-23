@@ -1,0 +1,2627 @@
+{
+  "version": "1",
+  "styles": {
+    "air": {
+      "slug": "air",
+      "name": "Air",
+      "value_layer": {
+        "palette": {
+          "whiteout": "#ffffff",
+          "haze": "#f5f5f5",
+          "ink": "#1b1b1b",
+          "black-void": "#000000",
+          "twilight-blue": "#426188",
+          "signal-blue": "#2b7fff"
+        },
+        "fonts": {
+          "control": "Control",
+          "control-compressed": "Control Compressed",
+          "control-cursive": "Control Cursive",
+          "control-tnt": "Control TNT"
+        },
+        "radii": {
+          "md": "4px",
+          "lg": "8px",
+          "lg-2": "11px",
+          "xl": "14px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "48": "48px",
+          "52": "52px",
+          "64": "64px",
+          "80": "80px",
+          "120": "120px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "dark-canvas": "#000000",
+          "haze-card": "#f5f5f5",
+          "whiteout": "#ffffff"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Black Void (#000000) atmospheric canvas with Whiteout (#ffffff) borders and text on dark, Haze (#f5f5f5) light islands for cards and inputs, Ink (#1b1b1b) for the rare light-surface text; a desaturated steel Twilight Blue (#426188) is the only chromatic heading accent and Signal Blue (#2b7fff) is reserved for links/tags only — no filled colored CTAs, no gradients, depth comes from full-bleed photography and flat contrast, never shadow.",
+        "typographic_voice": "One geometric sans (Control, subst. Inter) at a consistent weight 500 carries every text role for visual calm; poster-scale compressed uppercase display (900 weight, 259px, 0.85 leading) breaks in for hero statements, and a single cursive italic word within a headline supplies the only personality; no serifs, no decorative faces, body never below 16px or above weight 500.",
+        "signature_moves": [
+          "Ghost buttons — transparent fill + 1px white border + white text, 8px radius — the only nav CTA treatment; no filled colored buttons anywhere",
+          "Full-bleed dark photographic sections (clouds, glass sculpture) with centered headline overlays, no container constraint — imagery carries the emotion",
+          "Compressed display headline at 259px/900 weight/0.85 leading, uppercase, bleeding to viewport edges, used sparingly for maximum-impact statements",
+          "Dual-style headline mixing one cursive italic word (Cursive 56px) against upright Control TNT — typographic tension that carries personality",
+          "Flat Haze cards (#f5f5f5, 12px radius, no shadow, no border) sitting as light islands on the dark canvas"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "futuristic",
+          "airy",
+          "minimal",
+          "quiet"
+        ],
+        "tone": [
+          "confident",
+          "calm",
+          "refined"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "dark",
+        "best_for": "Developer-tool / AI-product landing pages and product launches that want a dark, atmospheric, type-driven register — full-bleed hero imagery plus restrained flat UI chrome, similar to Linear/Vercel territory.",
+        "avoid_for": "Content-dense enterprise dashboards, warm or playful consumer brand presentations, long-form editorial pages, or any context that needs light-mode clarity or a single strong CTA color — this system only works as dark, quiet, and image-led."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Air/",
+        "radius": "4px inputs / 8px buttons / 11-14px cards & images",
+        "shadow": "none — flat surfaces, elevation via background contrast only",
+        "theme": "dark"
+      },
+      "tagline": "midnight sky through glass sculpture"
+    },
+    "anthropic": {
+      "slug": "anthropic",
+      "name": "Anthropic",
+      "value_layer": {
+        "palette": {
+          "slate-dark": "#141413",
+          "ivory-medium": "#f0eee6",
+          "ivory-light": "#faf9f5",
+          "cloud-medium": "#b0aea5",
+          "cloud-dark": "#87867f",
+          "stone": "#cccbc8",
+          "slate-medium": "#3d3d3a",
+          "oat-warm": "#e3dacc",
+          "manilla": "#f5e3c7",
+          "clay": "#d97757",
+          "clay-deep": "#c6613f"
+        },
+        "fonts": {
+          "anthropic-serif": "Anthropic Serif",
+          "anthropic-sans": "Anthropic Sans",
+          "anthropic-mono": "Anthropic Mono"
+        },
+        "radii": {
+          "lg": "8px",
+          "xl": "12px",
+          "2xl": "16px",
+          "3xl": "24px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "76": "76px",
+          "100": "100px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "canvas": "#f0eee6",
+          "card-surface": "#faf9f5",
+          "warm-feature-surface": "#f5e3c7",
+          "deep-warm-surface": "#e3dacc",
+          "inversion-surface": "#141413"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm parchment layering instead of cool tech grays: Ivory Medium (#f0eee6) canvas, Ivory Light (#faf9f5) cards, Manilla (#f5e3c7) for featured editorial spreads, and a single clay accent (#d97757, deepens to #c6613f) reserved strictly for the one consequential filled CTA — no blues, no cool grays, no pure white surfaces, no shadows; hierarchy comes from tonal surface shift plus 1px stone hairlines.",
+        "typographic_voice": "Serif (Anthropic Serif, subst. Georgia) carries the editorial voice — body at 20px and display headings at 68px weight 400 — while a sans (Anthropic Sans, subst. Inter) handles all UI chrome, nav, buttons, and a bold 61px declarative sans display; tight negative tracking (-0.02em at 12px) for UI, mono reserved only for code; underlines on links are persistent like print, never reveal-on-hover.",
+        "signature_moves": [
+          "Bottom-only 8px border-radius on filled buttons (sharp top corners) — the signature 'tab pulled from a stack' corner that replaces the generic pill",
+          "Filled Ivory button (#faf9f5 fill, #141413 text) as the default primary CTA, with Clay reserved for the single most consequential action per page",
+          "Persistent 1px underline on every inline link — editorial print convention, not hover-reveal",
+          "Featured hero card in manilla paper tone (#f5e3c7) at 24px radius as the editorial-importance surface without color shouting",
+          "Dark full-bleed footer (#141413) as the only inversion band in the system — a grounded anchor after all the parchment"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "warm",
+          "quiet"
+        ],
+        "tone": [
+          "authoritative",
+          "refined",
+          "calm"
+        ],
+        "formality": "high",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "AI research / deep-tech brand sites, research-publication landing pages, and thoughtful product announcements that want credibility without corporate chill — an authoritative editorial register on warm paper.",
+        "avoid_for": "Fast, playful consumer or startup marketing, conversion-heavy SaaS funnels needing loud CTAs, dark-mode-first products, or any context requiring cool-tone or high-energy visuals — the clay accent must stay rare and quiet."
+      },
+      "source": {
+        "leading_body": 1.4,
+        "path": "refero-styles/Anthropic/",
+        "radius": "24px cards / 8px bottom-only filled buttons, 12px outlined / 0px links, nav, badges",
+        "shadow": "none — elevation via surface tone shift (ivory layers) and 1px borders only",
+        "theme": "light"
+      },
+      "tagline": "scientific field journal on warm parchment — quiet ivory surfaces, editorial serif headlines, and a single clay accent that only appears when you must act"
+    },
+    "caldera": {
+      "slug": "caldera",
+      "name": "Caldera",
+      "value_layer": {
+        "palette": {
+          "ember": "#fc5000",
+          "plasma-violet": "#524ae9",
+          "sulfur": "#f5f28e",
+          "limestone": "#f7f6f2",
+          "pumice": "#e2e2df",
+          "obsidian": "#070607",
+          "chalk": "#ffffff"
+        },
+        "fonts": {
+          "pp-neue-corp-compact": "PP Neue Corp Compact",
+          "dm-sans": "DM Sans",
+          "system-sans-serif": "System sans-serif"
+        },
+        "radii": {
+          "2xl": "16px",
+          "2xl-2": "20px",
+          "3xl": "24px",
+          "3xl-2": "32px",
+          "3xl-3": "40px",
+          "full": "100px",
+          "full-2": "800px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "9": "9px",
+          "10": "10px",
+          "12": "12px",
+          "16": "16px",
+          "18": "18px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "56": "56px",
+          "64": "64px",
+          "80": "80px",
+          "92": "92px"
+        },
+        "surfaces": {
+          "pumice-canvas": "#e2e2df",
+          "limestone-surface": "#f7f6f2",
+          "ember-feature": "#fc5000",
+          "plasma-hero": "#524ae9"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm limestone canvas: Pumice (#e2e2df) page ground, Limestone (#f7f6f2) cards, Obsidian (#070607) near-black text, with a single aggressive chromatic accent Ember (#fc5000) carrying CTAs and stat cards; Plasma Violet (#524ae9) is reserved for the hero halftone and one accent card, Sulfur (#f5f28e) only for tags — Chalk white for dark sections; three chromatic tones max, deliberately shadowless, hierarchy via warm-gray tonal contrast, never elevation.",
+        "typographic_voice": "Ultrabold condensed display (PP Neue Corp Compact, subst. Bebas Neue/Anton) at 80-189px with positive +0.02em tracking carries all structural weight, while DM Sans at weight 500 only handles body, nav, and labels (never Regular, never Bold); system sans at 12px for captions; the 189px architectural display with tight 0.94 leading is the signature — no negative tracking, no thin or decorative faces.",
+        "signature_moves": [
+          "Triple-radius system — 100px inputs / 40px cards & rectangular buttons / 800px full pills — the consistent roundness that defines every control",
+          "189px ultrabold compressed display headline at 0.94 line-height — sign-painted, near-architectural scale as the page signature",
+          "Hero halftone dot pattern — orange dots on a violet-to-orange gradient, always at hero scale with 40px radius, the most recognizable motif",
+          "Filled Ember (#fc5000) pill CTA with Obsidian text, never rectangular — the sole aggressive chromatic action",
+          "Dotted 1.5px Obsidian dividers (not dashed, not solid) as a small consistent signature detail in nav and partner strips"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "industrial",
+          "bold",
+          "warm"
+        ],
+        "tone": [
+          "confident",
+          "energetic",
+          "authoritative"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Crypto / web3 / protocol ecosystem landing pages and feature announcements that want volcanic urgency with warm credibility — ultrabold condensed type, flat warm surfaces, and one dominant orange, Berachain/Monad territory.",
+        "avoid_for": "Data-dense dashboards, formal enterprise or luxury brand decks, text-heavy long-form editorial, or anything needing cool-tone restraint — the 189px type and single-orange palette overwhelm quiet or informational contexts."
+      },
+      "source": {
+        "leading_body": 1.55,
+        "path": "refero-styles/Caldera/",
+        "radius": "40px cards & buttons / 100px inputs / 800px pills",
+        "shadow": "none — deliberately shadowless, hierarchy via warm-gray contrast and 40px radii",
+        "theme": "light"
+      },
+      "tagline": "forge fire on warm limestone. The canvas is raw warm plaster, and every orange element reads as glowing embers pressed into the surface."
+    },
+    "composer": {
+      "slug": "composer",
+      "name": "Composer",
+      "value_layer": {
+        "palette": {
+          "signal-blue": "#1871da",
+          "pulse-green": "#1ec072",
+          "hot-pink": "#f6609f",
+          "cotton-candy": "#ffb4ed",
+          "solar-yellow": "#ffbb38",
+          "ember-orange": "#ff5500",
+          "forest-moss": "#31805a",
+          "tangerine": "#ffa724",
+          "ultraviolet": "#9664d7",
+          "deep-iris": "#0c4cbe",
+          "azure": "#1f86ff",
+          "alert-red": "#c60808",
+          "deep-moss": "#1c372a",
+          "concrete": "#e5e7eb",
+          "obsidian": "#000000",
+          "paper": "#ffffff",
+          "carbon": "#101516",
+          "mist": "#f7f7f7",
+          "pebble": "#bec6cc",
+          "ash": "#cccccc",
+          "smoke": "#d7d7d7",
+          "stone": "#999999",
+          "graphite": "#262d2f",
+          "iron": "#666666",
+          "slate": "#808080"
+        },
+        "fonts": {
+          "neue-haas-grotesk-display": "Neue Haas Grotesk Display",
+          "inter": "Inter"
+        },
+        "radii": {
+          "sm": "2px",
+          "md": "6px",
+          "xl": "12px",
+          "full": "100px",
+          "full-2": "9999px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "36": "36px",
+          "40": "40px",
+          "48": "48px",
+          "56": "56px",
+          "60": "60px",
+          "64": "64px",
+          "80": "80px",
+          "96": "96px",
+          "160": "160px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "concrete": "#e5e7eb",
+          "paper": "#ffffff",
+          "mist": "#f7f7f7",
+          "graphite": "#262d2f",
+          "carbon": "#101516"
+        },
+        "shadows": {
+          "subtle": "rgba(24, 113, 218, 0.25) 0px 1px 2px 0px",
+          "xl": "rgba(0, 0, 0, 0.01) 45px 68px 33px 0px, rgba(0, 0, 0, 0.02) 25px 38px 27px 0px, rgba(0, 0, 0, 0.03) 11px 17px 20px 0px, rgba(0, 0, 0, 0.04) 3px 4px 11px 0px",
+          "xl-2": "rgba(31, 33, 35, 0.03) 54px 82px 39px 0px, rgba(31, 33, 35, 0.09) 31px 46px 33px 0px, rgba(31, 33, 35, 0.15) 14px 20px 24px 0px, rgba(31, 33, 35, 0.18) 3px 5px 13px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Light ash Concrete (#e5e7eb) canvas with Paper (#ffffff) cards and hairline Concrete borders everywhere; black Obsidian (#000000) text on near-white is the 21:1 safety floor; a confetti of vivid rectangles (Signal Blue #1871da, Pulse Green #1ec072, Hot Pink #f6609f, Solar Yellow #ffbb38, Cotton Candy #ffb4ed) is pure decoration — never the CTA, which is always the filled black pill; blue-tinted shadow (rgba(24,113,218,0.25)) instead of neutral gray; max three chromatic accents per composition.",
+        "typographic_voice": "One geometric grotesque (Neue Haas Grotesk Display, subst. Inter) spans 244px poster headlines to 14px nav with positive tracking (0.01-0.057em) at every size for editorial breathing room; Inter takes over for compact UI chrome below 16px; the 244px weight-600 hero is the signature 'headline as magazine cover' — no condensed faces, no negative letter-spacing.",
+        "signature_moves": [
+          "244px display headline at weight 600, line-height 1.0, positive tracking — transforms headings into posters, paired with a smaller 'headline + dek' subtitle",
+          "Confetti color blocks — zero-radius solid rectangles (40-200px) scattered across the gray canvas as geometric information, not decoration",
+          "Filled black pill CTA (Obsidian fill, white text, 9999px radius, arrow glyph) — the system's only filled button, never chromatic",
+          "Cotton Candy (#ffb4ed) marker-pen highlight on key words in body copy for editorial scannability without changing text color",
+          "Sharp-vs-pill geometric tension — 2px icon containers and 6px cards alongside 9999px pill buttons"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "chromatic",
+          "bold"
+        ],
+        "tone": [
+          "confident",
+          "energetic",
+          "playful"
+        ],
+        "formality": "medium",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "Fintech / trading / devtool marketing pages that want a confident, maximalist editorial manifesto register — poster-scale grotesque headlines on a light ash canvas with Bauhaus color blocks, Stripe/Replit-adjacent.",
+        "avoid_for": "Quiet luxury or premium brand presentations, long-form reading experiences, dark-mode-first products, or restrained minimal SaaS where loud confetti and 244px type would feel noisy — color here is punctuation, not decoration to add casually."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Composer/",
+        "radius": "9999px pills & buttons / 6px cards / 2px icon containers",
+        "shadow": "blue-tinted subtle rgba(24,113,218,0.25) 0 1px 2px 0 + multi-layer soft card shadows",
+        "theme": "light"
+      },
+      "tagline": "Bauhaus confetti on concrete"
+    },
+    "discover": {
+      "slug": "discover",
+      "name": "Discover",
+      "value_layer": {
+        "palette": {
+          "ink": "#121212",
+          "canvas": "#ffffff",
+          "fog": "#dbdada",
+          "slate": "#8e8e93",
+          "obsidian": "#000000",
+          "signal-coral": "#ee585a"
+        },
+        "fonts": {
+          "aeonik": "Aeonik"
+        },
+        "radii": {
+          "2xl": "16px",
+          "3xl": "24px",
+          "3xl-2": "32px",
+          "full": "69px"
+        },
+        "spacing": {
+          "6": "6px",
+          "8": "8px",
+          "10": "10px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "48": "48px",
+          "56": "56px",
+          "66": "66px"
+        },
+        "surfaces": {
+          "canvas": "#ffffff",
+          "card": "#ffffff",
+          "shadow-tint": "#dbdada",
+          "action-surface": "#ee585a"
+        },
+        "shadows": {
+          "xl": "rgba(72, 72, 74, 0.16) 0px 2px 32px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Near-monochrome white marble: Canvas (#ffffff) with warm near-black Ink (#121212) for all text and borders (never pure #000), Slate (#8e8e93) for metadata, and a single Signal Coral (#ee585a) reserved strictly for filled CTAs, inline links, the floating filter pill, and a notification dot — never a background wash, never on large surfaces; the only shadow is one ambient token (rgba(72,72,74,0.16) 0 2px 32px 0) for cards and floating elements.",
+        "typographic_voice": "A single face (Aeonik, subst. Inter/Satoshi) across the whole UI: weight 700 for the monumental 120px wordmark and display, 500 for labels and nav, 400 for body; tight -0.011em tracking at every size gives the packed, dense wordmark look — no loose display tracking, no serifs, no decorative faces, type is the only visual asset.",
+        "signature_moves": [
+          "120px Aeonik 700 wordmark at -1.32px tracking, near-edge-to-edge on white — the brand name as the hero image",
+          "Single 12px Signal Coral notification dot on the wordmark's final letter — one pop of color that says 'new' without a badge",
+          "32px border-radius on all cards, buttons, and containers — the large soft radius that defines the modern gallery feel",
+          "Oversized 'Aa' type specimens rendered in-card as the product itself, dominating each font preview tile",
+          "Ghost text link in Signal Coral with an external-arrow glyph (↗) — the only interactive text color in a monochrome room"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "minimal",
+          "monochrome",
+          "editorial",
+          "quiet"
+        ],
+        "tone": [
+          "refined",
+          "authoritative",
+          "calm"
+        ],
+        "formality": "medium",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "Type foundries, font marketplaces, and gallery-like product catalogues where the product itself is typography — a near-monochrome museum register with one coral action color and specimen-first layout.",
+        "avoid_for": "Content-heavy SaaS dashboards, brand-first storytelling sites needing imagery or illustration, playful consumer brands, or dark-mode products — the 1% colorfulness and white-marble quiet fail when color or content density is required."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Discover/",
+        "radius": "32px cards & buttons / 16px links / 9999px pills",
+        "shadow": "single token rgba(72,72,74,0.16) 0 2px 32px 0 — cards & floating elements only",
+        "theme": "light"
+      },
+      "tagline": "Type museum on white marble — a near-black wordmark, a whisper of coral, and everything else recedes."
+    },
+    "flying-papers": {
+      "slug": "flying-papers",
+      "name": "Flying Papers",
+      "value_layer": {
+        "palette": {
+          "dusk-violet": "#8584bd",
+          "hi-vis-yellow": "#f4ed36",
+          "buttery-yellow": "#f9cc73",
+          "lilac-shadow": "#61609a",
+          "bubblegum-pink": "#f8c1ba",
+          "matcha-cream": "#b5c995",
+          "magenta-punch": "#ac4f98",
+          "firecracker-red": "#c94245",
+          "bone-white": "#f9f5f2",
+          "ink-black": "#1a1a1a",
+          "pure-black": "#000000"
+        },
+        "fonts": {
+          "obviouslyvariable": "ObviouslyVariable",
+          "degularvariable": "DegularVariable",
+          "bergenmonoregular": "bergen_monoregular",
+          "degulardisplay-bold": "DegularDisplay-Bold"
+        },
+        "radii": {
+          "md": "6px",
+          "full": "100px"
+        },
+        "spacing": {
+          "16": "16px",
+          "20": "20px",
+          "40": "40px",
+          "60": "60px",
+          "80": "80px",
+          "160": "160px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "dusk-violet-stage": "#8584bd",
+          "bone-white-card": "#f9f5f2",
+          "lilac-shadow-block": "#61609a",
+          "hi-vis-yellow-surface": "#f4ed36",
+          "accent-paint-card": "#f8c1ba"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A flat muted Dusk Violet (#8584bd) is the full-bleed stage for everything; Bone White (#f9f5f2) and Lilac Shadow (#61609a) build nested surfaces, Hi-Vis Yellow (#f4ed36) marks the single most important element, and confetti accents (Bubblegum Pink, Matcha Cream, Magenta Punch, Firecracker Red) are paint — one accent card at a time, never side by side; Ink Black (#1a1a1a) and Pure Black do the typographic work; no shadows, no gradients, color is used as flat paint, never as data.",
+        "typographic_voice": "One loud rounded display family (ObviouslyVariable, subst. Founders Grotesk Condensed/Druk Wide) at 800-900 weight, 184-341px, 0.80-0.85 leading, +0.02em tracking stacks headlines into solid color blocks that eat the viewport; a tiny mono (bergen_mono, subst. JetBrains Mono) at 12px/0.80 leading gives a receipt texture to nav and tags; the only other voices are a 16px bold (DegularDisplay-Bold) for CTAs and 10px neutral UI text — one idea per screen, type carries the message.",
+        "signature_moves": [
+          "One dominant display headline (184-341px) per screen — every screen reads as a single bold poster with generous breathing room",
+          "Outlined Hi-Vis Yellow action button (2-3px border, 100px pill) as the only action treatment — no filled CTA anywhere",
+          "Cartoon mascot illustration with thick 2-3px black outlines and flat 2-3 color fills, peeking through or standing on the type",
+          "6px sharp card corners vs 100px pill buttons/tags — the signature contrast between sharp blocks and soft pills",
+          "Micro-copy in Bergen Mono at 12px with 0.80 leading — tight mono stack reads like a receipt on cardstock"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "playful",
+          "bold",
+          "chromatic",
+          "retro"
+        ],
+        "tone": [
+          "playful",
+          "rebellious",
+          "energetic"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Age-gated creative / editorial microsites, riso-print-style brand statements, and playful anti-corporate campaigns that want to take attention rather than ask for it — one poster per screen, Saturday-morning-cartoon energy.",
+        "avoid_for": "Formal enterprise, data-dense dashboards, professional SaaS or B2B software pages, or any context needing credibility or quiet restraint — the oversized display type and flat violet stage overwhelm informational content."
+      },
+      "source": {
+        "leading_body": 1.0,
+        "path": "refero-styles/Flying Papers/",
+        "radius": "6px cards / 100px buttons & tags",
+        "shadow": "none — flat risograph, depth via color contrast and stacking order only",
+        "theme": "light"
+      },
+      "tagline": "Saturday morning cartoon confessional"
+    },
+    "frankys": {
+      "slug": "frankys",
+      "name": "FRANKY'S",
+      "value_layer": {
+        "palette": {
+          "arcade-cream": "#f3e5df",
+          "ink-black": "#000000",
+          "pixel-gray": "#e5e7eb",
+          "charcoal": "#333333",
+          "carbon": "#151515",
+          "muted-gray": "#737373",
+          "marquee-orange": "#faa21f",
+          "buy-green": "#128e44"
+        },
+        "fonts": {
+          "arcade": "Arcade"
+        },
+        "radii": {
+          "md": "6px",
+          "xl": "12px",
+          "full": "9999px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "24": "24px",
+          "44": "44px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "arcade-cream": "#f3e5df",
+          "pixel-gray": "#e5e7eb",
+          "charcoal": "#333333",
+          "carbon": "#151515"
+        },
+        "shadows": {
+          "subtle": "rgb(243, 229, 223) 0px 1px 0px 0px inset"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A deliberately impoverished palette on a warm Arcade Cream (#f3e5df) canvas: Ink Black (#000000) for all text, borders, and checkerboard tiles, Pixel Gray (#e5e7eb) hairlines, Charcoal (#333333)/Carbon (#151515) for checkerboard depth, Marquee Orange (#faa21f) reserved for the top announcement bar only, and a single Buy Green (#128e44) for the filled Add-To-Cart button — the only two chromatic colors in the whole system; depth comes from a 1px inset cream line and the checkerboard, never soft shadows.",
+        "typographic_voice": "One 8-bit Arcade pixel font (subst. VT323 / Press Start 2P) sets every word on the site — headings, labels, prices, buttons, body, icons — with the 400-to-700 weight jump as the entire hierarchy tool; letter-spacing stays normal because the font's bitmap grid is the rhythm; all-caps-leaning, only 10-18px sizes, no second typeface, no decorative typography, no sans, no scripts.",
+        "signature_moves": [
+          "Black-and-white checkerboard (#f3e5df / #000000, ~48px tiles) as the hero product panel and brand pattern — never a functional UI surface",
+          "6px radius on all CTAs, tags, and toggles with a 1px inset cream highlight (rgb(243,229,223) 0 1px 0 0 inset) for the arcade-button bevel",
+          "Marquee sheen gradient band (orange → cream → orange) across the top — the only decorative chromatic surface on the page",
+          "Single-arcade-font weight jump (400 body → 700 titles/nav/footer) as the complete hierarchy system",
+          "Filled Buy Green Add-To-Cart button (6px radius, white uppercase 700 text) — the only green surface, reserved for purchase only"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "retro",
+          "playful",
+          "bold"
+        ],
+        "tone": [
+          "playful",
+          "casual",
+          "rebellious"
+        ],
+        "formality": "low",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "E-commerce product pages for streetwear / skate / indie apparel brands that want a retro arcade-kiosk feel — compact cream product grids, pixel type, one orange marquee and one green buy button, Palace/Polar-adjacent.",
+        "avoid_for": "Formal enterprise, financial or B2B software, dark-mode products, or any premium/editorial context — the 8-bit single-font system and cream+black binary read toy-like and can't carry subtle or authoritative messaging."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/FRANKY'S/",
+        "radius": "6px buttons / 12px cards / 9999px tags & inline pills",
+        "shadow": "single inset highlight rgb(243,229,223) 0 1px 0 0 inset + flat #333333 contact shadow under hero cap",
+        "theme": "light"
+      },
+      "tagline": "Retro arcade kiosk on a skate-shop counter."
+    },
+    "general-intelligence-company": {
+      "slug": "general-intelligence-company",
+      "name": "General Intelligence Company",
+      "value_layer": {
+        "palette": {
+          "parchment": "#fefffc",
+          "paper": "#ffffff",
+          "linen": "#f9faf7",
+          "ink-black": "#171717",
+          "graphite": "#2c2c2c",
+          "charcoal": "#444141",
+          "ash": "#646464",
+          "fog": "#b4b8b4",
+          "mist": "#dee2de",
+          "twilight": "#282834",
+          "dusk": "#1f1f29",
+          "signal-blue": "#41a1cf",
+          "cerulean": "#0081c0"
+        },
+        "fonts": {
+          "ppmondwest": "ppmondwest",
+          "af": "af"
+        },
+        "radii": {
+          "md": "4px",
+          "lg": "8px",
+          "xl": "12px",
+          "2xl": "16px",
+          "3xl": "24px",
+          "full": "50.496px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "64": "64px",
+          "80": "80px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "parchment-canvas": "#fefffc",
+          "paper-card": "#ffffff",
+          "linen-wash": "#f9faf7",
+          "vivid-blue": "#0081c0"
+        },
+        "shadows": {
+          "sm": "rgba(0, 0, 0, 0.15) 0px 2px 6px 0px",
+          "subtle": "rgba(0, 0, 0, 0.08) 0px 1px 1px 0px, rgba(0, 0, 0, 0.08) 0px 4px 5px 0px",
+          "subtle-2": "rgb(222, 226, 222) 0px 0px 0px 1px",
+          "subtle-3": "rgba(0, 0, 0, 0.06) 0px 2px 2px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 5px",
+          "sm-2": "rgba(0, 0, 0, 0.05) 0px 1px 8px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A warm book-page canvas: Parchment (#fefffc) page ground, Paper (#ffffff) cards, Linen (#f9faf7) inputs, green-tinted Mist (#dee2de) hairlines, near-black Graphite (#2c2c2c)/Charcoal (#444141) text (never pure #000); Signal Blue (#41a1cf) is a border-only CTA accent and Cerulean (#0081c0) a rare saturated card surface — the only two chromatic moments; color is 95% absent so hand-painted illustrations carry emotion; elevation is hairline borders plus subtle backdrop-blur, never box-shadow on buttons.",
+        "typographic_voice": "A custom display serif (ppmondwest, subst. Fraunces/Recoleta) speaks at 48-54px weight 400 with tight -0.04em tracking — a low, literary, set-not-typed voice; a quiet custom sans (af, subst. Inter/Geist) handles all utilitarian UI at 13-18px with slight -0.01em negative tracking; body line-height 1.5 vs display 1.1; no weight 600+ on the serif, no serif below 27px, sans never used for display.",
+        "signature_moves": [
+          "Frosted navigation pill — floating top-center, rgba white + backdrop-blur(9-20px), 50px pill radius, 1px twilight border — lets the illustrated hero show through",
+          "Full-bleed hand-painted atmospheric illustrations (moonlit skylines, wildflower meadows) as the emotional work, with UI living on clean white between scenes",
+          "Border-only CTA in Signal Blue (#41a1cf) at 8px radius — no fill, no shadow, the chromatic border is the button's entire identity",
+          "Green-tinted 1px Mist (#dee2de) hairline borders on cards — the signature edge treatment that harmonizes with the illustrations",
+          "Cerulean (#0081c0) saturated card surface as a lone punctuation moment of color intensity"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "warm",
+          "organic",
+          "quiet"
+        ],
+        "tone": [
+          "authoritative",
+          "calm",
+          "refined"
+        ],
+        "formality": "high",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "AI research / venture / co-founder-match sites and literary-brand storytelling pages that want a contemplative, journal-like register — hand-painted illustration plus quiet serif display, warm parchment, Stripe/Anthropic-adjacent.",
+        "avoid_for": "Conversion-hungry SaaS funnels needing loud filled CTAs, dark-mode-first products, playful consumer brands, or data-dense dashboards — the whispered serif, 95%-neutral palette, and one blue border can't carry urgency or high information density."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/General Intelligence Company/",
+        "radius": "4-8px buttons / 12-16px cards / 24px large surfaces / 50px nav pill",
+        "shadow": "subtle rgba(0,0,0,0.08) 0 1px 1px / 0 4px 5px cards; nav uses backdrop-blur, not box-shadow",
+        "theme": "light"
+      },
+      "tagline": "Literary journal beside a bonfire"
+    },
+    "good-glyphs": {
+      "slug": "good-glyphs",
+      "name": "Good Glyphs",
+      "value_layer": {
+        "palette": {
+          "pledge-mint": "#c7ffcd",
+          "ink-black": "#000000",
+          "carbon": "#101010"
+        },
+        "fonts": {
+          "helvetica-neue": "Helvetica Neue",
+          "good-glyphs": "good-glyphs"
+        },
+        "radii": {
+          "xl": "14px",
+          "full": "140px"
+        },
+        "spacing": {
+          "4": "4px",
+          "7": "7px",
+          "14": "14px",
+          "28": "28px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "pledge-mint-canvas": "#c7ffcd",
+          "ink-black-band": "#000000"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Anti-UI two-color system: one soft Pledge Mint (#c7ffcd) canvas carries the entire chromatic load while pure Ink Black (#000000) handles every stroke, border, label, and filled element — no neutral grays, no semantic colors, no shadows, no gradients; the only color-on-color moment is mint glyph artwork on the black showcase band; surfaces alternate between full-bleed mint and full-bleed black bands for a poster-strip rhythm instead of card hierarchy.",
+        "typographic_voice": "Helvetica Neue (subst. Inter/Neue Haas) at weight 300 powers the 288px display — the light weight at extreme size with locked -0.03em tracking lets the letters breathe inside a wall of ink, and the 0.80 line-height stacks them into a single graphic block; weight 400 handles all body/labels at 13-14px with the same tracking; one 28px mid-tier subhead jumps straight to 288px — never weight 700, type as architecture, not text.",
+        "signature_moves": [
+          "288px / weight 300 / line-height 0.80 / -0.03em tracking display headline — the brand name rendered as a locked wall of ink, size IS the identity",
+          "Full-bleed mint-to-black band alternation producing poster-strip rhythm rather than card-based hierarchy",
+          "Fully pill-shaped 140px controls for every interactive element — no squared or rounded-rect variants, hover inverts fill (mint→black, black→mint)",
+          "Black showcase band spanning viewport width with 288px dingbat glyphs in Pledge Mint — the product proven at use size, the only color-on-black moment",
+          "1px solid black borders + 14px soft card radius — components feel stamped rather than designed"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "minimal",
+          "bold",
+          "editorial"
+        ],
+        "tone": [
+          "confident",
+          "rebellious",
+          "calm"
+        ],
+        "formality": "medium",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "Charity / donation campaigns, creative-collective and type-foundry poster sites where type is the product — an oversized printed-poster register, one mint canvas, one black ink, type-as-architecture, Field Notes / It's Nice That-adjacent.",
+        "avoid_for": "Any context needing multiple colors, imagery, or hierarchy beyond type — software dashboards, e-commerce catalogues, corporate sites, or playful multi-color brands; the two-color band system and 288px type leave no room for anything but typography."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Good Glyphs/",
+        "radius": "14px cards / 140px full-pill buttons",
+        "shadow": "none — no elevation, hierarchy via scale and band alternation only",
+        "theme": "light"
+      },
+      "tagline": "oversized charity poster on mint paper — type so large it behaves as architecture, not text."
+    },
+    "henry": {
+      "slug": "henry",
+      "name": "Henry",
+      "value_layer": {
+        "palette": {
+          "paper": "#fafafa",
+          "hairline": "#eeeeee",
+          "midstone": "#9f9f9f",
+          "ash": "#666666",
+          "pebble": "#b3b3b3",
+          "sepia": "#3e3b36",
+          "headline-ink": "#2a2722"
+        },
+        "fonts": {
+          "neue-montreal": "Neue Montreal",
+          "louize-display": "Louize Display",
+          "louize": "Louize",
+          "manuka": "Manuka"
+        },
+        "radii": {
+          "xl": "12px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "64": "64px",
+          "80": "80px",
+          "224": "224px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "paper": "#fafafa",
+          "ink": "#2a2722"
+        }
+      },
+      "style_read": {
+        "palette_voice": "One-hundred-percent warm monochrome: Paper (#fafafa) cream ground and Headline Ink (#2a2722) warm near-black, with Sepia (#3e3b36) flanking and hairline/ash/midstone/pebble as neutral borders — no chromatic accent, no product color, no blue link, ever; full-bleed paper and ink sections alternate like a broadsheet; the only surfaces are Paper and Ink, with zero shadows, one 12px radius, and hierarchy delivered purely by scale, weight, and inversion.",
+        "typographic_voice": "Three-type system: a display serif (Louize Display, subst. Fraunces/GT Sectra) sets poetry and editorial prose at 77-132px weight 400; an ultra-condensed sans (Manuka, subst. Druk/Condor) stamps 226-371px section mastheads in one weight, one case, one color at 0.75 leading; and a neo-grotesque (Neue Montreal, subst. Inter) carries all UI at 12-24px with hairline-tight -0.01em tracking — no serif below 32px on long passages, no tracking looser than 1.5 line-height on body.",
+        "signature_moves": [
+          "Full-bleed Paper/Ink section inversion — cream type on Ink bands and ink type on Paper, flipped like a broadsheet, never gradient-blended",
+          "Manuka section mastheads at 226-371px, weight 400, line-height 0.75, uppercase, edge-to-edge — condensed type as the entire section identity",
+          "Louize Display headline at 116-132px with an intersecting half-size italic phrase set inside the same baseline (e.g. 'of the' at 35px within 132px type)",
+          "Square-cornered monochrome halftone plate as a typographic counterweight to the display headline — no radius, no caption, no color",
+          "Brand ticker strip — repeated Louize Display wordmarks on a dark Ink band with 'COMING SOON' ghost tags (12px radius, 1px outline)"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "monochrome",
+          "retro",
+          "brutalist"
+        ],
+        "tone": [
+          "authoritative",
+          "rebellious",
+          "refined"
+        ],
+        "formality": "high",
+        "density": "comfortable",
+        "scheme": "mixed",
+        "best_for": "Editorial / creative personal portfolios, studio and magazine-style brand sites where type is the entire visual — a warm monochrome broadside register, display-serif headlines, condensed mastheads, paper-to-ink inversions, Pentagram/Rauno Freiberg-adjacent.",
+        "avoid_for": "SaaS product marketing, e-commerce, dashboards, or any context needing imagery, product art, or a single CTA color — with no chromatic accent, no filled CTAs, and no shadows, the system can only carry type-first editorial content."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Henry/",
+        "radius": "12px only — cards, buttons, tags, no square corners, no pills",
+        "shadow": "none — zero elevation tokens, hierarchy via scale, inversion, and 1px hairlines",
+        "theme": "mixed"
+      },
+      "tagline": "Gothic broadside poster on warm cream paper. One hundred percent monochrome, no chromatic accent, all visual intensity carried by display type and full-bleed paper-to-ink inversions."
+    },
+    "huddle": {
+      "slug": "huddle",
+      "name": "Huddle",
+      "value_layer": {
+        "palette": {
+          "paper-white": "#ffffff",
+          "ink-black": "#151515",
+          "graphite": "#23241f",
+          "slate-gray": "#3a4444",
+          "stone-border": "#333333",
+          "mist-gray": "#808080",
+          "bone": "#e5e6e1",
+          "pale-sage": "#d3e5e9",
+          "lavender-mist": "#bbb2ce",
+          "dusty-rose": "#cb9da2",
+          "deep-violet": "#453b60",
+          "burnt-amber": "#65451d",
+          "honey-gold": "#e4b976",
+          "burgundy": "#5c2529",
+          "blush-border": "#d79caa"
+        },
+        "fonts": {
+          "nng": "Nng",
+          "roboto": "Roboto",
+          "apercu-pro-mono": "Apercu pro mono",
+          "moderat": "Moderat"
+        },
+        "radii": {
+          "md": "4px",
+          "lg": "8px",
+          "3xl": "24px",
+          "3xl-2": "40px",
+          "full": "57.6px",
+          "full-2": "100px",
+          "full-3": "200px",
+          "full-4": "1000px"
+        },
+        "spacing": {
+          "4": "4px",
+          "5": "5px",
+          "6": "6px",
+          "8": "8px",
+          "10": "10px",
+          "12": "12px",
+          "14": "14px",
+          "16": "16px",
+          "18": "18px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "96": "96px",
+          "144": "144px"
+        },
+        "surfaces": {
+          "paper-white": "#ffffff",
+          "bone": "#e5e6e1",
+          "lavender-mist": "#bbb2ce",
+          "pale-sage": "#d3e5e9",
+          "dusty-rose": "#cb9da2"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Paper White (#ffffff) canvas with Ink Black (#151515) text, plus a fixed taxonomy of three muted pastel card fills (pale sage, lavender mist, dusty rose) that function as category tiles; Deep Violet (#453b60) marks the live/active state and a single warm-on-warm pairing (Burnt Amber #65451d border + Honey Gold #e4b976 text on tags) is the only place gold appears — never as a filled CTA; no saturated accents, no box-shadows, separation via 1px hairlines and background contrast.",
+        "typographic_voice": "One custom geometric sans (Nng, subst. Inter/Söhne) carries the entire hierarchy — display headlines at 44–69px weight 300–400 with tight negative tracking (-0.021em at 69px) read dense and poster-like rather than airy; all-caps 12px micro-labels in weight 500 label the system; bold display (600+) is forbidden, no serifs, no decorative faces, mono only for code-like identifiers.",
+        "signature_moves": [
+          "Three pastel card colors (sage/lavender/dusty rose) as a fixed status taxonomy — one color per project status, never mixed within a card",
+          "A deliberate radius vocabulary: 100px pill tags and secondary buttons, 8px cards, 1000px reserved for the single primary button — corner treatment is the hierarchy",
+          "All-caps bullet/step-number micro-labels ('• STEP 1: THE BRIEF') in 12px Nng as the primary wayfinding device",
+          "Burnt-amber border + honey-gold text on tag pills — the only warm highlight pair, reserved for emphasis",
+          "1px hairline borders instead of box-shadows — the system is flat by design, elevation via color contrast"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "minimal",
+          "warm",
+          "quiet"
+        ],
+        "tone": [
+          "calm",
+          "refined",
+          "confident"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Design-studio / curated project directories, membership and community launch pages, and catalog-style listings that want a quiet editorial register — off-white canvas, large light-weight headlines, and three pastel status cards doing the structural work.",
+        "avoid_for": "High-saturation e-commerce marketplaces, data-dense dashboards or analytics products, dark-mode-first interfaces, and any context needing a loud filled CTA — the muted pastels and flat hairline system read as a considered directory, not a promotional storefront."
+      },
+      "source": {
+        "leading_body": 1.42,
+        "path": "refero-styles/Huddle/",
+        "radius": "8px cards / 100px tags & pills / 1000px primary button",
+        "shadow": "none — flat, 1px hairline borders only",
+        "theme": "light"
+      },
+      "tagline": "Pastel inventory cards on cream paper"
+    },
+    "hyer-aviation": {
+      "slug": "hyer-aviation",
+      "name": "Hyer Aviation",
+      "value_layer": {
+        "palette": {
+          "deep-ink": "#000d10",
+          "pure-white": "#ffffff",
+          "cool-ash": "#8e8e95",
+          "pebble": "#d5d3d4",
+          "midnight-hull": "#0f0f1c",
+          "charcoal-deck": "#151623",
+          "clay-ember": "#bc7155"
+        },
+        "fonts": {
+          "helveticanowdisplay": "HelveticaNowDisplay",
+          "sans-serif": "sans-serif"
+        },
+        "radii": {
+          "3xl": "45px",
+          "full": "1000px",
+          "full-2": "9999px"
+        },
+        "spacing": {
+          "11": "11px",
+          "13": "13px",
+          "15": "15px",
+          "16": "16px",
+          "17": "17px",
+          "21": "21px",
+          "22": "22px",
+          "23": "23px",
+          "31": "31px",
+          "34": "34px",
+          "38": "38px",
+          "52": "52px",
+          "53": "53px",
+          "59": "59px",
+          "68": "68px",
+          "119": "119px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "canvas-white": "#ffffff",
+          "card-white": "#ffffff",
+          "featured-clay": "#bc7155",
+          "dark-slate": "#151623",
+          "footer-ink": "#000d10"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Bright white parchment canvas (pale dawn-sky hero) against Deep Ink (#000d10) as the single structural color — primary text, filled buttons, icon strokes, and footer — with one warm Clay Ember (#bc7155) reserved for a single featured card per page so restraint, not warmth, is the point; Cool Ash (#8e8e95) recedes behind primary copy, Pebble (#d5d3d4) hairlines only at edges; no shadows, elevation via white → clay → dark-slate surface shifts.",
+        "typographic_voice": "A single display sans (HelveticaNowDisplay, subst. Neue Haas Grotesk/Inter) carries everything: weight 700 at 131–187px with extreme tight tracking reads as cast metal and anchors hero sections, while weight 400 at 18px with 1.61 line-height is the most spacious text block in the system; weight 700 is non-negotiable from 23px up, body never below 18px, no light or thin weights anywhere.",
+        "signature_moves": [
+          "187px weight 700 display headline with -3.74px tracking — type set at near-architectural scale so headlines read as physical objects",
+          "Every button and nav item is a full 1000px pill while the featured clay card stays hard-edged 0px — the soft/hard tension defines the system",
+          "One Clay Ember (#bc7155) featured card per page — the single warm note in an austere monochrome field, single-use per viewport",
+          "Hero headlines end with a period ('Beyond Travel.') — the signature typographic stop",
+          "Alternating full-bleed white canvas and #0f0f1c/#151623 midnight bands for vertical oscillation, with 80px section gaps"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "luxurious",
+          "editorial",
+          "monochrome",
+          "bold"
+        ],
+        "tone": [
+          "premium",
+          "confident",
+          "refined"
+        ],
+        "formality": "high",
+        "density": "spacious",
+        "scheme": "mixed",
+        "best_for": "Luxury aviation / premium travel editorial landing pages and high-end service brands that want near-monochrome architectural confidence — a pale sky hero, a slab-serif wordmark at fuselage scale, and one clay feature card per page.",
+        "avoid_for": "Playful or warm consumer brands, information-dense SaaS dashboards, long-form reading surfaces, and any light-mode-only or single-accent-reliant context — the system needs both the dark-band oscillation and the one-warm-note restraint to work."
+      },
+      "source": {
+        "leading_body": 1.61,
+        "path": "refero-styles/Hyer Aviation/",
+        "radius": "1000px buttons & nav / 45px decorative / 0px hero panels",
+        "shadow": "none — elevation via surface color shifts (white → clay → dark slate)",
+        "theme": "mixed"
+      },
+      "tagline": "Cockpit twilight over parchment. A pale dawn-sky meets a slab-serif logo the size of a fuselage, with one warm clay accent breaking the monochrome restraint."
+    },
+    "ikea": {
+      "slug": "ikea",
+      "name": "IKEA",
+      "value_layer": {
+        "palette": {
+          "ikea-yellow": "#ffdb00",
+          "ink-black": "#111111",
+          "pure-white": "#ffffff",
+          "warm-white": "#fffefb",
+          "steel-gray": "#818181",
+          "true-black": "#000000",
+          "link-blue": "#0159a3",
+          "soft-pink": "#ffa6da"
+        },
+        "fonts": {
+          "noto-ikea": "Noto IKEA"
+        },
+        "radii": {
+          "lg": "8px"
+        },
+        "spacing": {
+          "8": "8px",
+          "16": "16px",
+          "24": "24px",
+          "80": "80px",
+          "120": "120px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "page-canvas": "#ffffff",
+          "card-surface": "#ffffff",
+          "warm-white-surface": "#fffefb",
+          "accent-surface": "#ffdb00"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Pure white (#ffffff) and Warm White (#fffefb) surfaces with Ink Black (#111111) for text and dominant borders; IKEA Yellow (#ffdb00) is the singular chromatic workhorse — solid fills for CTAs and featured cards, never a border, never a text color, never decoration; Link Blue (#0159a3) is reserved strictly for text links; zero shadows and zero gradients — depth comes from yellow-vs-white contrast, image overlays, and spacing.",
+        "typographic_voice": "A sole custom sans (Noto IKEA, subst. Inter/DM Sans) at exactly two weights — 700 for headlines (36–51px, tight negative tracking down to -0.029em, compressed architectural quality) and 400 for body (16px, generous 1.57 line-height); no italics, no medium, no light weights; the negative tracking is structural, not decorative.",
+        "signature_moves": [
+          "The Yellow CTA Card — a solid #ffdb00 plane + bold black headline + circular black arrow button, the unmistakable primary-action signature",
+          "Exactly one border radius in the whole system: 8px on cards, images, inputs, buttons, everything — flat-pack modular uniformity",
+          "A binary 400/700 weight system — hierarchy is forced through size and color alone, never extra weights",
+          "Gradient-to-black overlays at 30–60% opacity on every image card that carries text",
+          "The circular black arrow button (~40px, white arrow) as the universal 'navigate' affordance"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "minimal",
+          "warm",
+          "bold"
+        ],
+        "tone": [
+          "friendly",
+          "confident",
+          "approachable"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Large consumer retail and e-commerce editorial homepages, product-heavy brand storytelling built around one strong brand color, and flat Scandinavian identities — media-led card grids with a single yellow action plane doing all the interface work.",
+        "avoid_for": "Dark-mode-first products, luxury/minimal premium brands where yellow would read as noise, dense data UIs, and any context needing shadow-based depth, multiple accent colors, or more than two font weights."
+      },
+      "source": {
+        "leading_body": 1.57,
+        "path": "refero-styles/IKEA/",
+        "radius": "8px everywhere",
+        "shadow": "none — flat, zero elevation",
+        "theme": "light"
+      },
+      "tagline": "sunlit Swedish flat-pack showroom"
+    },
+    "lamanna": {
+      "slug": "lamanna",
+      "name": "Lamanna",
+      "value_layer": {
+        "palette": {
+          "anger-orange": "#ff4100",
+          "sun-yellow": "#ffc700",
+          "royal-blue": "#1573dd",
+          "charcoal": "#292a2c",
+          "obsidian": "#000000",
+          "blush-peach": "#fdbeba",
+          "cream": "#fee3c1",
+          "lemon-cream": "#f6e653"
+        },
+        "fonts": {
+          "rightgrotesk-spatialblack-webfont": "rightgrotesk-spatialblack-webfont",
+          "nimbus-sans-extended-bold": "nimbus-sans-extended-bold",
+          "nimbus-sans-extended-regular": "nimbus-sans-extended-regular",
+          "open-sans": "Open Sans",
+          "obviously-condensed-semibold": "obviously-condensed-semibold"
+        },
+        "spacing": {
+          "6": "6px",
+          "10": "10px",
+          "15": "15px",
+          "20": "20px",
+          "30": "30px",
+          "40": "40px",
+          "42": "42px",
+          "43": "43px",
+          "50": "50px",
+          "55": "55px",
+          "60": "60px",
+          "100": "100px",
+          "105": "105px",
+          "120": "120px",
+          "130": "130px",
+          "160": "160px"
+        },
+        "surfaces": {
+          "anger-orange-canvas": "#ff4100",
+          "blush-peach-band": "#fdbeba",
+          "cream-accent": "#fee3c1"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Saturated Anger Orange (#ff4100) is the primary full-bleed canvas and section fill with Sun Yellow (#ffc700) display type and starburst badges on top; Blush Peach (#fdbeba) and Cream (#fee3c1) are calmer secondary bands that break the orange dominance; Royal Blue (#1573dd) appears only as a 1–2px outlined stroke on links and icons; Charcoal (#292a2c)/Obsidian (#000000) for text — flat saturated color bands, hard chromatic transitions instead of whitespace, zero blur.",
+        "typographic_voice": "An ultra-wide, compressed-black display face (Right Grotesk Spatial, subst. Bowlby One SC/Tungsten Bold) at 36–54px with near-zero 0.89 leading makes headlines read as solid slabs; extended sans (Nimbus Sans) matches the tight 0.89 leading for body and subheadings, while Open Sans at 22px/1.67 is the quiet voice for longer passages; condensed semibold (Obviously Condensed) for punchy CTA labels.",
+        "signature_moves": [
+          "Full-bleed color bands with hard chromatic transitions (orange → blush → yellow) as section dividers — no max-width container, no card padding, every element touches the viewport edge",
+          "Right Grotesk Spatial display at line-height 0.89 so headlines stack into dense solid slabs rather than airy type",
+          "3D drop-shadow headlines — a solid #ff4100 offset on #ffc700 text, no blur, built-in dimensional depth",
+          "Sun-yellow starburst product badges instead of rectangular cards — no shadows, just geometric sun shapes",
+          "Zigzag SVGs, pointing hands, and royal-blue outlined links as decorative punctuation; 0px radius everywhere"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "chromatic",
+          "bold",
+          "playful",
+          "retro"
+        ],
+        "tone": [
+          "energetic",
+          "playful",
+          "confident"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Maximalist food and bakery brands, playful local-business landing pages, and loud promotional campaigns that want full-bleed chromatic energy — orange-and-yellow color bands, starburst badges, and circus-tent decoration as the brand.",
+        "avoid_for": "Corporate and financial contexts, calm minimal or premium brands, readable long-form editorial, and any interface needing restrained palettes or quiet UX — the screaming orange canvas and solid-block type overwhelm informational content."
+      },
+      "source": {
+        "leading_body": 1.0,
+        "leading_note": "variables.css 无 --leading-body，仅有 --leading-body-sm: 1（body-sm 18px 行高 1.0）；DESIGN.md 文字另有正文 22px/1.67 角色（无 token），生成时以 1.0 为契约锚点",
+        "path": "refero-styles/Lamanna/",
+        "radius": "0px everywhere",
+        "shadow": "none (no blur) — depth via hard color bands and solid offset type shadows only",
+        "theme": "light"
+      },
+      "tagline": "Neon circus tent on a Naples sidewalk"
+    },
+    "leandra-isler": {
+      "slug": "leandra-isler",
+      "name": "Leandra-isler",
+      "value_layer": {
+        "palette": {
+          "vellum-sand": "#f4e6cd",
+          "pressed-linen": "#edddc3",
+          "aged-ink": "#1e211e",
+          "charcoal-black": "#000000",
+          "twilight-bronze": "#8f774b",
+          "hayfield": "#ba9d6a",
+          "wheat-sheaf": "#d6bd97"
+        },
+        "fonts": {
+          "pp-neue-montreal": "PP Neue Montreal"
+        },
+        "radii": {
+          "md": "4px",
+          "full": "50px"
+        },
+        "spacing": {
+          "4": "4px",
+          "6": "6px",
+          "8": "8px",
+          "10": "10px",
+          "11": "11px",
+          "13": "13px",
+          "14": "14px",
+          "17": "17px",
+          "20": "20px",
+          "26": "26px",
+          "30": "30px",
+          "32": "32px",
+          "40": "40px",
+          "50": "50px",
+          "60": "60px",
+          "120": "120px"
+        },
+        "surfaces": {
+          "vellum-canvas": "#f4e6cd",
+          "pressed-linen": "#edddc3"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm Vellum Sand (#f4e6cd) canvas stretching edge-to-edge with a 4-stop vertical gradient wash (#8f774b → #ba9d6a → #d6bd97 → #f4e6cd) only on the hero; Aged Ink (#1e211e) near-black carries 95% of rules, headings, and body; the living green of a single botanical photograph is the only non-neutral color in the system; Pressed Linen (#edddc3) is the sole secondary surface — no competing UI colors, no shadows.",
+        "typographic_voice": "One geometric-grotesk sans (PP Neue Montreal, subst. Söhne/Inter) across every element — no serif, no mono, no display face; body stays 16–20px weight 400 with 1.5 line-height while display headlines scale to 122–173px weight 500 with -0.045em tight tracking, giving the same family both whispered body copy and shouted editorial moments without switching personality.",
+        "signature_moves": [
+          "Extreme display scaling — one typeface stretched from 14px captions to 158–173px weight-500 hero headlines; scale itself is the hierarchy",
+          "Underlined text links only — 1px underline offset 2–4px below the baseline, never a filled button, never a pill chip",
+          "Edge-to-edge vellum canvas with no max-width container; sections separated by 80–120px of space and occasional 1px hairlines, never cards or panels",
+          "A single botanical photograph bleeding past the viewport edges — the 'specimen pressed on paper' metaphor",
+          "Warm vertical vellum gradient wash on the hero only — the one place light and shadow exist in the system"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "warm",
+          "editorial",
+          "minimal",
+          "quiet"
+        ],
+        "tone": [
+          "calm",
+          "refined",
+          "approachable"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Healing and wellness practices, single-practitioner editorial sites, galleries, and quiet warm-toned brands wanting a reverent gallery-wall atmosphere — one real plant photograph and vast vellum whitespace doing all the emotional work.",
+        "avoid_for": "Dark-mode or technology products, playful multi-color brands, data-dense UIs, and any context needing cards, filled buttons, or pill chips — the interface has no containers, so standard UI chrome reads as alien on the flat vellum."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Leandra-isler/",
+        "radius": "0px tags/cards/buttons / 4px images",
+        "shadow": "none — flat, vellum hero gradient only",
+        "theme": "light"
+      },
+      "tagline": "dried botanicals pressed into warm vellum — calm, tactile, editorial, almost reverent."
+    },
+    "lpalo": {
+      "slug": "lpalo",
+      "name": "Lpalo",
+      "value_layer": {
+        "palette": {
+          "peach-paper": "#f6e0db",
+          "charcoal-ink": "#000000",
+          "snow": "#ffffff",
+          "ember-orange": "#ef724f",
+          "magenta-pop": "#981082",
+          "sunbeam-yellow": "#e7db4c",
+          "mint-wash": "#ace2df",
+          "powder-blue": "#84bfff",
+          "lilac-tint": "#e69dff",
+          "lime-zest": "#6ed311",
+          "cobalt-spark": "#5196ff"
+        },
+        "fonts": {
+          "alfa-slab-one": "Alfa Slab One",
+          "manrope": "Manrope"
+        },
+        "radii": {
+          "lg": "10px",
+          "3xl": "40px",
+          "3xl-2": "47px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "10": "10px",
+          "13": "13px",
+          "15": "15px",
+          "16": "16px",
+          "17": "17px",
+          "20": "20px",
+          "24": "24px",
+          "25": "25px",
+          "27": "27px",
+          "30": "30px",
+          "38": "38px",
+          "40": "40px",
+          "46": "46px",
+          "80": "80px"
+        },
+        "surfaces": {
+          "peach-canvas": "#f6e0db",
+          "snow-card": "#ffffff",
+          "color-card": "#ef724f",
+          "mint-card": "#ace2df",
+          "lilac-card": "#e69dff"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm Peach Paper (#f6e0db) canvas with pure Charcoal Ink (#000000) doing all structural work — text, 2px borders, hairlines — and a crayon-box of flat saturated accents (Ember Orange, Magenta Pop, Sunbeam Yellow, Mint Wash, Powder Blue, Lilac Tint, Lime Zest) used as decorative punctuation on cards and bands, one vivid accent per content block, never mixed within a component; no grays, no shadows, no gradients — ink-on-paper metaphor.",
+        "typographic_voice": "Alfa Slab One (subst. Bowlby One/Roboto Slab 900) at a single weight 400 carries all display and editorial headlines at 46–120px with tight 1.09–1.20 leading; Manrope (subst. Inter) is the geometric sans for everything else — 500 for nav, 400 for body at 16px/1.6, 700–800 only for inline emphasis; no neutral-gray text, no serifs outside Alfa Slab, nothing below 16px in the slab face.",
+        "signature_moves": [
+          "Chunky single-weight slab-serif headlines (Alfa Slab One, 46–120px) at line-height ≤ 1.20 so type reads as shouting — the brand's heavy lifter",
+          "White cards with 2px pure-black borders and 40–47px pill radii — the signature outlined-card language, no shadows",
+          "Line-art doodles (headphones, robots, cassettes) scattered at varied rotations around text — asymmetry is part of the storybook feel",
+          "Full-bleed flat color bands (60–100px tall) between sections as pure color rhythm",
+          "Tilted feature cards (2–4° rotation) with offset behind-layer for a hand-placed scrapbook effect"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "playful",
+          "warm",
+          "chromatic",
+          "organic"
+        ],
+        "tone": [
+          "playful",
+          "friendly",
+          "energetic"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Playful podcast and media platforms, children's-content or creative community brands, and expressive landing pages that want an authoritative-voice-childlike-delivery tension — chunky slab-serif headlines shouting over scattered crayon doodles on peach paper.",
+        "avoid_for": "Corporate or enterprise contexts, data-dense dashboards, dark-mode products, and any interface needing neutral grays, shadows, or conventional filled CTAs — the storybook slab-serif and crayon palette overwhelm serious or informational content."
+      },
+      "source": {
+        "leading_body": 1.6,
+        "path": "refero-styles/Lpalo/",
+        "radius": "47px pills/cards/buttons / 10px small elements",
+        "shadow": "none — flat, 2px black borders carry structure",
+        "theme": "light"
+      },
+      "tagline": "A children's storybook spread on warm peach paper — one slab-serif headline shouting through scattered crayon doodles."
+    },
+    "mercury": {
+      "slug": "mercury",
+      "name": "Mercury",
+      "value_layer": {
+        "palette": {
+          "onyx-canvas": "#171721",
+          "graphite-card": "#1e1e2a",
+          "obsidian-button": "#272735",
+          "slate-border": "#70707d",
+          "mist-border": "#e2e3ed",
+          "ash-text": "#c3c3cc",
+          "ivory-text": "#ededf3",
+          "cobalt": "#5266eb",
+          "pure-white": "#ffffff"
+        },
+        "fonts": {
+          "arcadia": "arcadia",
+          "arcadiadisplay": "arcadiaDisplay"
+        },
+        "radii": {
+          "md": "4px",
+          "lg": "8px",
+          "xl": "12px",
+          "3xl": "32px",
+          "3xl-2": "40px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "56": "56px",
+          "72": "72px",
+          "112": "112px",
+          "128": "128px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "onyx-canvas": "#171721",
+          "graphite-card": "#1e1e2a",
+          "obsidian-button": "#272735"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Near-black Onyx Canvas (#171721) sets a cinematic observatory atmosphere with Graphite Card (#1e1e2a) one step lighter for flat, borderless content surfaces; Ivory Text (#ededf3) is the dominant foreground with Ash (#c3c3cc) muted copy; a single vivid Cobalt (#5266eb) is the only chromatic note, reserved exclusively for the primary 'Open account' action — never decorative, never a secondary button; no shadows, separation purely via graphite-on-onyx value lift.",
+        "typographic_voice": "Two custom faces — arcadia for body/UI and arcadiaDisplay for headlines — built on an intermediate weight axis (360/420/480/530) that avoids the bold/light binary: heading weight 480 is the ceiling, body stays 16px weight 400 with generous 1.5 line-height, and display uses tight 1.1–1.15 leading with positive 0.01–0.02em letter-spacing for a wide-set, architectural quality; never editorial, never corporate.",
+        "signature_moves": [
+          "One Cobalt-filled pill button per page as the sole chromatic action — the gravitational center of the layout",
+          "Intermediate-weight typography (arcadiaDisplay at 480, not 600/700) — asserts without shouting, the signature restraint",
+          "Graphite cards (#1e1e2a, 12px radius, 32px padding) with no border and no shadow — the one-step value lift creates separation",
+          "Pill-shaped interactive controls (32–40px radius) with sharp 4px corners reserved for structural elements only",
+          "Transparent nav over the hero with backdrop-blur frosted-glass on scroll, plus a full-bleed photographic alpine hero"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "quiet",
+          "futuristic",
+          "minimal",
+          "monochrome"
+        ],
+        "tone": [
+          "premium",
+          "confident",
+          "calm"
+        ],
+        "formality": "high",
+        "density": "spacious",
+        "scheme": "dark",
+        "best_for": "Fintech and premium banking landing pages, dark-mode developer tools, and product launches wanting cinematic aspiration — an onyx canvas, graphite cards, intermediate-weight typography, and one cobalt action button as the gravitational center.",
+        "avoid_for": "Playful consumer brands, multi-color or light-mode contexts, editorial long-form reading, and any interface needing more than one bright accent or shadow-based depth — the cobalt single-action discipline and hushed premium darkness only work as dark, monochrome, and calm."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Mercury/",
+        "radius": "12px cards / 32–40px pills (inputs, buttons, nav)",
+        "shadow": "none — flat, value contrast between onyx and graphite",
+        "theme": "dark"
+      },
+      "tagline": "Alpine banking at blue hour"
+    },
+    "monad": {
+      "slug": "monad",
+      "name": "Monad",
+      "value_layer": {
+        "palette": {
+          "parchment": "#f6f3f1",
+          "lake-blue": "#2b59d1",
+          "periwinkle-mist": "#cfdaf5",
+          "sky-blue": "#a0b5eb",
+          "mint": "#a7fccd",
+          "coral": "#ff9473",
+          "gold": "#ecda98",
+          "crimson": "#f37a0a",
+          "off-black": "#242424",
+          "ink": "#000000",
+          "graphite": "#4e4d4d",
+          "smoke": "#797776",
+          "ash": "#cecac8"
+        },
+        "fonts": {
+          "abc-diatype-mono": "ABC Diatype Mono",
+          "untitled-serif": "Untitled Serif",
+          "untitled-sans": "Untitled Sans"
+        },
+        "radii": {
+          "2xl": "16px",
+          "3xl": "40px",
+          "full": "100px",
+          "full-2": "2000px",
+          "full-3": "9999px"
+        },
+        "spacing": {
+          "8": "8px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "64": "64px",
+          "72": "72px",
+          "80": "80px",
+          "200": "200px",
+          "216": "216px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "parchment": "#f6f3f1",
+          "periwinkle-mist": "#cfdaf5",
+          "off-black": "#242424",
+          "ink": "#000000"
+        },
+        "shadows": {
+          "md": "rgba(0, 0, 0, 0.1) 0px 0px 10px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm Parchment (#f6f3f1) is the signature canvas and most surface fills — never pure white; Off-Black (#242424) and Graphite (#4e4d4d) carry text while 1px Ash (#cecac8) hairlines define all edges; a single vivid Lake Blue (#2b59d1) is the only saturated fill, reserved for the primary action only; Periwinkle Mist (#cfdaf5) elevates one card and pastel gradient washes (coral, sky, mint, gold) stay strictly decorative inside illustrations; one subtle ambient shadow token exists but cards prefer borders and surface contrast.",
+        "typographic_voice": "A two-voice system: Untitled Serif (subst. Times/Georgia) at weight 400 locked across all sizes (24–80px) with -0.02em tracking carries editorial authority through stroke contrast rather than weight — headlines whisper, never shout; ABC Diatype Mono (subst. JetBrains Mono) handles all body, nav, buttons, badges, and tags at 12–20px with negative tracking, reading as data not marketing; no bold headings, no sans body, no pure-white canvas.",
+        "signature_moves": [
+          "The serif-mono pairing — Untitled Serif at weight 400 for all headlines, ABC Diatype Mono for every body/nav/button/UI string — the serif announces, the mono instructs",
+          "Uppercase + tight-tracking mono labels on nav, buttons, and tags (18px / 14px), making functional text read as data",
+          "Lake Blue pill button with a trailing arrow as the single saturated conversion action per screen",
+          "The custom data-pipeline diagram — pill-shaped bordered nodes connected by thin curved Ash lines, the page's visual centerpiece",
+          "Soft gradient atmospheric washes (Coral → Sky Blue → Mint) with blur(50–75px) as decorative halos behind hero content"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "technical",
+          "editorial",
+          "quiet",
+          "warm"
+        ],
+        "tone": [
+          "confident",
+          "calm",
+          "authoritative"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Developer-tool and data-infrastructure landing pages wanting a literary technical register — warm parchment canvas, editorial serif headlines, monospace body, and a data-pipeline diagram as the visual centerpiece.",
+        "avoid_for": "Consumer retail and playful multi-color brands, image-led hero marketing, and any interface needing bold (600+) headlines, pure-white backgrounds, or sans-serif body text — the serif-mono pairing and warm parchment canvas define the identity, and swapping them breaks it."
+      },
+      "source": {
+        "leading_body": 1.35,
+        "path": "refero-styles/Monad/",
+        "radius": "40px cards / 100px buttons / 9999px tags & pills",
+        "shadow": "subtle ambient — rgba(0,0,0,0.1) 0px 0px 10px 0px",
+        "theme": "light"
+      },
+      "tagline": "editorial tech journal on warm parchment"
+    },
+    "monopo-saigon": {
+      "slug": "monopo-saigon",
+      "name": "Monopo Saigon",
+      "value_layer": {
+        "palette": {
+          "obsidian": "#000000",
+          "paper": "#ffffff",
+          "inkstone": "#181818",
+          "felt-gray": "#6d6d6d",
+          "slate-pill": "#636363",
+          "ash-mist": "#9a9a9a",
+          "pewter": "#808080",
+          "iridescent-fade": "#a02d25"
+        },
+        "fonts": {
+          "roobert": "Roobert",
+          "raleway": "Raleway",
+          "system-ui": "system-ui"
+        },
+        "radii": {
+          "lg": "10px",
+          "full": "75.024px"
+        },
+        "spacing": {
+          "8": "8px",
+          "12": "12px",
+          "28": "28px",
+          "40": "40px",
+          "48": "48px",
+          "64": "64px",
+          "68": "68px",
+          "152": "152px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "paper": "#ffffff",
+          "slate-pill": "#636363",
+          "obsidian": "#000000",
+          "ash-mist": "#9a9a9a"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Radical black-and-white monochrome discipline: Obsidian (#000000) for all foreground text and strokes, Paper (#ffffff) for surfaces and inverse labels, whisper-thin grays (Inkstone, Felt Gray, Slate Pill, Ash Mist) for muted layers and the only solid button fill — while a single iridescent hero gradient (sage green → molten amber → deep oxblood) exists only as atmospheric media behind text, never as UI color; no shadows, no gradients in controls, flat surfaces with hairline 1px borders.",
+        "typographic_voice": "A single geometric-humanist sans (Roobert, subst. Inter/Söhne) with a wide weight range breathes from 225px weight-400 display headlines (tight 1.25 leading) through 78px weight-300 whisper headings down to 11px weight-400 labels; Raleway appears sparingly as a narrower heading counterpoint; body left-aligned with 1.58 leading; no bold weights above 45px, no serifs.",
+        "signature_moves": [
+          "Monumental Roobert headlines at 225px weight 400 owning the full viewport — no subheads, no CTAs crowding the hero",
+          "The 75px full-pill radius on buttons and tags against 0px corners everywhere else — sharp editorial contrast with no intermediate rounding",
+          "Whisper-weight section headlines (78px weight 300) and 94px/0.76 line-height statement blocks — type as art object, lines nearly touching",
+          "One iridescent molten-gradient hero backdrop per page — the only chromatic moment, existing only behind text",
+          "Patient gliding motion — cubic-bezier(0.19,1,0.22,1) easing with 0.8–1.25s transform durations, plus a rotating circular 'SCROLL DOWN' badge"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "minimal",
+          "monochrome",
+          "quiet"
+        ],
+        "tone": [
+          "confident",
+          "refined",
+          "calm"
+        ],
+        "formality": "medium",
+        "density": "spacious",
+        "scheme": "light",
+        "best_for": "Premium design-studio and agency portfolio sites, editorial brand statements, and gallery-style product showcases wanting radical monochrome discipline — a black-and-white editorial gallery floating on one molten iridescent hero.",
+        "avoid_for": "Data-dense or transactional products, playful multi-color consumer brands, and any interface needing chromatic UI fills, shadows, or intermediate border radii — the system jumps straight from sharp 0px to full 75px pill, and the iridescent gradient is media only, never UI color."
+      },
+      "source": {
+        "leading_body": 1.21,
+        "path": "refero-styles/monopo saigon/",
+        "radius": "75px buttons & tags / 0px cards, images, inputs",
+        "shadow": "none — flat, color inversion and hairline borders only",
+        "theme": "light"
+      },
+      "tagline": "Liquid iridescence behind editorial silence — a monochrome editorial gallery floating on molten light."
+    },
+    "motherduck": {
+      "slug": "motherduck",
+      "name": "MotherDuck",
+      "value_layer": {
+        "palette": {
+          "cream-paper": "#f4efea",
+          "frost-white": "#ffffff",
+          "chalk-gray": "#f8f8f7",
+          "ice-wash": "#ebf9ff",
+          "notebook-pale": "#f9fbe7",
+          "charcoal-ink": "#383838",
+          "pencil-gray": "#a1a1a1",
+          "graphite": "#818181",
+          "soft-silver": "#c0c0c0",
+          "sky-crayon": "#6fc2ff",
+          "canary-banner": "#ffde00",
+          "duck-bill-orange": "#ff9538",
+          "coral-sketch": "#f38e84",
+          "peach-sketch": "#f5b161",
+          "mint-sketch": "#38c1b0",
+          "lilac-sketch": "#b291de",
+          "lime-sketch": "#b3c419",
+          "periwinkle-sketch": "#7597ee",
+          "slate-sketch": "#84a6bc",
+          "marigold-sketch": "#e1c427",
+          "wet-cement": "#54b4de",
+          "peach-blush": "#fdedda"
+        },
+        "fonts": {
+          "aeonik-mono": "Aeonik Mono",
+          "inter": "Inter"
+        },
+        "radii": {
+          "sm": "2px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "60": "60px",
+          "64": "64px",
+          "68": "68px",
+          "80": "80px",
+          "100": "100px",
+          "120": "120px",
+          "140": "140px",
+          "200": "200px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "cream-paper": "#f4efea",
+          "frost-white": "#ffffff",
+          "chalk-gray": "#f8f8f7",
+          "ice-wash": "#ebf9ff",
+          "canary-banner": "#ffde00"
+        },
+        "shadows": {
+          "subtle": "rgb(56, 56, 56) -6px 6px 0px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm cream canvas (#f4efea) + near-square charcoal-ink (#383838) lines, with a single sky-blue (#6fc2ff) action color and a crayon-bright rainbow (canary/mint/lilac/coral...) reserved strictly for illustration and marquee rhythm — never for filled CTAs.",
+        "typographic_voice": "Monospace-first universal face (Aeonik Mono, subst. JetBrains Mono) for every text role — headline whispers at 300 weight, nav commands at 600; 0.0200em positive tracking counteracts monospace density. No serifs, no italics, no decorative display faces.",
+        "signature_moves": [
+          "Hard offset shadow (rgb(56,56,56) -6px 6px 0px 0px) on every button and interactive card — the elevation system",
+          "2px near-square corners everywhere — non-negotiable notebook-paper geometry",
+          "Hand-drawn line-art mascots (ducks, clouds, speech bubbles) in charcoal + wet-cement strokes, bleeding past container edges",
+          "Full-bleed canary-yellow marquee strip between content bands as rhythmic reset",
+          "Rainbow-outline button palette distributed across repeated tiles like a pencil cup"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "technical",
+          "brutalist",
+          "warm",
+          "playful"
+        ],
+        "tone": [
+          "playful",
+          "confident",
+          "casual"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Developer-tool / data-infra landing pages, product launches, technical announcements that want credibility WITHOUT corporate seriousness — a light-canvas, notebook-sketch register that reads playful and confident.",
+        "avoid_for": "Formal enterprise sales decks, luxury/editorial brand presentations, heavy data-dense financial reports, any context needing premium restraint or dark-mode authority."
+      },
+      "source": {
+        "leading_body": 1.6,
+        "path": "refero-styles/MotherDuck/",
+        "radius": "2px near-square everywhere",
+        "shadow": "single hard offset -6px 6px 0px 0px #383838",
+        "theme": "light"
+      },
+      "tagline": "Crayon-coded terminal on cream paper — a developer tool that refuses to dress like one."
+    },
+    "oryzo-ai": {
+      "slug": "oryzo-ai",
+      "name": "ORYZO AI",
+      "value_layer": {
+        "palette": {
+          "warm-cream": "#ffedd7",
+          "walnut-shadow": "#100904",
+          "bark-brown": "#382416",
+          "cork-border": "#40372e",
+          "driftwood": "#6c5f51",
+          "ember-accent": "#dc5000",
+          "pure-black": "#000000",
+          "brand-gold": "#ffbf02",
+          "cutting-mat": "#445231",
+          "cork-fiber": "#b9895b"
+        },
+        "fonts": {
+          "halyard-display-variable": "halyard-display-variable",
+          "literata": "Literata",
+          "arial": "Arial"
+        },
+        "radii": {
+          "xl": "12px",
+          "2xl": "22.5px",
+          "3xl": "36px",
+          "full": "9999px"
+        },
+        "spacing": {
+          "6": "6px",
+          "8": "8px",
+          "9": "9px",
+          "10": "10px",
+          "12": "12px",
+          "14": "14px",
+          "18": "18px",
+          "24": "24px",
+          "31": "31px",
+          "41": "41px",
+          "45": "45px",
+          "68": "68px",
+          "204": "204px"
+        },
+        "surfaces": {
+          "walnut-shadow": "#100904",
+          "bark-brown": "#382416",
+          "cork-border": "#40372",
+          "warm-cream": "#ffedd7"
+        }
+      },
+      "style_read": {
+        "palette_voice": "Warm Walnut Shadow (#100904) canvas — a near-black that is never pure black — with Warm Cream (#ffedd7) text that is never pure white; Bark Brown (#382416) is the one elevated solid and filled button surface; Cork Border (#40372e) hairlines and dashed dividers mark structure; a single vivid Ember (#dc5000) orange appears only for credit lines and the studio link, never on buttons — rarity is the signal; Brand Gold (#ffbf02) is reserved for the ORYZO logo mark; the top-down hero photograph contributes the Cutting Mat green (#445231) and Cork Fiber (#b9895b) as hero-only media; no shadows, depth via the two-step surface stack and 3D renders only.",
+        "typographic_voice": "Two faces, two registers: Halyard Display Variable (subst. Inter/Söhne) carries every label, nav item, and display headline at uppercase weight 500 from 8px micro-legal to 51px display at tight 0.9 leading — the declarative museum-label voice; Literata (serif, subst. 'Source Serif 4'/'Lora') carries the only conversational voice at 29px/400 mixed-case with 1.26 leading, and the italic serif runs inside the LUSION attribution card; letter-spacing stays normal at every scale — the font's geometry does the work without compression; no lower-case headings, no serif headlines.",
+        "signature_moves": [
+          "Green cutting-mat photographic hero (top-down cork coaster on #445231 with white grid, pencils, craft knife, paperclip) — the brand's in-context moment; sections below switch to warm-dark void mode",
+          "Uppercase weight 500 for labels, nav, and display with the sole exception of 29px/400 Literata serif body — the serif mixed-case shift is the signal that you are reading description, not label",
+          "Museum-label typography at line-height 0.9 on 41–51px display sizes — uppercase letterforms overlap their bounds and stack as sculptural solid form",
+          "The DESIGNED BY LUSION attribution card (semi-transparent dark panel, dashed divider, italic serif tagline) and the vertical 'ORYZO 1-MODEL' edge label — physical-product artifacts translated to UI",
+          "Brand Gold (#ffbf02) ORYZO mark on the video thumbnail card and the circular 'SCROLL TO CONTINUE' text badge",
+          "1px dashed hairline dividers in Cork Border as the only structural breaks — always carrying meaning, never decoration"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "luxurious",
+          "minimal",
+          "futuristic",
+          "quiet"
+        ],
+        "tone": [
+          "premium",
+          "confident",
+          "refined"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "mixed",
+        "best_for": "Premium hardware and single-product brand sites, studio portfolio reveals, and cinematic product launches that want a museum-artifact atmosphere — one object floating in warm darkness with cream typography as the only decoration.",
+        "avoid_for": "Light-mode SaaS or e-commerce, data-dense interfaces, playful multi-color brands, and any context needing lowercase headings, pure white text, or multiple filled CTAs — the museum-label uppercase voice and warm darkness only work with restraint and full-viewport sections."
+      },
+      "source": {
+        "leading_body": 1.26,
+        "path": "refero-styles/ORYZO AI/",
+        "radius": "36px filled pill / 22.5px outlined / 12px cards / 0px inputs & links",
+        "shadow": "none — depth via two-step surface stack (#100904 → #382416) and 3D renders",
+        "theme": "dark"
+      },
+      "tagline": "Darkroom product editorial. A lone object floating in warm darkness, cream typography the only decoration."
+    },
+    "patch": {
+      "slug": "patch",
+      "name": "Patch",
+      "value_layer": {
+        "palette": {
+          "electric-indigo": "#1f00ff",
+          "patch-orange": "#ff622b",
+          "pure-white": "#ffffff",
+          "fog-gray": "#f2f2f2",
+          "bone": "#f8f8f8",
+          "mist": "#ececec",
+          "gridline": "#d3d3d3",
+          "ink": "#212121"
+        },
+        "fonts": {
+          "pp-right": "PP Right",
+          "archivo": "Archivo"
+        },
+        "radii": {
+          "md": "4.7619px",
+          "lg": "9.52381px"
+        },
+        "spacing": {
+          "5": "5px",
+          "10": "10px",
+          "11": "11px",
+          "14": "14px",
+          "17": "17px",
+          "19": "19px",
+          "21": "21px",
+          "24": "24px",
+          "26": "26px",
+          "29": "29px",
+          "30": "30px",
+          "33": "33px",
+          "35": "35px",
+          "38": "38px",
+          "48": "48px",
+          "90": "90px"
+        },
+        "surfaces": {
+          "canvas": "#ffffff",
+          "bone-card": "#f8f8f8",
+          "fog-card": "#f2f2f2",
+          "indigo-field": "#1f00ff",
+          "ink-plate": "#212121"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A loud electric indigo (#1f00ff) is the dominant chromatic — full-bleed hero and section fields, heading text, and every structural border; stark white cards carry content; a single warm Patch Orange (#ff622b) is the only filled CTA color, reserved exclusively for conversion moments; a 4-step grayscale (fog/bone/mist/gridline/ink) builds neutral surfaces. No shadows — 1px borders carry all structure; no gradients, no extra hues.",
+        "typographic_voice": "A two-voice clash: PP Right (subst. Bebas Neue/Anton) at weight 800 in uppercase with sub-1.0 line heights and moderate tracking is the only display face, reading as aggressive architecture rather than friendly prose; Archivo (subst. Inter/DM Sans) stays quiet and functional at 300/400/600 — weight 300 secondary, 400 body, 600 uppercase labels and buttons; never use light 100–200 weights, never set PP Right below 21px, no serif, no italic.",
+        "signature_moves": [
+          "Full-bleed electric-indigo (#1f00ff) hero and alternating indigo/white section bands — the page is built on the blue/white duopoly",
+          "PP Right weight 800 condensed display with sub-1.0 line heights (0.85–0.94), stacking headlines like concrete blocks — never below 21px",
+          "The single filled orange (#ff622b) CTA button (5px radius, no shadow) as the only chromatic conversion surface; everything else outlined or text",
+          "Two-digit square corner markers (01, 02, 03…) in bordered boxes anchoring every section like a blueprint grid",
+          "Hand-drawn black-line sketch illustrations (people, objects) centered inside white 1px-indigo-bordered cards, softening the aggressive type"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "bold",
+          "technical",
+          "retro",
+          "playful"
+        ],
+        "tone": [
+          "confident",
+          "playful",
+          "energetic"
+        ],
+        "formality": "medium",
+        "density": "spacious",
+        "scheme": "light",
+        "best_for": "Confident tech/engineering-adjacent agency or B2B service pages (a medical-marketing agency pitched as engineering), launch sites that want a loud blueprint statement — full-bleed indigo hero, aggressive condensed headline, orange CTA, sketch illustration, numbered section markers.",
+        "avoid_for": "Consumer lifestyle brands, gentle/friendly product pages, dense data dashboards, or any context needing rounded softness or photographic warmth — the aggressive sub-1.0 condensed display, full-bleed electric indigo, and 5px-sharp blueprint geometry dominate everything they touch."
+      },
+      "source": {
+        "leading_body": 1.4,
+        "path": "refero-styles/Patch/",
+        "radius": "5px everywhere (cards, buttons, inputs, nav tabs) — sharp blueprint geometry, no larger radii",
+        "shadow": "none — borders carry all structural weight, no drop shadows",
+        "theme": "light"
+      },
+      "tagline": "electric blueprint on drafting paper"
+    },
+    "raycast": {
+      "slug": "raycast",
+      "name": "Raycast",
+      "value_layer": {
+        "palette": {
+          "void-black": "#040506",
+          "ink": "#07080a",
+          "obsidian": "#111214",
+          "graphite": "#1b1c1e",
+          "smoke": "#6a6b6c",
+          "ash": "#9c9c9d",
+          "mist": "#e6e6e6",
+          "iron": "#454647",
+          "slate": "#2f3031",
+          "pure-white": "#ffffff",
+          "coral-pulse": "#ff6363",
+          "ember-hush": "#452324",
+          "electric-sky": "#63a1ff",
+          "cobalt-edge": "#143ca3",
+          "deep-space": "#02193b",
+          "info-blue": "#56c2ff",
+          "success-green": "#59d499"
+        },
+        "fonts": {
+          "inter": "Inter",
+          "geistmono": "GeistMono",
+          "sf-pro-text": "SF Pro Text",
+          "sf-pro": "SF Pro"
+        },
+        "radii": {
+          "lg": "8px",
+          "lg-2": "11px",
+          "2xl": "16px",
+          "2xl-2": "20px",
+          "3xl": "31px",
+          "3xl-2": "36px",
+          "3xl-3": "43px",
+          "full": "86px",
+          "full-2": "1000px",
+          "full-3": "9999px",
+          "full-4": "99999px"
+        },
+        "spacing": {
+          "8": "8px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "56": "56px",
+          "64": "64px",
+          "80": "80px",
+          "96": "96px",
+          "120": "120px",
+          "224": "224px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "canvas": "#040506",
+          "card": "#07080a",
+          "recessed": "#111214",
+          "badge": "#1b1c1",
+          "accent-tint": "#452324"
+        },
+        "shadows": {
+          "subtle": "rgba(0, 0, 0, 0.4) 0px 1.5px 0.5px 2.5px, rgb(0, 0, 0) 0px 0px 0.5px 1px, rgba(0, 0, 0, 0.25) 0px 2px 1px 1px inset, rgba(255, 255, 255, 0.2) 0px 1px 1px 1px inset",
+          "subtle-2": "rgb(27, 28, 30) 0px 0px 0px 1px, rgb(7, 8, 10) 0px 0px 0px 1px inset",
+          "lg": "rgba(215, 201, 175, 0.05) 0px 0px 20px 5px, rgba(215, 201, 175, 0.05) 0px 0px 16px -7px",
+          "subtle-3": "rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.25) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset",
+          "subtle-4": "rgba(0, 0, 0, 0.03) 0px 7px 3px 0px, rgba(0, 0, 0, 0.25) 0px 4px 4px 0px",
+          "subtle-5": "rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset",
+          "xl": "rgba(0, 0, 0, 0.4) 0px 4px 40px 8px, rgba(0, 0, 0, 0.8) 0px 0px 0px 0.5px, rgba(255, 255, 255, 0.3) 0px 0.5px 0px 0px inset",
+          "subtle-6": "rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset",
+          "sm": "rgba(0, 0, 0, 0.25) 0px 4px 4px 0px",
+          "subtle-7": "rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 50px 0px, rgba(3, 15, 129, 0.09) 0px 4px 24px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset",
+          "xl-2": "rgba(255, 255, 255, 0.03) 0px 0px 40px 20px, rgba(255, 255, 255, 0.3) 0px 0.5px 0px 0px inset",
+          "subtle-8": "rgba(255, 255, 255, 0.19) 0px 0px 2px 0px, rgba(255, 255, 255, 0.1) 0px 0.5px 0px 0px inset",
+          "subtle-9": "rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset, rgba(7, 13, 79, 0.1) 0px 0px 20px 3px, rgba(85, 0, 98, 0.1) 0px 0px 40px 20px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset",
+          "subtle-10": "rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 50px 0px, rgba(51, 3, 129, 0.09) 0px 4px 24px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset",
+          "subtle-11": "rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset, rgba(7, 13, 79, 0.1) 0px 0px 20px 3px, rgba(7, 40, 79, 0.1) 0px 0px 40px 20px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A near-pure-black Void canvas (#040506) with barely-visible elevation steps (Ink #07080a, Obsidian #111214, Graphite #1b1c1e) is the whole surface system — the page is 98% achromatic; a single warm Coral Pulse (#ff6363) is the brand accent, rationed to the logo diamond, AI badge, hero artwork, and warm-tinted card surfaces; mist white (#e6e6e6) fills the only CTA; the blue/green hues exist only inside the hero's red/blue gradient composition, never in interface controls.",
+        "typographic_voice": "Inter everywhere as the sole sans (11–64px, weights 400/500/600) — the signature is the 56px hero headline at weight 400, an anti-convention whisper that lets size do the work, with slightly positive tracking (0.004em at 56px) rather than negative; Geist Mono handles version strings, command hints, and 10px uppercase eyebrow tags to read as engineered metadata; SF Pro Text is reserved strictly for icons and 24–32px numeric stat callouts; no bold shouting, no serif, no negative letter-spacing on display.",
+        "signature_moves": [
+          "The 'keyboard key' inner-shadow stack (inset top highlight + outer 1px ring + inset bottom shadow) on every elevated card — cards read as pressed key caps, not floating panels",
+          "One full-bleed cinematic hero: massive abstract red/coral (#ff6363) and blue radial-gradient geometry — the only place the system breaks its own austere rules",
+          "Neutral Mist (#e6e6e6) filled download buttons with Iron text as the only CTA — the system deliberately has no chromatic action button",
+          "Glass navigation bar with backdrop-blur(48px) floating over the dark hero as a translucent pill",
+          "Geist Mono 12px footer metadata (version | platform | install command) separated by vertical pipes — technical signals as data"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "technical",
+          "quiet",
+          "monochrome"
+        ],
+        "tone": [
+          "confident",
+          "authoritative",
+          "calm"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "dark",
+        "best_for": "Developer-tool and power-user productivity landing pages (launcher, automation, keyboard-first apps) that want a dark power-tool cockpit: near-black canvas, hairline borders, inset key-shadow cards, a neutral light-gray CTA, and one cinematic hero artwork.",
+        "avoid_for": "Consumer retail, playful multi-color brands, light-mode marketing pages, or any context needing a welcoming or friendly register — the 98% achromatic near-black cockpit, single coral accent, and key-cap card treatment read as a serious power-user product, not a consumer pitch."
+      },
+      "source": {
+        "leading_body": 1.15,
+        "path": "refero-styles/Raycast/",
+        "radius": "8px buttons/inputs/badges, 16–20px cards, 9999px pills, 99999px circular icon containers",
+        "shadow": "inset key stack on cards: rgba(255,255,255,0.05) 0px 1px 0px inset + rgba(255,255,255,0.25) 0px 0px 0px 1px + rgba(0,0,0,0.2) 0px -1px 0px inset; hero depth via gradients/blur, no drop shadows on cards",
+        "theme": "dark"
+      },
+      "tagline": "Midnight command center, coral neon"
+    },
+    "seline-analytics": {
+      "slug": "seline-analytics",
+      "name": "Seline Analytics",
+      "value_layer": {
+        "palette": {
+          "stone-canvas": "#fafaf9",
+          "pure-white": "#ffffff",
+          "stone-border": "#e8e6e5",
+          "stone-muted": "#d6d3d1",
+          "ash-gray": "#a8a29e",
+          "warm-gray": "#78716c",
+          "ink-black": "#0c0a09",
+          "soot": "#1c1917",
+          "sky-wash": "#c1e1f7",
+          "cyan-signal": "#3ba6f1",
+          "cyan-edge": "#3398e1"
+        },
+        "fonts": {
+          "roobert": "Roobert",
+          "inter": "Inter"
+        },
+        "radii": {
+          "md": "4px",
+          "lg": "10px",
+          "2xl": "16px",
+          "full": "9999px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "64": "64px",
+          "80": "80px",
+          "96": "96px",
+          "160": "160px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "canvas": "#fafaf9",
+          "card": "#ffffff",
+          "floating-preview": "#ffffff",
+          "inverted-section": "#1c1917"
+        },
+        "shadows": {
+          "md": "rgba(0, 0, 0, 0.05) 0px 4px 16px 0px",
+          "sm": "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px",
+          "subtle": "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "xl": "rgba(17, 12, 46, 0.12) 0px 12px 45px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A warm-stone canvas (#fafaf9) reads as paper, not screen, with flat white (#ffffff) cards floating above it; 1px stone hairlines (#e8e6e5) are the primary structural device instead of heavy dividers or panels; the single vivid cyan (#3ba6f1) is the only chromatic voice — one filled CTA plus one cyan highlight span per headline, the loudest thing on the page by deliberate restraint of everything else; a near-black Ink (#0c0a09) carries all headings.",
+        "typographic_voice": "A two-face system: Roobert (subst. Inter Tight/Satoshi) is the display voice at weight 400 only (18–52px) with tight negative tracking (-0.025em at 32px, -0.021em at 52px) — headlines occupy their space without shouting; Inter is the neutral workhorse for all body/nav/UI at 14px weight 400 with 1.64 line-height and positive tracking at small sizes; no bold headings, no serif, no italic, no gradients.",
+        "signature_moves": [
+          "The weight-400 headline whisper: Roobert at 52px/400 with tight negative tracking (-0.021em) — authority through restraint, never bumping to 600/700",
+          "Exactly one cyan highlight span per headline (#3398e1 text on a #c1e1f7 pill wash) marking the value-prop keyword — the brand's voice marker",
+          "The cyan filled pill CTA (#3ba6f1, 9999px radius) as the only chromatic filled element on any screen, used once per viewport maximum",
+          "Flat white content cards defined by 1px stone borders, not shadows — the border IS the structure; only the hero dashboard preview earns a deep floating shadow",
+          "The hooded line-art mascot sticker with drop-shadow, used once per section as a playful counterweight to the monochrome data UI"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "quiet",
+          "minimal",
+          "editorial"
+        ],
+        "tone": [
+          "calm",
+          "confident",
+          "refined"
+        ],
+        "formality": "medium",
+        "density": "compact",
+        "scheme": "light",
+        "best_for": "Analytics and B2B SaaS landing pages (analytics, dashboards, developer tools) that want an editorial, quietly confident register — warm stone canvas, one cyan CTA, weight-400 geometric headlines, flat white cards with hairline borders, and a grayscale dashboard mockup as the hero proof.",
+        "avoid_for": "Consumer retail, playful multi-color brands, image-led lifestyle marketing, or any context needing loud or emotional display — the whisper-weight headlines, single-cyan restraint, and flat paper surfaces make this a calm analytical voice that struggles with high-energy consumer pitches."
+      },
+      "source": {
+        "leading_body": 1.64,
+        "leading_note": "fallback, no --leading-body token in variables.css; DESIGN.md names 14px Inter weight 400 at 1.64 line-height as the dominant body size (--leading-body-lg is 1.69)",
+        "path": "refero-styles/Seline Analytics/",
+        "radius": "9999px buttons/tags, 10px cards, 16px feature cards, 6px inputs, 4px icons",
+        "shadow": "content cards rgba(0,0,0,0.05) 0px 4px 16px 0px; single hero floating preview rgba(17,12,46,0.12) 0px 12px 45px 0px",
+        "theme": "light"
+      },
+      "tagline": "Quiet analyst's desk on warm paper"
+    },
+    "steep": {
+      "slug": "steep",
+      "name": "Steep",
+      "value_layer": {
+        "palette": {
+          "ink-black": "#17191c",
+          "paper-white": "#ffffff",
+          "mist-gray": "#f2f2f3",
+          "fog-white": "#fafafb",
+          "slate-gray": "#777b86",
+          "ash-gray": "#979799",
+          "smoke-gray": "#a3a6af",
+          "blush-peach": "#fbe1d1",
+          "sienna-brown": "#5d2a1a"
+        },
+        "fonts": {
+          "signifier": "Signifier",
+          "sohne": "Sohne"
+        },
+        "radii": {
+          "sm": "0.01px",
+          "xl": "12px",
+          "2xl": "16px",
+          "2xl-2": "20px",
+          "3xl": "24px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "28": "28px",
+          "32": "32px",
+          "40": "40px",
+          "64": "64px",
+          "80": "80px",
+          "96": "96px",
+          "124": "124px",
+          "128": "128px",
+          "160": "160px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "canvas": "#ffffff",
+          "card-mist": "#f2f2f3",
+          "section-fog": "#fafafb",
+          "accent-blush": "#fbe1d1",
+          "elevated-white": "#ffffff"
+        },
+        "shadows": {
+          "subtle": "oklab(0 0 0 / 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.08) 0px 4px 24px 0px",
+          "subtle-2": "oklab(0 0 0 / 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 8px 40px 0px",
+          "subtle-3": "rgba(4, 23, 43, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A near-monochrome white paper canvas (#ffffff) with quiet gray layers (Mist #f2f2f3, Fog #fafafb) carries everything; Ink Black (#17191c) is the only dark surface — body text, nav, and the filled pill button; a single warm Blush Peach (#fbe1d1) accent card paired with Sienna Brown (#5d2a1a) ink reads like kraft paper and appears at most once per page; Slate/Ash/Smoke grays handle muted text. Color is rationed to functional emphasis — everything else is achromatic.",
+        "typographic_voice": "A two-voice system: Signifier (subst. GT Sectra/Tiempos/Source Serif 4) is the display serif at weight 400 only across 44/64/90px with tight negative tracking (-2.25px at 90px) — headlines whisper authority through stroke contrast, never bold; Sohne (subst. Inter) is the workhorse sans for all body/UI using fine half-step weights (430/450/480) instead of jumping to bold; no bold display, no sans headlines, no italic in body.",
+        "signature_moves": [
+          "Oversized Signifier weight-400 serif headlines (44/64/90px) with tight negative tracking and the occasional italicized phrase — the serif whispers authority rather than shouting in bold",
+          "Floating product-artifact cards (region table, activation chart, AI composer) scattered around hero headlines on white with hairline borders and barely-there 10% shadows — the only elements allowed visible elevation",
+          "The single Blush Peach (#fbe1d1) accent card with Sienna Brown ink — the one chromatic surface in the system, used as a rare kraft-paper editorial callout",
+          "Filled Ink Black pill button always paired with a ghost pill button as a matched set on the same row — the solid black lozenge is the signature action",
+          "A 4px spacing base with generous 80px section gaps and 24px-radius soft cards — the page breathes and never crowds"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "quiet",
+          "minimal",
+          "warm"
+        ],
+        "tone": [
+          "calm",
+          "confident",
+          "refined"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "AI / analytics / data-infrastructure product landing pages that want an editorial, magazine-spread feel — oversized italicized serif headlines on white paper, one peach accent card, pill controls, and floating product UI artifacts (region tables, activation charts, AI composer) instead of a dashboard shell.",
+        "avoid_for": "Dense operational dashboards, dark-mode products, consumer retail, or any context needing heavy chrome or saturated multi-color surfaces — the editorial serif voice, whisper-thin shadows, 97% achromatic palette, and oversized rounded cards are a magazine-spread register, not a data-dense cockpit."
+      },
+      "source": {
+        "leading_body": 1.35,
+        "path": "refero-styles/Steep/",
+        "radius": "24px cards, 20px elevated cards, 16px inputs/small cards, 9999px buttons (pill)",
+        "shadow": "subtle, barely-there — floating artifacts only: rgba(4,23,43,0.05) 0px 0px 0px 1px + rgba(0,0,0,0.1) 0px 20px 25px -5px; content cards have no shadow",
+        "theme": "light"
+      },
+      "tagline": "serif analytics on warm paper"
+    },
+    "superhi-plus": {
+      "slug": "superhi-plus",
+      "name": "SuperHi Plus",
+      "value_layer": {
+        "palette": {
+          "cobalt-voltage": "#0033e5",
+          "ice-white": "#f0f7ff",
+          "cobalt-mist": "#527ceb",
+          "pitch": "#000000"
+        },
+        "fonts": {
+          "haas-grot-disp-web": "Haas Grot Disp Web"
+        },
+        "radii": {
+          "sm": "2.4px",
+          "2xl": "16px",
+          "3xl": "24px",
+          "full": "50px",
+          "full-2": "55px",
+          "full-3": "72px",
+          "full-4": "120px"
+        },
+        "spacing": {
+          "8": "8px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "96": "96px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "cobalt-voltage": "#0033e5",
+          "ice-white": "#f0f7ff",
+          "cobalt-mist": "#527ceb"
+        },
+        "shadows": {
+          "subtle": "rgb(0, 51, 229) 0px 0px 0px 1px inset",
+          "subtle-2": "rgb(240, 247, 255) 0px 0px 0px 1px inset"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A strict two-color binary — saturated Cobalt Voltage (#0033e5) and Ice White (#f0f7ff) — with every panel belonging to exactly one camp and the two swapping roles as you scroll; the blue is both background and text, the white both counter-surface and text; Cobalt Mist (#527ceb) is a sparing tonal fill and Pitch black fills SVG icons only. No gradients, no tints, no third hue — the blue/white tension is the entire rhythm.",
+        "typographic_voice": "A single neo-grotesque display face (Haas Grot Disp Web, subst. Söhne/Inter/Space Grotesk) at weight 400 only, from 16px body to 85px hero — the radical flattening makes the page read as one declarative voice rather than a hierarchy of emphases; line heights compress from 1.50 at 16px to 1.13 at 85px, letter-spacing stays at 0px throughout; never use a second family, a bold/light cut, a high-x-height humanist font, or dense columns narrower than 480px.",
+        "signature_moves": [
+          "The 50/50 split-screen panel: every section is two equal full-bleed panels that swap colors — one Ice White with display type/imagery, one Cobalt Voltage with body — alternating which side is which down the page",
+          "Single-weight neo-grotesque type at enormous scale (up to 85px) at weight 400 only — no bold, no light, no italic; size and the blue/white contrast create all hierarchy",
+          "The arrow-prefixed (→) text navigation button as the signature affordance for all clickable text, rendered at 42px with no border or fill",
+          "Clusters of 3D-rendered emoji-face spheres in cobalt and ice tones filling every empty light panel — the marbles ARE the social proof and personality",
+          "1px inset borders (Cobalt Voltage or Ice White) as the universal depth indicator — pill radii (50–72px) sit next to sharp 16px cards, and no drop shadows exist anywhere"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "bold",
+          "playful",
+          "chromatic",
+          "futuristic"
+        ],
+        "tone": [
+          "confident",
+          "playful",
+          "energetic"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "dark",
+        "best_for": "Product/community launch pages and educational-brand sites (a creative school, cohort, or app) that want a bold binary statement — full-bleed cobalt-and-ice split panels swapping sides, one weight-400 neo-grotesque voice at 42–85px, arrow-prefixed navigation, and 3D emoji marbles as personality.",
+        "avoid_for": "Data-dense SaaS dashboards, consumer retail, formal corporate sites, or any context needing quiet restraint or multi-color illustration — the full-bleed cobalt-and-ice split, single-weight 400 type, and emoji-marble texture are a bold declarative voice that overwhelms informational density."
+      },
+      "source": {
+        "leading_body": 1.33,
+        "path": "refero-styles/SuperHi Plus/",
+        "radius": "16px cards/buttons, 50px tags/nav buttons, 72px pill buttons, 2px inputs",
+        "shadow": "no drop shadows — depth is 1px inset borders only: rgb(0,51,229) 0px 0px 0px 1px inset / rgb(240,247,255) 0px 0px 0px 1px inset",
+        "theme": "dark"
+      },
+      "tagline": "Cobalt blueprint scattered with emoji marbles. The page lives half in electric blue, half in ice white, swapping sides as you scroll."
+    },
+    "superr": {
+      "slug": "superr",
+      "name": "Superr",
+      "value_layer": {
+        "palette": {
+          "cream-paper": "#fdfbf9",
+          "charcoal": "#171717",
+          "cocoa-ink": "#2b1a07",
+          "true-black": "#000000",
+          "dew-drop": "#f7efe9",
+          "marker-orange": "#ff6f1e",
+          "burnt-sienna": "#ce500a",
+          "sky-sticker": "#3b82f6",
+          "bubblegum-sticker": "#ff66cf",
+          "sprout-sticker": "#22c55e",
+          "shadow-mist": "#bebcbb"
+        },
+        "fonts": {
+          "gelica": "gelica",
+          "geist": "Geist"
+        },
+        "radii": {
+          "sm": "2px",
+          "lg": "8px",
+          "xl": "12px",
+          "2xl": "16px",
+          "2xl-2": "20px",
+          "full": "56px"
+        },
+        "spacing": {
+          "4": "4px",
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "24": "24px",
+          "28": "28px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "64": "64px",
+          "116": "116px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "canvas": "#fdfbf9",
+          "surface-tint": "#f7efe9",
+          "brand-band": "#ff6f1"
+        },
+        "shadows": {
+          "lg": "rgba(0, 0, 0, 0.06) 0px 2px 20px 0px",
+          "subtle": "rgba(0, 0, 0, 0.25) 0px 1px 2px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A warm cream-paper canvas (#fdfbf9) with a slightly warmer Dew Drop tint (#f7efe9) replaces pure white entirely; Charcoal (#171717) is the only ink — borders, button strokes, and structural edges; Cocoa Ink (#2b1a07) warms up headlines like notebook leather; a single Marker Orange (#ff6f1e) is the accent for handwritten captions, marker highlights, and the footer brand band; Sky/Bubblegum/Sprout sticker hues are decoration only, never functional UI; shadows stay whisper-light.",
+        "typographic_voice": "One custom rounded soft sans (gelica, subst. Recoleta/Fraunces/DM Serif Display) carries all display, heading, and body text — lowercase is the default, speaking quietly through size and weight (400/500/600) with normal letter-spacing; Geist (subst. Inter/Söhne) appears sparingly for nav and fine-print captions to cut the warmth; never capitalize headlines, never apply letter-spacing, and never let Geist own display sizes.",
+        "signature_moves": [
+          "The 104px lowercase gelica weight-600 display headline at line-height 1.08 — a tactile object rather than a title, always left-aligned and never center-aligned after the first line",
+          "Handwritten Marker Orange captions (gelica 20–24px, weight 400) paired with thin hand-drawn Charcoal SVG arrows pointing at the photographed product object",
+          "Photographed leather-bound notebooks as the hero product asset, tilted 5–8° off-axis with a white name-label sticker (Name / Class / Roll no.) on the cover",
+          "Flat sticker illustrations (lightning, bear, heart, ghost) with 2px dark outlines placed at random 5–15° rotations — treated as physical peel-and-stick, never grid-aligned",
+          "The outlined pill button — cream fill with a 1.5px Charcoal border, no fill state; the identity is the dark border, not the background"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "warm",
+          "playful",
+          "organic",
+          "retro"
+        ],
+        "tone": [
+          "playful",
+          "friendly",
+          "quirky"
+        ],
+        "formality": "low",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Consumer product launches and playful D2C brands (notebooks, stationery, lifestyle goods) that want a warm schoolyard feel — cream-paper canvas, hand-marker orange annotations, photographed product objects, chunky lowercase display type, and sticker illustrations scattered like physical peel-and-stick.",
+        "avoid_for": "Enterprise SaaS dashboards, dark-mode products, formal corporate reports, or any context needing neutral data-density or a screen-white canvas — the cream-paper, marker-orange, sticker-and-notebook vocabulary is a warm, tactile, slightly mischievous register that fights neutral professionalism."
+      },
+      "source": {
+        "leading_body": 1.5,
+        "path": "refero-styles/Superr/",
+        "radius": "20px buttons/tags, 12px cards, 8px inputs, 56px footer asymmetric top edge",
+        "shadow": "whisper-light: cards rgba(0,0,0,0.06) 0px 2px 20px 0px, buttons rgba(0,0,0,0.25) 0px 1px 2px 0px",
+        "theme": "light"
+      },
+      "tagline": "Warm schoolyard notebook in soft afternoon light. A cream page, an orange marker uncapped, and a stack of sticker-laminated name labels waiting to be peeled."
+    },
+    "syllabus": {
+      "slug": "syllabus",
+      "name": "Syllabus",
+      "value_layer": {
+        "palette": {
+          "ink-violet": "#0d0129",
+          "butter-yellow": "#fae59b",
+          "deep-teal": "#19615c",
+          "cream-paper": "#fffcf7",
+          "pure-white": "#ffffff",
+          "shadow-black": "#000000"
+        },
+        "fonts": {
+          "roobert": "Roobert",
+          "supply": "Supply"
+        },
+        "spacing": {
+          "16": "16px",
+          "24": "24px",
+          "40": "40px",
+          "64": "64px",
+          "80": "80px",
+          "104": "104px",
+          "120": "120px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "cream-canvas": "#fffcf7",
+          "white-card": "#ffffff",
+          "teal-block": "#19615c"
+        },
+        "shadows": {
+          "subtle": "rgb(0, 0, 0) 1px 1px 3px 0px"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A warm cream paper (#fffcf7) is the canvas and default card surface — never pure white; Ink Violet (#0d0129) is the near-black structural color for text, 1px outlines, and the solid nav CTA; Butter Yellow (#fae59b) is the single raised voice, reserved for the hard-shadow in-page CTA and small decorative dots, never as a large wash; Deep Teal (#19615c) provides full-bleed dark section bands; Shadow Black exists only as the 1–3px offset shadow behind yellow buttons and line-art fills. No gradients, no soft shadows.",
+        "typographic_voice": "One custom geometric sans (Roobert, subst. Inter/Söhne/General Sans) is the sole typeface — weight 700 for display headlines and button labels, weight 400 for body, nav, and subheadings; hierarchy is carried by wide 16–64px scale jumps with normal tracking rather than letter-spacing or intermediate weights; a mono-adjacent Supply (subst. JetBrains Mono) is a sparing 20px accent for illustration-adjacent paragraphs; no serif, no additional families, no sizes outside the narrow scale.",
+        "signature_moves": [
+          "The Butter Yellow CTA with a hard-offset black shadow (1px 1px 3px #000000) and 1px Ink Violet border — every action becomes a physical, pressable sticker against the cream",
+          "Sharp 0px corners everywhere — buttons, cards, tags, and inputs are all square; the only shadow in the system is the hard yellow-button offset",
+          "The strict Roobert 700/400 weight pair at wide size jumps (16→20→24→40→48→56→64px) — hierarchy comes from scale jumps, never interpolated sizes or tracking",
+          "1px Ink Violet borders outline cream/white cards and illustration containers like a print frame — the primary structural device",
+          "Flat line-art illustrations with selective yellow/teal fills that break past container edges in an 'isometric explosion' pattern — schematic wireframes, never photography"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "minimal",
+          "warm",
+          "quiet"
+        ],
+        "tone": [
+          "confident",
+          "calm",
+          "refined"
+        ],
+        "formality": "medium",
+        "density": "spacious",
+        "scheme": "light",
+        "best_for": "Editorial-tech product landing pages (premium SaaS, waitlists, developer-adjacent launches) that want a print-magazine feel — warm cream paper canvas, near-black violet ink, oversized geometric headlines, sharp 0px corners, one buttery-yellow hard-shadow CTA, and flat line-art illustrations.",
+        "avoid_for": "Dark-mode products, dense operational dashboards, consumer retail with heavy photography, or any context needing soft rounded corners or screen-white purity — the sharp-cornered 0px-radius geometry, cream canvas, and hard-offset sticker CTA are a distinctive premium print-magazine voice that resists neutral SaaS conventions."
+      },
+      "source": {
+        "leading_body": 1.6,
+        "path": "refero-styles/Syllabus/",
+        "radius": "0px everywhere (tags, cards, inputs, buttons) — sharp-cornered system",
+        "shadow": "single hard offset on yellow CTA only: rgb(0,0,0) 1px 1px 3px 0px",
+        "theme": "light"
+      },
+      "tagline": "cream-paper magazine meets geometric sans-serif. Warm off-white surfaces, near-black violet ink, and one buttery yellow accent that functions as the page's only raised voice — like a sticky note pressed onto fine stationery."
+    },
+    "ventriloc": {
+      "slug": "ventriloc",
+      "name": "Ventriloc",
+      "value_layer": {
+        "palette": {
+          "graphite": "#202020",
+          "canvas-white": "#ffffff",
+          "ash": "#efefef",
+          "fog": "#f5f5f5",
+          "ivory": "#ebe6dd",
+          "steel": "#4d4d4d",
+          "slate": "#828282",
+          "mist": "#e8e8e8",
+          "ember-orange": "#ff682c",
+          "brass": "#816729"
+        },
+        "fonts": {
+          "polysans": "PolySans",
+          "inter": "Inter"
+        },
+        "radii": {
+          "sm": "3px",
+          "lg": "8px",
+          "xl": "12px",
+          "2xl": "20px",
+          "full": "200px"
+        },
+        "spacing": {
+          "8": "8px",
+          "12": "12px",
+          "16": "16px",
+          "20": "20px",
+          "36": "36px",
+          "40": "40px",
+          "60": "60px",
+          "140": "140px",
+          "unit": "4px"
+        },
+        "surfaces": {
+          "page-canvas": "#ffffff",
+          "ash-surface": "#efefef",
+          "fog-surface": "#f5f5f5",
+          "ivory-surface": "#ebe6dd"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A warm paper-white canvas (#ffffff) with warm-gray surfaces (Ash #efefef, Fog #f5f5f5, Ivory #ebe6dd) — warm grays and ivory instead of cool tech-blue; Graphite (#202020) anchors all text and the dark filled CTA; a single Ember Orange (#ff682c) punctuates the monochrome like a highlighter on a printed report — used only for link underlines, chart highlights, and small icon accents, never as a CTA fill; Brass (#816729) adds a muted warm counterpoint for chart strokes and tags. Pages stay 95% achromatic.",
+        "typographic_voice": "A two-face system where PolySans (subst. Inter Tight/Space Grotesk) is the voice and Inter is the grammar: PolySans at weight 400 only (never 500/600) with -0.02em tracking across headings, nav items, and button labels, with the 66px display at 0.91 leading; Inter handles all body copy, captions, and metadata at 400–600; line-height never exceeds 1.25 on display headings; the tight letter-spacing compensates for the light weight at large sizes, keeping headlines precise and architectural.",
+        "signature_moves": [
+          "The asymmetric border-radius 6px 0px 0px on featured cards — a single cut corner that signals editorial layout instead of a standard card grid, paired with 0px-radius buttons and 200px-radius nav pills (a three-radius system: sharp → asymmetric → fully round)",
+          "PolySans at weight 400 with -0.02em tracking for every heading, nav item, and button label — whisper-weight editorial authority that no bold headline could replicate",
+          "The 66px display headline at line-height 0.91 with -1.32px tracking — a tight, poster-like typographic statement on white canvas",
+          "Dark Graphite-filled sharp-cornered CTA button (0px radius) contrasted against the soft rounded card system",
+          "Data dashboard cards (line charts, stat rings, revenue widgets) in Ember Orange and Brass strokes floating on warm-gray surfaces — the charts ARE the imagery, no shadows, alternating white/ash bands instead of dividers"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "quiet",
+          "minimal",
+          "technical"
+        ],
+        "tone": [
+          "calm",
+          "confident",
+          "authoritative"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "light",
+        "best_for": "Data-product and analytics SaaS landing pages (observability, finance dashboards, B2B data platforms) that want an editorial observatory feel — warm paper-white canvas, monospaced-precision data cards, a single orange ember as highlight, weight-400 PolySans headlines, and chart widgets as the imagery.",
+        "avoid_for": "Consumer retail, playful multi-color brands, loud startup launches, or any context needing bold or emotional typography — the whisper-weight PolySans, 95% achromatic restraint, asymmetric cut-corner cards, and generous whitespace are a quiet editorial voice that reads like a printed annual report, not a hype page."
+      },
+      "source": {
+        "leading_body": 1.33,
+        "leading_note": "fallback, no --leading-body token in variables.css (scale only has caption/subheading/heading/display); DESIGN.md describes 16px PolySans/1.0 for buttons and body in Inter 1.15–1.50; tokens.json base body step is Inter 15px at 1.33",
+        "path": "refero-styles/Ventriloc/",
+        "radius": "asymmetric-card 6px 0px 0px, cards 8px, data-widgets 20px, buttons 0px, nav-pills 200px, tags 20px",
+        "shadow": "none — depth comes from surface-color contrast (white/ash alternation), no box-shadows on cards or buttons",
+        "theme": "light"
+      },
+      "tagline": "Editorial data observatory on warm paper — a single orange ember punctuating monochrome precision."
+    },
+    "wispr-flow": {
+      "slug": "wispr-flow",
+      "name": "Wispr Flow",
+      "value_layer": {
+        "palette": {
+          "lavender-whisper": "#f0d7ff",
+          "forest-ink": "#034f46",
+          "ember-glow": "#ffa946",
+          "vast-ink": "#1a1a1a",
+          "lumen-cream": "#ffffeb",
+          "lumen-stone": "#e4e4d0",
+          "fog": "#8a8a80",
+          "charcoal": "#222222",
+          "pure-white": "#ffffff"
+        },
+        "fonts": {
+          "eb-garamond": "Eb Garamond",
+          "figtree": "Figtree"
+        },
+        "radii": {
+          "lg": "8px",
+          "xl": "14px",
+          "3xl": "32px",
+          "3xl-2": "40px",
+          "full": "64px",
+          "full-2": "80px",
+          "full-3": "992px",
+          "full-4": "1000px",
+          "full-5": "1600px",
+          "full-6": "9999px"
+        },
+        "spacing": {
+          "8": "8px",
+          "16": "16px",
+          "24": "24px",
+          "32": "32px",
+          "40": "40px",
+          "48": "48px",
+          "56": "56px",
+          "64": "64px",
+          "80": "80px",
+          "96": "96px",
+          "104": "104px",
+          "128": "128px",
+          "168": "168px",
+          "unit": "8px"
+        },
+        "surfaces": {
+          "cream-canvas": "#ffffeb",
+          "dark-chamber": "#1a1a1a",
+          "lavender-accent": "#f0d7ff",
+          "forest-panel": "#034f46"
+        }
+      },
+      "style_read": {
+        "palette_voice": "A disciplined four-color palette: warm Lumen Cream (#ffffeb) as the dominant canvas and light text, Vast Ink (#1a1a1a) as the near-black dark chambers and 2px borders, Lavender Whisper (#f0d7ff) for the primary CTA and accent surfaces, and Forest Ink (#034f46) teal for badges and secondary buttons on dark; Ember Glow orange (#ffa946) punctuates only active/live states. No gradients, no drop shadows — flat fills, 2px ink borders, and fill alternation (cream → dark → cream) do all the separation.",
+        "typographic_voice": "A two-face system: EB Garamond (subst. Cormorant Garamond/Playfair) is the classical serif at weight 400 only, used at massive display sizes (32–120px) where scale commands and 0.85–0.95 line-height tightens lines into a single horizontal gesture; Figtree (subst. Inter/Plus Jakarta Sans/Manrope) is the geometric sans for all body, nav, buttons, and badges at weight 400 default with 500–700 for emphasis and a steady 1.3 line-height; never bold the serif display, never center body text, never use border-radius below 12px on buttons or 32px on cards.",
+        "signature_moves": [
+          "Cream and dark 'velvet chamber' sections alternating page-wide, each dark chamber bookended by cream, with oversized 40–80px border radii that make sections feel like rounded inset pebbles rather than elevated overlays",
+          "EB Garamond weight-400 display serif at 48–120px with 0.85–0.95 line-height — authority through sheer scale and tight leading, never bold; negative tracking (-3.6px at 120px)",
+          "The 2px solid Vast Ink border on every interactive element — the thick border is the signature, non-negotiable on the lavender CTA",
+          "Lavender Whisper (#f0d7ff) as the sole primary action color, echoed by hand-drawn lavender SVG squiggle underlines beneath 1–2 words in headlines to link emphasis and action",
+          "The waveform visualizer pill — cream pill with 2px ink border and 5–7 pulsing vertical bars — doubling as audio indicator and decorative rhythm marker; plus flat phone mockups and curved text arcs as the only graphics"
+        ]
+      },
+      "selection": {
+        "mood": [
+          "editorial",
+          "warm",
+          "quiet",
+          "minimal"
+        ],
+        "tone": [
+          "calm",
+          "confident",
+          "premium"
+        ],
+        "formality": "medium",
+        "density": "comfortable",
+        "scheme": "mixed",
+        "best_for": "AI / productivity / speech-to-text software landing pages (dictation, writing tools, typing apps) that want an editorial broadsheet feel — cream and dark-velvet chambers, weight-400 EB Garamond display at 48–120px, oversized rounded corners, a soft lavender CTA, and waveform visualizers as signature graphics.",
+        "avoid_for": "Dense operational dashboards, formal corporate sites, consumer retail with heavy photography, or any context needing sharp corners or screen-pure white — the cream broadsheet, 2px ink borders, oversized rounded chambers, and lavender CTA are a warm editorial voice that reads like a printed magazine rebuilt for software, not a neutral B2B page."
+      },
+      "source": {
+        "leading_body": 1.3,
+        "path": "refero-styles/Wispr Flow/",
+        "radius": "32px cards, 12px buttons/inputs, 9999px badges/nav pill, 40–80px dark section chambers",
+        "shadow": "none — deliberately shadowless, border-driven; no box-shadows, elevation is fill alternation + oversized radii",
+        "theme": "mixed"
+      },
+      "tagline": "cream broadsheet, dark velvet chambers"
+    }
+  }
+}

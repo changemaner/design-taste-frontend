@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Data-dense dashboards, formal enterprise or luxury brand decks, text-heavy long-form editorial, or anything needing cool-tone restraint — the 189px type and single-orange palette overwhelm quiet or informational contexts.",
+  "best_for": "Crypto / web3 / protocol ecosystem landing pages and feature announcements that want volcanic urgency with warm credibility — ultrabold condensed type, flat warm surfaces, and one dominant orange, Berachain/Monad territory.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "industrial",
+    "bold",
+    "warm"
+  ],
+  "name": "Caldera",
+  "palette_voice": "Warm limestone canvas: Pumice (#e2e2df) page ground, Limestone (#f7f6f2) cards, Obsidian (#070607) near-black text, with a single aggressive chromatic accent Ember (#fc5000) carrying CTAs and stat cards; Plasma Violet (#524ae9) is reserved for the hero halftone and one accent card, Sulfur (#f5f28e) only for tags — Chalk white for dark sections; three chromatic tones max, deliberately shadowless, hierarchy via warm-gray tonal contrast, never elevation.",
+  "scheme": "light",
+  "signature_moves": [
+    "Triple-radius system — 100px inputs / 40px cards & rectangular buttons / 800px full pills — the consistent roundness that defines every control",
+    "189px ultrabold compressed display headline at 0.94 line-height — sign-painted, near-architectural scale as the page signature",
+    "Hero halftone dot pattern — orange dots on a violet-to-orange gradient, always at hero scale with 40px radius, the most recognizable motif",
+    "Filled Ember (#fc5000) pill CTA with Obsidian text, never rectangular — the sole aggressive chromatic action",
+    "Dotted 1.5px Obsidian dividers (not dashed, not solid) as a small consistent signature detail in nav and partner strips"
+  ],
+  "slug": "caldera",
+  "source": {
+    "leading_body": 1.55,
+    "path": "refero-styles/Caldera/",
+    "radius": "40px cards & buttons / 100px inputs / 800px pills",
+    "shadow": "none — deliberately shadowless, hierarchy via warm-gray contrast and 40px radii",
+    "theme": "light"
+  },
+  "tagline": "forge fire on warm limestone. The canvas is raw warm plaster, and every orange element reads as glowing embers pressed into the surface.",
+  "tone": [
+    "confident",
+    "energetic",
+    "authoritative"
+  ],
+  "typographic_voice": "Ultrabold condensed display (PP Neue Corp Compact, subst. Bebas Neue/Anton) at 80-189px with positive +0.02em tracking carries all structural weight, while DM Sans at weight 500 only handles body, nav, and labels (never Regular, never Bold); system sans at 12px for captions; the 189px architectural display with tight 0.94 leading is the signature — no negative tracking, no thin or decorative faces."
+}

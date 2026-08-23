@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Consumer lifestyle brands, gentle/friendly product pages, dense data dashboards, or any context needing rounded softness or photographic warmth — the aggressive sub-1.0 condensed display, full-bleed electric indigo, and 5px-sharp blueprint geometry dominate everything they touch.",
+  "best_for": "Confident tech/engineering-adjacent agency or B2B service pages (a medical-marketing agency pitched as engineering), launch sites that want a loud blueprint statement — full-bleed indigo hero, aggressive condensed headline, orange CTA, sketch illustration, numbered section markers.",
+  "density": "spacious",
+  "formality": "medium",
+  "mood": [
+    "bold",
+    "technical",
+    "retro",
+    "playful"
+  ],
+  "name": "Patch",
+  "palette_voice": "A loud electric indigo (#1f00ff) is the dominant chromatic — full-bleed hero and section fields, heading text, and every structural border; stark white cards carry content; a single warm Patch Orange (#ff622b) is the only filled CTA color, reserved exclusively for conversion moments; a 4-step grayscale (fog/bone/mist/gridline/ink) builds neutral surfaces. No shadows — 1px borders carry all structure; no gradients, no extra hues.",
+  "scheme": "light",
+  "signature_moves": [
+    "Full-bleed electric-indigo (#1f00ff) hero and alternating indigo/white section bands — the page is built on the blue/white duopoly",
+    "PP Right weight 800 condensed display with sub-1.0 line heights (0.85–0.94), stacking headlines like concrete blocks — never below 21px",
+    "The single filled orange (#ff622b) CTA button (5px radius, no shadow) as the only chromatic conversion surface; everything else outlined or text",
+    "Two-digit square corner markers (01, 02, 03…) in bordered boxes anchoring every section like a blueprint grid",
+    "Hand-drawn black-line sketch illustrations (people, objects) centered inside white 1px-indigo-bordered cards, softening the aggressive type"
+  ],
+  "slug": "patch",
+  "source": {
+    "leading_body": 1.4,
+    "path": "refero-styles/Patch/",
+    "radius": "5px everywhere (cards, buttons, inputs, nav tabs) — sharp blueprint geometry, no larger radii",
+    "shadow": "none — borders carry all structural weight, no drop shadows",
+    "theme": "light"
+  },
+  "tagline": "electric blueprint on drafting paper",
+  "tone": [
+    "confident",
+    "playful",
+    "energetic"
+  ],
+  "typographic_voice": "A two-voice clash: PP Right (subst. Bebas Neue/Anton) at weight 800 in uppercase with sub-1.0 line heights and moderate tracking is the only display face, reading as aggressive architecture rather than friendly prose; Archivo (subst. Inter/DM Sans) stays quiet and functional at 300/400/600 — weight 300 secondary, 400 body, 600 uppercase labels and buttons; never use light 100–200 weights, never set PP Right below 21px, no serif, no italic."
+}

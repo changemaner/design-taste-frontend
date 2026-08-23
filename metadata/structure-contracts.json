@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "middle_slides": {
+    "from": 2,
+    "to": 6,
+    "note": "0-based slide indexes; exclude cover (0), agenda/intro (1) and closing (7) from the convergence gate."
+  },
+  "generic_tokens": [
+    "slide",
+    "frame",
+    "reveal",
+    "wordmark",
+    "tag",
+    "body",
+    "body-muted",
+    "body-cream",
+    "body-on-color",
+    "h-title",
+    "h-heading",
+    "h-sm",
+    "d1",
+    "d2",
+    "d3",
+    "d4",
+    "card",
+    "card-body",
+    "card-title",
+    "card-kicker",
+    "card-num",
+    "quote-by",
+    "quote-text",
+    "stat-label",
+    "stat-num",
+    "stat-num-sm",
+    "nav-pill",
+    "nav-bar",
+    "tag-pill",
+    "logo"
+  ],
+  "families": {
+    "data": {
+      "label": "数据",
+      "expression": "真正的数据卡或图表",
+      "signals": [
+        "data-card",
+        "chart-*",
+        "tbl",
+        "table-rows",
+        "metric",
+        "kpi",
+        "spark-*",
+        "graph-*",
+        "plot-*",
+        "waveform",
+        "pipeline",
+        "result-*",
+        "results"
+      ]
+    },
+    "newspaper": {
+      "label": "报纸",
+      "expression": "多栏排版",
+      "signals": [
+        "agenda-*",
+        "release-card",
+        "three-cards",
+        "paper-card",
+        "ink-card",
+        "journal-card",
+        "read-*",
+        "press-card",
+        "proc-*",
+        "column",
+        "columns",
+        "broadsheet",
+        "masthead"
+      ]
+    },
+    "illustration": {
+      "label": "插画",
+      "expression": "整幅插画 + 旁注",
+      "signals": [
+        "hero-art",
+        "art-*",
+        "product-art",
+        "botanical",
+        "sketch",
+        "glyph",
+        "mascot",
+        "crayon-*",
+        "molten",
+        "marble",
+        "illustration",
+        "illustration-*"
+      ]
+    },
+    "product": {
+      "label": "产品",
+      "expression": "产品实体 / UI artifact",
+      "signals": [
+        "artifact",
+        "console",
+        "commandbar",
+        "window",
+        "product-card",
+        "product-art",
+        "specimen",
+        "desk-card",
+        "obj-*",
+        "pebble-card",
+        "plan-card",
+        "sharp-card",
+        "split",
+        "device",
+        "screen",
+        "mockup"
+      ]
+    },
+    "playful": {
+      "label": "活泼",
+      "expression": "贴纸、注释、手写箭头",
+      "signals": [
+        "sticker",
+        "chip-*",
+        "confetti",
+        "checker-*",
+        "pixel-*",
+        "sketch",
+        "crayon-*",
+        "tilt-*",
+        "tag-*",
+        "badge",
+        "emoji",
+        "marble",
+        "note-card",
+        "doodle",
+        "zigzag-*"
+      ]
+    },
+    "industrial": {
+      "label": "工业",
+      "expression": "编号、规格表、工程标注",
+      "signals": [
+        "blueprint-*",
+        "spec",
+        "specification",
+        "panel-num",
+        "card-num",
+        "a-num",
+        "r-num",
+        "obj-num",
+        "proc-num",
+        "read-index",
+        "serial",
+        "dimension",
+        "measure",
+        "callout",
+        "engineering",
+        "protocol",
+        "register"
+      ]
+    }
+  },
+  "styles": {
+    "air": {
+      "family": "product",
+      "allowed": ["product", "illustration"],
+      "signals": ["haze-card", "glass"],
+      "min_distinct_signals": 2
+    },
+    "anthropic": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "data"],
+      "signals": ["table-rows", "release-card", "card-hero", "three-cards"],
+      "min_distinct_signals": 2
+    },
+    "caldera": {
+      "family": "industrial",
+      "allowed": ["industrial", "product"],
+      "signals": ["card-ember", "halftone-*"],
+      "min_distinct_signals": 2
+    },
+    "composer": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "playful", "data"],
+      "signals": ["confetti", "card"],
+      "min_distinct_signals": 1
+    },
+    "discover": {
+      "family": "product",
+      "allowed": ["product", "newspaper"],
+      "signals": ["specimen", "chip-coral"],
+      "min_distinct_signals": 2
+    },
+    "flying-papers": {
+      "family": "playful",
+      "allowed": ["playful", "illustration"],
+      "signals": ["attr-row", "method-note", "step"],
+      "min_distinct_signals": 2
+    },
+    "frankys": {
+      "family": "playful",
+      "allowed": ["playful", "product"],
+      "signals": ["pixel-card", "product-card", "product-art", "pixel-table"],
+      "min_distinct_signals": 2
+    },
+    "general-intelligence-company": {
+      "family": "illustration",
+      "allowed": ["illustration", "newspaper"],
+      "signals": ["paper-card", "read-row", "read-note", "cerulean-card"],
+      "min_distinct_signals": 2
+    },
+    "good-glyphs": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "illustration"],
+      "signals": ["glyph", "poster-card"],
+      "min_distinct_signals": 2
+    },
+    "henry": {
+      "family": "newspaper",
+      "allowed": ["newspaper"],
+      "signals": ["ink-card", "paper-card", "h-display"],
+      "min_distinct_signals": 2
+    },
+    "huddle": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "product"],
+      "signals": ["tile", "status"],
+      "min_distinct_signals": 2
+    },
+    "hyer-aviation": {
+      "family": "industrial",
+      "allowed": ["industrial", "product", "newspaper"],
+      "signals": ["clay-panel", "dark-panel", "panel-num"],
+      "min_distinct_signals": 2
+    },
+    "ikea": {
+      "family": "product",
+      "allowed": ["product", "data"],
+      "signals": ["plan-card", "card-line", "cta-card"],
+      "min_distinct_signals": 2
+    },
+    "lamanna": {
+      "family": "playful",
+      "allowed": ["playful", "illustration"],
+      "signals": ["band-*", "zigzag-*"],
+      "min_distinct_signals": 2
+    },
+    "leandra-isler": {
+      "family": "illustration",
+      "allowed": ["illustration", "newspaper"],
+      "signals": ["botanical", "press-card", "proc-*"],
+      "min_distinct_signals": 2
+    },
+    "lpalo": {
+      "family": "playful",
+      "allowed": ["playful", "illustration"],
+      "signals": ["crayon-card", "cc-*", "tilt-*"],
+      "min_distinct_signals": 2
+    },
+    "mercury": {
+      "family": "product",
+      "allowed": ["product", "data"],
+      "signals": ["vault-row", "alpine-card", "v-note", "v-num"],
+      "min_distinct_signals": 2
+    },
+    "monad": {
+      "family": "data",
+      "allowed": ["data", "newspaper", "industrial"],
+      "signals": ["journal-card", "read-row", "r-note", "r-num"],
+      "min_distinct_signals": 2
+    },
+    "monopo-saigon": {
+      "family": "illustration",
+      "allowed": ["illustration", "newspaper"],
+      "signals": ["gallery-row", "g-note", "molten"],
+      "min_distinct_signals": 2
+    },
+    "motherduck": {
+      "family": "product",
+      "allowed": ["product", "playful", "data"],
+      "signals": ["console", "msg-ai", "chip-*"],
+      "min_distinct_signals": 2
+    },
+    "oryzo-ai": {
+      "family": "product",
+      "allowed": ["product", "illustration"],
+      "signals": ["obj-panel", "obj-body", "obj-num"],
+      "min_distinct_signals": 2
+    },
+    "patch": {
+      "family": "industrial",
+      "allowed": ["industrial", "illustration", "playful"],
+      "signals": ["blueprint-grid", "blue-card", "sketch"],
+      "min_distinct_signals": 2
+    },
+    "raycast": {
+      "family": "product",
+      "allowed": ["product", "data", "industrial"],
+      "signals": ["commandbar", "results", "window", "ai-row", "step-row"],
+      "min_distinct_signals": 2
+    },
+    "seline-analytics": {
+      "family": "data",
+      "allowed": ["data", "product"],
+      "signals": ["desk-card", "mascot"],
+      "min_distinct_signals": 2
+    },
+    "steep": {
+      "family": "data",
+      "allowed": ["data", "product"],
+      "signals": ["artifact", "chart-line", "tbl", "card-peach"],
+      "min_distinct_signals": 2
+    },
+    "superhi-plus": {
+      "family": "playful",
+      "allowed": ["playful", "illustration", "product"],
+      "signals": ["split", "half-*", "marble"],
+      "min_distinct_signals": 2
+    },
+    "superr": {
+      "family": "playful",
+      "allowed": ["playful", "product", "illustration"],
+      "signals": ["note-card", "sticker"],
+      "min_distinct_signals": 2
+    },
+    "syllabus": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "illustration"],
+      "signals": ["block-*", "wm-issue"],
+      "min_distinct_signals": 2
+    },
+    "ventriloc": {
+      "family": "data",
+      "allowed": ["data", "newspaper"],
+      "signals": ["data-card", "card-num", "wm-dot"],
+      "min_distinct_signals": 2
+    },
+    "wispr-flow": {
+      "family": "newspaper",
+      "allowed": ["newspaper", "data", "product"],
+      "signals": ["pebble-card", "tag-dark"],
+      "min_distinct_signals": 2
+    }
+  }
+}

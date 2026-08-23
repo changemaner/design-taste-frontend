@@ -1,0 +1,38 @@
+{
+  "avoid_for": "Light-mode SaaS or e-commerce, data-dense interfaces, playful multi-color brands, and any context needing lowercase headings, pure white text, or multiple filled CTAs — the museum-label uppercase voice and warm darkness only work with restraint and full-viewport sections.",
+  "best_for": "Premium hardware and single-product brand sites, studio portfolio reveals, and cinematic product launches that want a museum-artifact atmosphere — one object floating in warm darkness with cream typography as the only decoration.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "luxurious",
+    "minimal",
+    "futuristic",
+    "quiet"
+  ],
+  "name": "ORYZO AI",
+  "palette_voice": "Warm Walnut Shadow (#100904) canvas — a near-black that is never pure black — with Warm Cream (#ffedd7) text that is never pure white; Bark Brown (#382416) is the one elevated solid and filled button surface; Cork Border (#40372e) hairlines and dashed dividers mark structure; a single vivid Ember (#dc5000) orange appears only for credit lines and the studio link, never on buttons — rarity is the signal; Brand Gold (#ffbf02) is reserved for the ORYZO logo mark; the top-down hero photograph contributes the Cutting Mat green (#445231) and Cork Fiber (#b9895b) as hero-only media; no shadows, depth via the two-step surface stack and 3D renders only.",
+  "scheme": "mixed",
+  "signature_moves": [
+    "Green cutting-mat photographic hero (top-down cork coaster on #445231 with white grid, pencils, craft knife, paperclip) — the brand's in-context moment; sections below switch to warm-dark void mode",
+    "Uppercase weight 500 for labels, nav, and display with the sole exception of 29px/400 Literata serif body — the serif mixed-case shift is the signal that you are reading description, not label",
+    "Museum-label typography at line-height 0.9 on 41–51px display sizes — uppercase letterforms overlap their bounds and stack as sculptural solid form",
+    "The DESIGNED BY LUSION attribution card (semi-transparent dark panel, dashed divider, italic serif tagline) and the vertical 'ORYZO 1-MODEL' edge label — physical-product artifacts translated to UI",
+    "Brand Gold (#ffbf02) ORYZO mark on the video thumbnail card and the circular 'SCROLL TO CONTINUE' text badge",
+    "1px dashed hairline dividers in Cork Border as the only structural breaks — always carrying meaning, never decoration"
+  ],
+  "slug": "oryzo-ai",
+  "source": {
+    "leading_body": 1.26,
+    "path": "refero-styles/ORYZO AI/",
+    "radius": "36px filled pill / 22.5px outlined / 12px cards / 0px inputs & links",
+    "shadow": "none — depth via two-step surface stack (#100904 → #382416) and 3D renders",
+    "theme": "dark"
+  },
+  "tagline": "Darkroom product editorial. A lone object floating in warm darkness, cream typography the only decoration.",
+  "tone": [
+    "premium",
+    "confident",
+    "refined"
+  ],
+  "typographic_voice": "Two faces, two registers: Halyard Display Variable (subst. Inter/Söhne) carries every label, nav item, and display headline at uppercase weight 500 from 8px micro-legal to 51px display at tight 0.9 leading — the declarative museum-label voice; Literata (serif, subst. 'Source Serif 4'/'Lora') carries the only conversational voice at 29px/400 mixed-case with 1.26 leading, and the italic serif runs inside the LUSION attribution card; letter-spacing stays normal at every scale — the font's geometry does the work without compression; no lower-case headings, no serif headlines."
+}

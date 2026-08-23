@@ -1,0 +1,38 @@
+{
+  "avoid_for": "Corporate and financial contexts, calm minimal or premium brands, readable long-form editorial, and any interface needing restrained palettes or quiet UX — the screaming orange canvas and solid-block type overwhelm informational content.",
+  "best_for": "Maximalist food and bakery brands, playful local-business landing pages, and loud promotional campaigns that want full-bleed chromatic energy — orange-and-yellow color bands, starburst badges, and circus-tent decoration as the brand.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "chromatic",
+    "bold",
+    "playful",
+    "retro"
+  ],
+  "name": "Lamanna",
+  "palette_voice": "Saturated Anger Orange (#ff4100) is the primary full-bleed canvas and section fill with Sun Yellow (#ffc700) display type and starburst badges on top; Blush Peach (#fdbeba) and Cream (#fee3c1) are calmer secondary bands that break the orange dominance; Royal Blue (#1573dd) appears only as a 1–2px outlined stroke on links and icons; Charcoal (#292a2c)/Obsidian (#000000) for text — flat saturated color bands, hard chromatic transitions instead of whitespace, zero blur.",
+  "scheme": "light",
+  "signature_moves": [
+    "Full-bleed color bands with hard chromatic transitions (orange → blush → yellow) as section dividers — no max-width container, no card padding, every element touches the viewport edge",
+    "Right Grotesk Spatial display at line-height 0.89 so headlines stack into dense solid slabs rather than airy type",
+    "3D drop-shadow headlines — a solid #ff4100 offset on #ffc700 text, no blur, built-in dimensional depth",
+    "Sun-yellow starburst product badges instead of rectangular cards — no shadows, just geometric sun shapes",
+    "Zigzag SVGs, pointing hands, and royal-blue outlined links as decorative punctuation; 0px radius everywhere"
+  ],
+  "slug": "lamanna",
+  "source": {
+    "leading_body": 1.0,
+    "leading_note": "variables.css 无 --leading-body，仅有 --leading-body-sm: 1（body-sm 18px 行高 1.0）；DESIGN.md 文字另有正文 22px/1.67 角色（无 token），生成时以 1.0 为契约锚点",
+    "path": "refero-styles/Lamanna/",
+    "radius": "0px everywhere",
+    "shadow": "none (no blur) — depth via hard color bands and solid offset type shadows only",
+    "theme": "light"
+  },
+  "tagline": "Neon circus tent on a Naples sidewalk",
+  "tone": [
+    "energetic",
+    "playful",
+    "confident"
+  ],
+  "typographic_voice": "An ultra-wide, compressed-black display face (Right Grotesk Spatial, subst. Bowlby One SC/Tungsten Bold) at 36–54px with near-zero 0.89 leading makes headlines read as solid slabs; extended sans (Nimbus Sans) matches the tight 0.89 leading for body and subheadings, while Open Sans at 22px/1.67 is the quiet voice for longer passages; condensed semibold (Obviously Condensed) for punchy CTA labels."
+}

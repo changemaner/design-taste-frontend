@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Formal enterprise, data-dense dashboards, professional SaaS or B2B software pages, or any context needing credibility or quiet restraint — the oversized display type and flat violet stage overwhelm informational content.",
+  "best_for": "Age-gated creative / editorial microsites, riso-print-style brand statements, and playful anti-corporate campaigns that want to take attention rather than ask for it — one poster per screen, Saturday-morning-cartoon energy.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "playful",
+    "bold",
+    "chromatic",
+    "retro"
+  ],
+  "name": "Flying Papers",
+  "palette_voice": "A flat muted Dusk Violet (#8584bd) is the full-bleed stage for everything; Bone White (#f9f5f2) and Lilac Shadow (#61609a) build nested surfaces, Hi-Vis Yellow (#f4ed36) marks the single most important element, and confetti accents (Bubblegum Pink, Matcha Cream, Magenta Punch, Firecracker Red) are paint — one accent card at a time, never side by side; Ink Black (#1a1a1a) and Pure Black do the typographic work; no shadows, no gradients, color is used as flat paint, never as data.",
+  "scheme": "light",
+  "signature_moves": [
+    "One dominant display headline (184-341px) per screen — every screen reads as a single bold poster with generous breathing room",
+    "Outlined Hi-Vis Yellow action button (2-3px border, 100px pill) as the only action treatment — no filled CTA anywhere",
+    "Cartoon mascot illustration with thick 2-3px black outlines and flat 2-3 color fills, peeking through or standing on the type",
+    "6px sharp card corners vs 100px pill buttons/tags — the signature contrast between sharp blocks and soft pills",
+    "Micro-copy in Bergen Mono at 12px with 0.80 leading — tight mono stack reads like a receipt on cardstock"
+  ],
+  "slug": "flying-papers",
+  "source": {
+    "leading_body": 1.0,
+    "path": "refero-styles/Flying Papers/",
+    "radius": "6px cards / 100px buttons & tags",
+    "shadow": "none — flat risograph, depth via color contrast and stacking order only",
+    "theme": "light"
+  },
+  "tagline": "Saturday morning cartoon confessional",
+  "tone": [
+    "playful",
+    "rebellious",
+    "energetic"
+  ],
+  "typographic_voice": "One loud rounded display family (ObviouslyVariable, subst. Founders Grotesk Condensed/Druk Wide) at 800-900 weight, 184-341px, 0.80-0.85 leading, +0.02em tracking stacks headlines into solid color blocks that eat the viewport; a tiny mono (bergen_mono, subst. JetBrains Mono) at 12px/0.80 leading gives a receipt texture to nav and tags; the only other voices are a 16px bold (DegularDisplay-Bold) for CTAs and 10px neutral UI text — one idea per screen, type carries the message."
+}

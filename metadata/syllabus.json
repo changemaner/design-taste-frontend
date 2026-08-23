@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Dark-mode products, dense operational dashboards, consumer retail with heavy photography, or any context needing soft rounded corners or screen-white purity — the sharp-cornered 0px-radius geometry, cream canvas, and hard-offset sticker CTA are a distinctive premium print-magazine voice that resists neutral SaaS conventions.",
+  "best_for": "Editorial-tech product landing pages (premium SaaS, waitlists, developer-adjacent launches) that want a print-magazine feel — warm cream paper canvas, near-black violet ink, oversized geometric headlines, sharp 0px corners, one buttery-yellow hard-shadow CTA, and flat line-art illustrations.",
+  "density": "spacious",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "minimal",
+    "warm",
+    "quiet"
+  ],
+  "name": "Syllabus",
+  "palette_voice": "A warm cream paper (#fffcf7) is the canvas and default card surface — never pure white; Ink Violet (#0d0129) is the near-black structural color for text, 1px outlines, and the solid nav CTA; Butter Yellow (#fae59b) is the single raised voice, reserved for the hard-shadow in-page CTA and small decorative dots, never as a large wash; Deep Teal (#19615c) provides full-bleed dark section bands; Shadow Black exists only as the 1–3px offset shadow behind yellow buttons and line-art fills. No gradients, no soft shadows.",
+  "scheme": "light",
+  "signature_moves": [
+    "The Butter Yellow CTA with a hard-offset black shadow (1px 1px 3px #000000) and 1px Ink Violet border — every action becomes a physical, pressable sticker against the cream",
+    "Sharp 0px corners everywhere — buttons, cards, tags, and inputs are all square; the only shadow in the system is the hard yellow-button offset",
+    "The strict Roobert 700/400 weight pair at wide size jumps (16→20→24→40→48→56→64px) — hierarchy comes from scale jumps, never interpolated sizes or tracking",
+    "1px Ink Violet borders outline cream/white cards and illustration containers like a print frame — the primary structural device",
+    "Flat line-art illustrations with selective yellow/teal fills that break past container edges in an 'isometric explosion' pattern — schematic wireframes, never photography"
+  ],
+  "slug": "syllabus",
+  "source": {
+    "leading_body": 1.6,
+    "path": "refero-styles/Syllabus/",
+    "radius": "0px everywhere (tags, cards, inputs, buttons) — sharp-cornered system",
+    "shadow": "single hard offset on yellow CTA only: rgb(0,0,0) 1px 1px 3px 0px",
+    "theme": "light"
+  },
+  "tagline": "cream-paper magazine meets geometric sans-serif. Warm off-white surfaces, near-black violet ink, and one buttery yellow accent that functions as the page's only raised voice — like a sticky note pressed onto fine stationery.",
+  "tone": [
+    "confident",
+    "calm",
+    "refined"
+  ],
+  "typographic_voice": "One custom geometric sans (Roobert, subst. Inter/Söhne/General Sans) is the sole typeface — weight 700 for display headlines and button labels, weight 400 for body, nav, and subheadings; hierarchy is carried by wide 16–64px scale jumps with normal tracking rather than letter-spacing or intermediate weights; a mono-adjacent Supply (subst. JetBrains Mono) is a sparing 20px accent for illustration-adjacent paragraphs; no serif, no additional families, no sizes outside the narrow scale."
+}

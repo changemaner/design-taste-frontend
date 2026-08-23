@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superr — The warm schoolyard notebook</title>
+
+    <!-- Fonts: gelica -> Nunito 800 (rounded display); Geist -> Inter, per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+
+    <style>
+        :root {
+            /* Colors — exact 1:1 from tokens.json */
+            --color-canvas: #fdfbf9;      /* Cream Paper — the schoolyard page */
+            --color-charcoal: #171717;    /* Charcoal — structural dark */
+            --color-cocoa: #2b1a07;       /* Cocoa Ink — warm text */
+            --color-black: #000000;
+            --color-dew: #f7efe9;         /* Dew Drop — soft surface */
+            --color-marker: #ff6f1e;      /* Marker Orange — the only chromatic accent */
+            --color-sienna: #ce500a;      /* Burnt Sienna — deeper marker */
+            --color-sky: #3b82f6;         /* Sky Sticker */
+            --color-bubblegum: #ff66cf;   /* Bubblegum Sticker */
+            --color-sprout: #22c55e;      /* Sprout Sticker */
+            --color-shadow: #bebcbb;      /* Shadow Mist — muted */
+            --color-on-ink: #fdfbf9;
+
+            /* Fonts — gelica -> Nunito (rounded, lowercase default), Geist -> Inter */
+            --font-display: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+            --font-ui: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — x2 for stage (source up to 104px tactile display) */
+            --text-caption: 32px;
+            --text-body: 36px;
+            --leading-body: 1.5;          /* source --leading-body */
+            --text-title: 72px;
+            --text-display: 104px;
+
+            /* Spacing — generous breathing room */
+            --sp-1: 16px;
+            --sp-2: 32px;
+            --sp-3: 48px;
+            --sp-4: 80px;
+
+            /* Radii — exact 1:1, stop at 20px before full-pill */
+            --radius-sm: 2px;
+            --radius-lg: 8px;
+            --radius-xl: 12px;
+            --radius-2xl: 16px;
+            --radius-2xl-2: 20px;
+            --radius-full: 56px;
+
+            /* Thin dark borders instead of fills */
+            --hairline: 3px solid var(--color-charcoal);
+        }
+
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-canvas);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-canvas);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: var(--color-canvas); }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ═══════════ BRAND ─ 品牌组件 CSS（每套素材独立） ═══════════ */
+        /* Frame — content padding with bottom safety zone */
+        .frame {
+            position: absolute; inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — lowercase rounded, marker underline */
+        .wordmark {
+            position: absolute; top: 56px; left: var(--frame-pad-x);
+            display: inline-block;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 40px;
+            color: var(--color-cocoa);
+            border-bottom: 8px solid var(--color-marker);
+            padding-bottom: 10px;
+        }
+
+        /* Tag — geist caps, quiet */
+        .tag {
+            font-family: var(--font-ui);
+            font-size: 22px; font-weight: 500; letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-shadow);
+        }
+
+        /* Display — tactile object, lowercase default */
+        .h-display {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: var(--text-display);
+            line-height: 1.08;
+            color: var(--color-cocoa);
+        }
+        .h-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 72px; line-height: 1.15;
+            color: var(--color-cocoa);
+        }
+        .marker-line {
+            display: inline-block;
+            border-bottom: 12px solid rgba(255, 111, 30, 0.65);
+            padding-bottom: 2px;
+        }
+
+        /* Body — Geist, quiet */
+        .body {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.5;
+            color: var(--color-charcoal);
+        }
+        .body-muted {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.5;
+            color: var(--color-shadow);
+        }
+
+        /* Buttons — thin border, no fill (or marker for the one CTA) */
+        .btn-marker {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--color-cocoa);
+            background: var(--color-marker);
+            border: var(--hairline);
+            border-radius: var(--radius-2xl-2);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+        .btn-outline {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--color-cocoa);
+            background: transparent;
+            border: var(--hairline);
+            border-radius: var(--radius-2xl-2);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+
+        /* Notebook cards — dew surfaces, thin borders, rounded ≤20px */
+        .note-card {
+            background: var(--color-dew);
+            border: var(--hairline);
+            border-radius: var(--radius-2xl-2);
+            padding: 24px 28px;
+        }
+        .card-kicker {
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-sienna);
+        }
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 36px; line-height: 1.2;
+            color: var(--color-cocoa);
+            margin-top: 16px;
+        }
+        .card-body {
+            font-family: var(--font-ui);
+            font-size: 22px; line-height: 1.5;
+            color: var(--color-charcoal);
+            margin-top: 14px;
+        }
+
+        /* Stickers — palette-only shapes */
+        .sticker { display: block; }
+
+        /* Agenda rows */
+        .agenda-row {
+            display: flex; align-items: baseline; gap: 48px;
+            background: var(--color-canvas);
+            border: var(--hairline);
+            border-radius: var(--radius-2xl-2);
+            padding: 22px 36px;
+            margin-top: 20px;
+        }
+        .a-num {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 36px;
+            color: var(--color-marker);
+            flex: none;
+        }
+        .a-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 48px; line-height: 1.15;
+            color: var(--color-cocoa);
+        }
+        .a-tag {
+            margin-left: auto;
+            font-family: var(--font-ui);
+            font-size: 18px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-shadow);
+            white-space: nowrap;
+        }
+
+        /* Stats */
+        .stat-num {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 110px; line-height: 1.0;
+            color: var(--color-cocoa);
+        }
+        .stat-label {
+            font-family: var(--font-ui);
+            font-size: 26px; line-height: 1.5;
+            color: var(--color-shadow);
+            margin-top: 14px;
+            max-width: 420px;
+        }
+
+        /* Quote */
+        .quote-text {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 56px; line-height: 1.25;
+            color: var(--color-cocoa);
+        }
+        .quote-by {
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-sienna);
+            margin-top: 40px;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-ui);
+            font-size: 22px;
+            color: var(--color-muted);
+            letter-spacing: 0.04em;
+        }
+        /* Dot progress navigation — clickable, current slide solid */
+                .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }        /* Dark-tone capsule: light version for dark/saturated slides · 胶囊颜色随 slide 底色自适应 */
+        .dot-nav[data-tone="dark"] {
+            color: rgb(253, 251, 249);
+            background: var(--nav-pill-bg-dark, rgba(255, 255, 255, var(--nav-pill-alpha)));
+            border-color: var(--nav-pill-border-dark, rgba(255, 255, 255, var(--nav-pill-border-alpha)));
+        }
+        @supports (background: color-mix(in srgb, black 10%, transparent)) {
+            .dot-nav[data-tone="dark"] {
+                background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+                border-color: color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            }
+        }
+
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-ui);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-ink);
+            color: var(--color-on-ink);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;     /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：Superr 是下午暖光里的校园笔记本 —— 奶油纸、橙色马克笔、贴纸等着被撕。按 N 关闭备注。">
+            <svg class="sticker reveal d4" style="position:absolute; right:200px; top:190px; width:150px; height:200px;" viewBox="0 0 150 200" aria-hidden="true">
+                <path d="M75,15 L90,55 L135,60 L100,90 L112,135 L75,110 L38,135 L50,90 L15,60 L60,55 Z" fill="#3b82f6"/>
+            </svg>
+            <svg class="sticker reveal d4" style="position:absolute; left:170px; bottom:260px; width:130px; height:130px;" viewBox="0 0 130 130" aria-hidden="true">
+                <circle cx="65" cy="65" r="58" fill="#ff66cf"/>
+                <circle cx="45" cy="55" r="10" fill="#2b1a07"/>
+                <circle cx="85" cy="55" r="10" fill="#2b1a07"/>
+                <path d="M38,80 Q65,100 92,80" stroke="#2b1a07" stroke-width="8" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x);">
+                    superr
+                </div>
+                <span class="tag reveal d1" style="margin-top:40px;">A NOTEBOOK FOR THE FIRST DAY OF SCHOOL</span>
+                <h1 class="h-display reveal d2" style="margin-top:24px;">meet<br><span class="marker-line">superrbook</span></h1>
+                <p class="body reveal d3" style="max-width:800px; margin-top:24px; color:var(--color-charcoal);">Cream paper, an orange marker uncapped, and stickers waiting to be peeled. Written small, drawn loud.</p>
+                <div style="display:flex; gap:32px; margin-top:28px;" class="reveal d4">
+                    <button class="btn-marker" type="button">open a notebook</button>
+                    <button class="btn-outline" type="button">see the stickers</button>
+                </div>
+            </div>
+        </section>
+
+            <svg class="sticker reveal d4" style="position:absolute; right:280px; bottom:220px; width:150px; height:150px;" viewBox="0 0 150 150" aria-hidden="true">
+                <g fill="#f7efe9" stroke="#2b1a07" stroke-width="6" stroke-linecap="round">
+                    <rect x="30" y="78" width="58" height="34" rx="17" transform="rotate(-32 59 95)"/>
+                    <rect x="88" y="62" width="26" height="54" rx="13" transform="rotate(-16 101 89)"/>
+                    <rect x="114" y="74" width="22" height="46" rx="11" transform="rotate(12 125 97)"/>
+                    <circle cx="63" cy="101" r="21" fill="#ff6f1e" stroke="#2b1a07" stroke-width="6"/>
+                </g>
+                <circle cx="63" cy="101" r="9" fill="#2b1a07"/>
+            </svg>
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">the schoolbag</div>
+                <div style="margin-top:36px;">
+                    <div class="agenda-row reveal d1">
+                        <span class="a-num">01</span>
+                        <span class="a-title">the notebooks</span>
+                        <span class="a-tag">THINGS</span>
+                    </div>
+                    <div class="agenda-row reveal d2">
+                        <span class="a-num">02</span>
+                        <span class="a-title">the stickers</span>
+                        <span class="a-tag">PERSONALITY</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">03</span>
+                        <span class="a-title">the count</span>
+                        <span class="a-tag">NUMBERS</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">04</span>
+                        <span class="a-title">the dismissal</span>
+                        <span class="a-tag">THE END</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE NOTEBOOKS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">the notebooks</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">three sizes, one paper</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:36px;">
+                    <div class="note-card reveal d2">
+                        <div class="card-kicker">POCKET</div>
+                        <h3 class="card-title">the lunchbox one</h3>
+                        <p class="card-body">Fits in a lunchbox pocket. For doodles between bites.</p>
+                        <svg class="sticker" style="width:56px; height:56px; margin-top:20px;" viewBox="0 0 56 56" aria-hidden="true">
+                            <path d="M28,8 L34,24 L52,26 L38,38 L42,54 L28,44 L14,54 L18,38 L4,26 L22,24 Z" fill="#3b82f6"/>
+                        </svg>
+                    </div>
+                    <div class="note-card reveal d3">
+                        <div class="card-kicker">CLASS</div>
+                        <h3 class="card-title">the math one</h3>
+                        <p class="card-body">Graph-paper inside, markers outside. Homework, tolerated.</p>
+                        <svg class="sticker" style="width:56px; height:56px; margin-top:20px;" viewBox="0 0 56 56" aria-hidden="true">
+                            <circle cx="28" cy="28" r="24" fill="#22c55e"/>
+                            <circle cx="20" cy="24" r="5" fill="#2b1a07"/>
+                            <circle cx="36" cy="24" r="5" fill="#2b1a07"/>
+                            <path d="M18,34 Q28,44 38,34" stroke="#2b1a07" stroke-width="5" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="note-card reveal d3">
+                        <div class="card-kicker">ART</div>
+                        <h3 class="card-title">the loud one</h3>
+                        <p class="card-body">Thick paper for the good crayons. Anything goes.</p>
+                        <svg class="sticker" style="width:56px; height:56px; margin-top:20px;" viewBox="0 0 56 56" aria-hidden="true">
+                            <path d="M28,6 L34,22 L52,26 L38,38 L42,52 L28,44 L14,52 L18,38 L4,26 L22,22 Z" fill="#ff6f1e"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — THE COUNT ========== -->
+        <section class="slide" style="background:var(--color-dew);">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">the count</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">a full schoolbag</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:48px;">
+                    <div class="reveal d2">
+                        <div class="stat-num">1.2M</div>
+                        <div class="stat-label">notebooks opened on the first day of school</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num">24</div>
+                        <div class="stat-label">sticker designs, each drawn by hand and laminated twice</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num">1</div>
+                        <div class="stat-label">orange marker per desk. The accent is rationed on purpose</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">from the margin</div>
+                <div class="reveal d2" style="margin-top:40px; max-width:1640px;">
+                    <p class="quote-text">&ldquo;every good notebook starts with one doodle in the corner and ends with a whole year inside.&rdquo;</p>
+                    <div class="quote-by">THE SUPERR DESK</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — THE STICKERS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:40px;">the stickers</div>
+                <h2 class="h-title reveal d1" style="margin-top:12px;">peel, place, done</h2>
+                <div style="display:flex; gap:20px; align-items:center; justify-content:center; margin-top:24px;">
+                    <div class="note-card reveal d2" style="display:flex; flex-direction:column; align-items:center; width:260px;">
+                        <svg class="sticker" style="width:100px; height:100px;" viewBox="0 0 150 150" aria-hidden="true">
+                            <path d="M75,15 L90,55 L135,60 L100,90 L112,135 L75,110 L38,135 L50,90 L15,60 L60,55 Z" fill="#3b82f6" stroke="#2b1a07" stroke-width="6"/>
+                        </svg>
+                        <div class="card-title" style="font-size:30px; margin-top:16px;">the star</div>
+                        <p class="card-body" style="text-align:center;">For answers that deserve a little light.</p>
+                    </div>
+                    <div class="note-card reveal d3" style="display:flex; flex-direction:column; align-items:center; width:340px;">
+                        <svg class="sticker" style="width:100px; height:100px;" viewBox="0 0 150 150" aria-hidden="true">
+                            <path d="M75,20 C105,20 120,55 100,85 C90,100 85,110 75,130 C65,110 60,100 50,85 C30,55 45,20 75,20 Z" fill="#ff66cf" stroke="#2b1a07" stroke-width="6"/>
+                        </svg>
+                        <div class="card-title" style="font-size:30px; margin-top:16px;">the heart</div>
+                        <p class="card-body" style="text-align:center;">For notes from friends and other emergencies.</p>
+                    </div>
+                    <div class="note-card reveal d3" style="display:flex; flex-direction:column; align-items:center; width:340px;">
+                        <svg class="sticker" style="width:100px; height:100px;" viewBox="0 0 150 150" aria-hidden="true">
+                            <circle cx="75" cy="75" r="55" fill="#22c55e" stroke="#2b1a07" stroke-width="6"/>
+                            <circle cx="58" cy="66" r="10" fill="#2b1a07"/>
+                            <circle cx="92" cy="66" r="10" fill="#2b1a07"/>
+                            <path d="M50,92 Q75,110 100,92" stroke="#2b1a07" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        </svg>
+                        <div class="card-title" style="font-size:30px; margin-top:16px;">the bear</div>
+                        <p class="card-body" style="text-align:center;">For pages that need a friend nearby.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — THE DETAILS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    superr
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">the details</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">small things, kept</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:36px;">
+                    <div class="note-card reveal d2">
+                        <div class="card-kicker">PAPER</div>
+                        <h3 class="card-title">cream, never white</h3>
+                        <p class="card-body">Warm paper for the afternoon light. Your eyes thank you by page two.</p>
+                    </div>
+                    <div class="note-card reveal d3">
+                        <div class="card-kicker">BORDERS</div>
+                        <h3 class="card-title">thin lines, no fills</h3>
+                        <p class="card-body">Structure comes from dark hairlines — surfaces stay matte and soft.</p>
+                    </div>
+                    <div class="note-card reveal d3">
+                        <div class="card-kicker">CORNERS</div>
+                        <h3 class="card-title">rounded, then stop</h3>
+                        <p class="card-body">Radii stop at 20px. Nothing goes full-pill except the stickers.</p>
+                    </div>
+                    <div class="note-card reveal d3">
+                        <div class="card-kicker">VOICE</div>
+                        <h3 class="card-title">lowercase always</h3>
+                        <p class="card-body">The type speaks through size and weight, never through shouting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — DISMISSAL ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-charcoal);">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-bottom-color:var(--color-marker);">
+                    superr
+                </div>
+                <span class="tag reveal d1" style="margin-top:56px; color:rgba(253,251,249,0.6);">the dismissal bell</span>
+                <h1 class="h-display reveal d2" style="margin-top:28px; color:var(--color-on-ink);">see you<br><span class="marker-line" style="border-bottom-color:rgba(255,111,30,0.8);">tomorrow</span></h1>
+                <p class="body reveal d3" style="max-width:760px; margin-top:32px; color:rgba(253,251,249,0.8);">Pack the notebook, keep the sticker. The schoolyard is always open.</p>
+                <div style="display:flex; gap:32px; margin-top:36px;" class="reveal d4">
+                    <button class="btn-marker" type="button">open a notebook</button>
+                    <button class="btn-outline" type="button" style="color:var(--color-on-ink); border-color:var(--color-on-ink);">get the stickers</button>
+                </div>
+            </div>
+        </section>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale();
+            this.setupDotNav();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                const activeSlide = this.slides[this.currentSlide];
+                const tone = activeSlide ? activeSlide.getAttribute('data-nav-tone') : null;
+                if (tone === 'dark') this.dotNav.dataset.tone = 'dark';
+                else this.dotNav.removeAttribute('data-tone');
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>
+</body>
+</html>

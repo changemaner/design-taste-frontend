@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Data-dense or transactional products, playful multi-color consumer brands, and any interface needing chromatic UI fills, shadows, or intermediate border radii — the system jumps straight from sharp 0px to full 75px pill, and the iridescent gradient is media only, never UI color.",
+  "best_for": "Premium design-studio and agency portfolio sites, editorial brand statements, and gallery-style product showcases wanting radical monochrome discipline — a black-and-white editorial gallery floating on one molten iridescent hero.",
+  "density": "spacious",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "minimal",
+    "monochrome",
+    "quiet"
+  ],
+  "name": "Monopo Saigon",
+  "palette_voice": "Radical black-and-white monochrome discipline: Obsidian (#000000) for all foreground text and strokes, Paper (#ffffff) for surfaces and inverse labels, whisper-thin grays (Inkstone, Felt Gray, Slate Pill, Ash Mist) for muted layers and the only solid button fill — while a single iridescent hero gradient (sage green → molten amber → deep oxblood) exists only as atmospheric media behind text, never as UI color; no shadows, no gradients in controls, flat surfaces with hairline 1px borders.",
+  "scheme": "light",
+  "signature_moves": [
+    "Monumental Roobert headlines at 225px weight 400 owning the full viewport — no subheads, no CTAs crowding the hero",
+    "The 75px full-pill radius on buttons and tags against 0px corners everywhere else — sharp editorial contrast with no intermediate rounding",
+    "Whisper-weight section headlines (78px weight 300) and 94px/0.76 line-height statement blocks — type as art object, lines nearly touching",
+    "One iridescent molten-gradient hero backdrop per page — the only chromatic moment, existing only behind text",
+    "Patient gliding motion — cubic-bezier(0.19,1,0.22,1) easing with 0.8–1.25s transform durations, plus a rotating circular 'SCROLL DOWN' badge"
+  ],
+  "slug": "monopo-saigon",
+  "source": {
+    "leading_body": 1.21,
+    "path": "refero-styles/monopo saigon/",
+    "radius": "75px buttons & tags / 0px cards, images, inputs",
+    "shadow": "none — flat, color inversion and hairline borders only",
+    "theme": "light"
+  },
+  "tagline": "Liquid iridescence behind editorial silence — a monochrome editorial gallery floating on molten light.",
+  "tone": [
+    "confident",
+    "refined",
+    "calm"
+  ],
+  "typographic_voice": "A single geometric-humanist sans (Roobert, subst. Inter/Söhne) with a wide weight range breathes from 225px weight-400 display headlines (tight 1.25 leading) through 78px weight-300 whisper headings down to 11px weight-400 labels; Raleway appears sparingly as a narrower heading counterpoint; body left-aligned with 1.58 leading; no bold weights above 45px, no serifs."
+}

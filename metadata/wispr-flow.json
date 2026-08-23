@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Dense operational dashboards, formal corporate sites, consumer retail with heavy photography, or any context needing sharp corners or screen-pure white — the cream broadsheet, 2px ink borders, oversized rounded chambers, and lavender CTA are a warm editorial voice that reads like a printed magazine rebuilt for software, not a neutral B2B page.",
+  "best_for": "AI / productivity / speech-to-text software landing pages (dictation, writing tools, typing apps) that want an editorial broadsheet feel — cream and dark-velvet chambers, weight-400 EB Garamond display at 48–120px, oversized rounded corners, a soft lavender CTA, and waveform visualizers as signature graphics.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "warm",
+    "quiet",
+    "minimal"
+  ],
+  "name": "Wispr Flow",
+  "palette_voice": "A disciplined four-color palette: warm Lumen Cream (#ffffeb) as the dominant canvas and light text, Vast Ink (#1a1a1a) as the near-black dark chambers and 2px borders, Lavender Whisper (#f0d7ff) for the primary CTA and accent surfaces, and Forest Ink (#034f46) teal for badges and secondary buttons on dark; Ember Glow orange (#ffa946) punctuates only active/live states. No gradients, no drop shadows — flat fills, 2px ink borders, and fill alternation (cream → dark → cream) do all the separation.",
+  "scheme": "mixed",
+  "signature_moves": [
+    "Cream and dark 'velvet chamber' sections alternating page-wide, each dark chamber bookended by cream, with oversized 40–80px border radii that make sections feel like rounded inset pebbles rather than elevated overlays",
+    "EB Garamond weight-400 display serif at 48–120px with 0.85–0.95 line-height — authority through sheer scale and tight leading, never bold; negative tracking (-3.6px at 120px)",
+    "The 2px solid Vast Ink border on every interactive element — the thick border is the signature, non-negotiable on the lavender CTA",
+    "Lavender Whisper (#f0d7ff) as the sole primary action color, echoed by hand-drawn lavender SVG squiggle underlines beneath 1–2 words in headlines to link emphasis and action",
+    "The waveform visualizer pill — cream pill with 2px ink border and 5–7 pulsing vertical bars — doubling as audio indicator and decorative rhythm marker; plus flat phone mockups and curved text arcs as the only graphics"
+  ],
+  "slug": "wispr-flow",
+  "source": {
+    "leading_body": 1.3,
+    "path": "refero-styles/Wispr Flow/",
+    "radius": "32px cards, 12px buttons/inputs, 9999px badges/nav pill, 40–80px dark section chambers",
+    "shadow": "none — deliberately shadowless, border-driven; no box-shadows, elevation is fill alternation + oversized radii",
+    "theme": "mixed"
+  },
+  "tagline": "cream broadsheet, dark velvet chambers",
+  "tone": [
+    "calm",
+    "confident",
+    "premium"
+  ],
+  "typographic_voice": "A two-face system: EB Garamond (subst. Cormorant Garamond/Playfair) is the classical serif at weight 400 only, used at massive display sizes (32–120px) where scale commands and 0.85–0.95 line-height tightens lines into a single horizontal gesture; Figtree (subst. Inter/Plus Jakarta Sans/Manrope) is the geometric sans for all body, nav, buttons, and badges at weight 400 default with 500–700 for emphasis and a steady 1.3 line-height; never bold the serif display, never center body text, never use border-radius below 12px on buttons or 32px on cards."
+}

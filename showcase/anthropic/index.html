@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic — AI Safety, Written Like a Field Journal</title>
+
+    <!-- Fonts: Source Serif 4 (Anthropic Serif substitute) + Inter (Anthropic Sans substitute) + JetBrains Mono, per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from tokens.json
+           (value layer: 1:1; typography/spacing scaled ×2 for the 1920×1080 stage)
+           =========================================== */
+        :root {
+            /* Colors — exact */
+            --color-slate-dark: #141413;
+            --color-ivory-medium: #f0eee6;
+            --color-ivory-light: #faf9f5;
+            --color-cloud-medium: #b0aea5;
+            --color-cloud-dark: #87867f;
+            --color-stone: #cccbc8;
+            --color-slate-medium: #3d3d3a;
+            --color-oat-warm: #e3dacc;
+            --color-manilla: #f5e3c7;
+            --color-clay: #d97757;
+            --color-clay-deep: #c6613f;
+
+            /* Fonts — DESIGN.md substitutes */
+            --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+            --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+            /* Type scale — ×2 for stage */
+            --text-caption: 24px;
+            --text-body: 40px;
+            --leading-body: 1.4;
+            --text-subheading: 48px;
+            --text-heading: 122px;
+            --leading-heading: 1.1;
+            --tracking-heading: -0.24px;
+            --text-display: 136px;
+            --leading-display: 1.1;
+
+            /* Radii — exact */
+            --radius-cards: 24px;
+            --radius-buttons: 8px;
+            --radius-outlined: 12px;
+
+            /* Surfaces — exact */
+            --surface-canvas: #f0eee6;
+            --surface-card: #faf9f5;
+            --surface-warm: #f5e3c7;
+            --surface-deep-warm: #e3dacc;
+            --surface-inversion: #141413;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: var(--color-ivory-medium);
+            font-family: var(--font-sans);
+            color: var(--color-slate-dark);
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-ivory-medium);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--surface-canvas);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #f0eee6; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           ANTHROPIC — field-journal editorial system
+           (flat surfaces, hairline borders, serif voice,
+           no shadows, no gradients, no pure white)
+           =========================================== */
+
+        /* Frame helper — content bottom safety zone 160px keeps clear of fixed chrome */
+        .frame {
+            position: absolute;
+            inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — top-left, per-slide (part of the page, not deck chrome) */
+        .wordmark {
+            position: absolute;
+            top: 56px; left: var(--frame-pad-x);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--color-slate-dark);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .wordmark .rule {
+            width: 48px; height: 1px;
+            background: var(--color-stone);
+        }
+
+        /* Badge / inline label — weighted text in flow, not a container */
+        .tag {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-slate-dark);
+        }
+
+        /* Dual display system: sans declares, serif reflects */
+        .h-sans {
+            font-family: var(--font-sans);
+            font-size: var(--text-heading);
+            font-weight: 700;
+            line-height: var(--leading-heading);
+            letter-spacing: var(--tracking-heading);
+            color: var(--color-slate-dark);
+        }
+        .h-serif {
+            font-family: var(--font-serif);
+            font-size: var(--text-display);
+            font-weight: 400;
+            line-height: var(--leading-display);
+            color: var(--color-slate-dark);
+        }
+
+        /* Body — serif always; sans is UI chrome only */
+        .body {
+            font-family: var(--font-serif);
+            font-size: var(--text-body);
+            line-height: var(--leading-body);
+            color: var(--color-slate-dark);
+        }
+        .body-muted {
+            font-family: var(--font-serif);
+            font-size: var(--text-body);
+            line-height: var(--leading-body);
+            color: var(--color-cloud-medium);
+        }
+
+        /* Inline underlined link — persistent underline, print convention */
+        .text-link {
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--color-slate-dark);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 1px;
+            cursor: pointer;
+        }
+
+        /* Filled Ivory Button — bottom-only 8px radius (signature: top corners sharp, like a card pulled from a stack) */
+        .btn-ivory {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--color-slate-dark);
+            background: var(--color-ivory-light);
+            padding: 24px 62px;
+            border: none;
+            border-radius: 0 0 var(--radius-buttons) var(--radius-buttons);
+            cursor: pointer;
+        }
+
+        /* Clay Filled Button — the single chromatic CTA; same bottom-only radius signature */
+        .btn-clay {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 500;
+            color: #faf9f5;
+            background: var(--color-clay);
+            padding: 24px 62px;
+            border: none;
+            border-radius: 0 0 var(--radius-buttons) var(--radius-buttons);
+            cursor: pointer;
+            transition: background 0.25s ease;
+        }
+        .btn-clay:hover { background: var(--color-clay-deep); }
+
+        /* Outlined Dark Button — for dark bands */
+        .btn-outline-dark {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 28px;
+            font-weight: 500;
+            color: #faf9f5;
+            background: transparent;
+            padding: 16px 32px;
+            border: 1px solid var(--color-cloud-dark);
+            border-radius: var(--radius-outlined);
+            cursor: pointer;
+        }
+
+        /* Cards — paper-stacked feel: 24px radius, tonal layering, no shadow */
+        .card {
+            background: var(--surface-card);
+            border-radius: var(--radius-cards);
+            border: 1px solid var(--color-stone);
+            padding: 40px;
+        }
+        .card-hero {
+            background: var(--surface-warm);
+            border-radius: var(--radius-cards);
+            padding: 64px 72px;
+        }
+
+        /* Hairline divider */
+        .rule-line { height: 1px; background: var(--color-stone); border: none; }
+
+        /* Agenda row */
+        .agenda-row {
+            display: flex;
+            align-items: baseline;
+            gap: 48px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--color-stone);
+        }
+        .agenda-row:first-of-type { border-top: 1px solid var(--color-stone); }
+        .agenda-num {
+            font-family: var(--font-mono);
+            font-size: 26px;
+            color: var(--color-cloud-medium);
+            width: 96px;
+        }
+        .agenda-title {
+            font-family: var(--font-serif);
+            font-size: 36px;
+            color: var(--color-slate-dark);
+            flex: 1;
+        }
+        .agenda-tag {
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-cloud-medium);
+        }
+
+        /* Three-column release-card grid */
+        .three-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 48px;
+            margin-top: 56px;
+        }
+        .release-card .tag { margin-bottom: 24px; }
+        .release-card h3 {
+            font-family: var(--font-sans);
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 24px;
+        }
+        .release-card p { margin-bottom: 32px; }
+
+        /* Stat number block */
+        .stat-num {
+            font-family: var(--font-serif);
+            font-size: 112px;
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--color-slate-dark);
+        }
+        .stat-label {
+            font-family: var(--font-sans);
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--color-cloud-medium);
+            margin-top: 16px;
+        }
+
+        /* Field-notes table */
+        .table-rows { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        .table-rows th {
+            text-align: left;
+            font-family: var(--font-sans);
+            font-size: 22px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-cloud-medium);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-stone);
+        }
+        .table-rows td {
+            font-family: var(--font-serif);
+            font-size: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--color-stone);
+        }
+        .table-rows td:last-child, .table-rows th:last-child { text-align: right; }
+        .table-rows tr:last-child td { border-bottom: none; }
+        .delta { color: var(--color-slate-dark); }
+
+        /* Dark band (inversion surface) */
+        .dark-band {
+            background: var(--surface-inversion);
+            color: var(--color-ivory-light);
+            border-radius: var(--radius-cards);
+            padding: 44px 48px;
+        }
+        .dark-band .tag { color: var(--color-ivory-light); }
+        .dark-band .body { color: var(--color-ivory-light); }
+        .dark-band .text-link { color: var(--color-ivory-light); }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-size: 24px;
+            color: var(--color-cloud-medium);
+            letter-spacing: 0.04em;
+        }
+        .chrome-hint { text-align: left; }
+                        .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-slate-dark);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-slate-dark);
+            color: var(--color-ivory-light);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* Reveal animation — restrained, editorial */
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;        /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：评估驱动的研究方法论。本页为讲者备注演示，按 N 切换。">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="top:56px;">Anthropic<span class="rule"></span></div>
+                <h1 class="h-sans reveal d1" style="max-width:1400px;">AI safety, written<br>like a field journal</h1>
+                <p class="body reveal d2" style="max-width:760px; margin-top:56px;">Research notes, evaluation methods, and honest observations — published on warm parchment, the way science was meant to be read.</p>
+                <div style="display:flex; gap:40px; align-items:center; margin-top:56px;" class="reveal d3">
+                    <button class="btn-clay">Start reading</button>
+                    <a class="text-link" href="#">Browse the archive →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">Anthropic<span class="rule"></span></div>
+                <div class="tag reveal d1" style="margin-top:80px">Agenda</div>
+                <h2 class="h-serif reveal d1" style="margin-top:24px; font-size:88px">What we&rsquo;ll read today</h2>
+                <div style="margin-top:56px;">
+                    <div class="agenda-row reveal d1"><span class="agenda-num">01</span><span class="agenda-title">Why we publish our safety research</span><span class="agenda-tag">Principles</span></div>
+                    <div class="agenda-row reveal d2"><span class="agenda-num">02</span><span class="agenda-title">What the field notes show</span><span class="agenda-tag">Data</span></div>
+                    <div class="agenda-row reveal d2"><span class="agenda-num">03</span><span class="agenda-title">A note on method</span><span class="agenda-tag">Method</span></div>
+                    <div class="agenda-row reveal d3"><span class="agenda-num">04</span><span class="agenda-title">Where the work is heading</span><span class="agenda-tag">Forward</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — PRINCIPLES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">Anthropic<span class="rule"></span></div>
+                <div class="tag reveal d1" style="margin-top:80px">Principles</div>
+                <h2 class="h-serif reveal d1" style="margin-top:24px; font-size:88px">A new kind of research lab</h2>
+                <div class="three-cards">
+                    <div class="card release-card reveal d1">
+                        <div class="tag">Interpretability</div>
+                        <h3>Read the model&rsquo;s mind</h3>
+                        <p class="body-muted" style="font-size:28px;">Features, circuits, and steering vectors — we treat models as specimens to be studied, not black boxes to be shipped.</p>
+                        <a class="text-link" href="#">Field notes →</a>
+                    </div>
+                    <div class="card release-card reveal d2">
+                        <div class="tag">Alignment</div>
+                        <h3>Build what we can defend</h3>
+                        <p class="body-muted" style="font-size:28px;">Every capability we release is paired with an evaluation we can explain — in plain language, not just benchmarks.</p>
+                        <a class="text-link" href="#">Eval library →</a>
+                    </div>
+                    <div class="card release-card reveal d3">
+                        <div class="tag">Honesty</div>
+                        <h3>Publish the failures</h3>
+                        <p class="body-muted" style="font-size:28px;">Negative results and hard lessons belong in the journal too. Science that hides its nulls isn&rsquo;t science.</p>
+                        <a class="text-link" href="#">Errata →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — DATA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">Anthropic<span class="rule"></span></div>
+                <div class="tag reveal d1" style="margin-top:80px">Data</div>
+                <h2 class="h-serif reveal d1" style="margin-top:24px; font-size:88px">The story, in numbers</h2>
+                <div style="display:flex; gap:48px; margin-top:48px; align-items:flex-start;">
+                    <div style="flex:1; display:flex; flex-direction:column; gap:40px; padding-top:8px;">
+                        <div class="reveal d2">
+                            <div class="stat-num">87%</div>
+                            <div class="stat-label">of released capabilities ship with a written safety case</div>
+                        </div>
+                        <div class="reveal d3">
+                            <div class="stat-num">120+</div>
+                            <div class="stat-label">public field notes on model behavior, published since 2022</div>
+                        </div>
+                    </div>
+                    <div class="card reveal d2" style="flex:1.3;">
+                        <div class="tag" style="margin-bottom:8px;">Specimen table</div>
+                        <table class="table-rows">
+                            <tr><th>Study</th><th>Focus</th><th>Status</th></tr>
+                            <tr><td>Circuit tracing</td><td>Interpretability</td><td class="delta">Published</td></tr>
+                            <tr><td>Steering vectors</td><td>Alignment</td><td class="delta">Under review</td></tr>
+                            <tr><td>Red-team sweep</td><td>Evaluation</td><td class="delta">Ongoing</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">Anthropic<span class="rule"></span></div>
+                <div class="card-hero reveal d1" style="margin-top:160px; max-width:1680px;">
+                    <p class="h-serif" style="font-size:76px; line-height:1.25;">&ldquo;The first lab whose papers I read like essays — and understood like tables.&rdquo;</p>
+                    <div style="display:flex; align-items:center; gap:24px; margin-top:48px;">
+                        <span class="tag" style="font-size:26px;">Elena Varga</span>
+                        <span class="rule-line" style="width:64px;"></span>
+                        <span class="agenda-tag" style="font-size:26px;">Head of Research, Northwind Institute</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — METHOD ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; gap:120px;">
+                <div style="flex:1.1;">
+                    <div class="wordmark reveal" style="position:static; margin-bottom:120px;">Anthropic<span class="rule"></span></div>
+                    <div class="tag reveal d1">Method</div>
+                    <h2 class="h-sans reveal d1" style="margin-top:24px; font-size:112px; line-height:1.05;">Read, record,<br>release</h2>
+                </div>
+                <div style="flex:1; padding-top:150px;">
+                    <p class="body reveal d2" style="font-size:34px;">Every study follows the same three steps, written down so anyone can audit them:</p>
+                    <div class="dark-band reveal d3" style="margin-top:32px;">
+                        <div style="display:flex; gap:32px; align-items:baseline; padding:16px 0; border-bottom:1px solid var(--color-slate-medium);">
+                            <span class="agenda-num">01</span><span class="body" style="font-size:27px;">Observe the model under controlled conditions</span>
+                        </div>
+                        <div style="display:flex; gap:32px; align-items:baseline; padding:16px 0; border-bottom:1px solid var(--color-slate-medium);">
+                            <span class="agenda-num">02</span><span class="body" style="font-size:27px;">Record the result in a public field note</span>
+                        </div>
+                        <div style="display:flex; gap:32px; align-items:baseline; padding:16px 0;">
+                            <span class="agenda-num">03</span><span class="body" style="font-size:27px;">Release the evaluation alongside the capability</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — FORWARD ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">Anthropic<span class="rule"></span></div>
+                <div class="tag reveal d1" style="margin-top:80px">Forward</div>
+                <h2 class="h-serif reveal d1" style="margin-top:24px; font-size:88px">Where the work is heading</h2>
+                <div class="three-cards">
+                    <div class="card release-card reveal d2">
+                        <div class="tag">Scaling honesty</div>
+                        <h3 style="font-size:34px;">Evaluations that scale with models</h3>
+                        <p class="body-muted" style="font-size:28px;">Automated audit trails for every release — so the journal writes itself as the frontier moves.</p>
+                    </div>
+                    <div class="card release-card reveal d3">
+                        <div class="tag">Shared method</div>
+                        <h3 style="font-size:34px;">An open field-notes standard</h3>
+                        <p class="body-muted" style="font-size:28px;">One format for safety write-ups across labs, so results can be compared study to study.</p>
+                    </div>
+                    <div class="card release-card reveal d3">
+                        <div class="tag">Human audit</div>
+                        <h3 style="font-size:34px;">Researchers in the loop</h3>
+                        <p class="body-muted" style="font-size:28px;">Automation drafts; people sign. The final page of every note belongs to a named reviewer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding-bottom:120px;">
+                <div class="wordmark reveal" style="position:static; margin-bottom:64px;">Anthropic<span class="rule"></span></div>
+                <h2 class="h-serif reveal d1" style="font-size:136px; max-width:1500px;">Read the journal</h2>
+                <p class="body reveal d2" style="max-width:900px; margin-top:40px; color:var(--color-cloud-medium);">New field notes every month. No paywall, no spin — just the work, written down.</p>
+                <div style="display:flex; gap:40px; align-items:center; margin-top:64px;" class="reveal d3">
+                    <button class="btn-clay">Subscribe</button>
+                    <a class="text-link" href="#">Read the archive →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupDotNav();
+            this.setupStageScale();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N (debug: ?hover=1 forces hover states) */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+            if (location.search.includes('hover=1')) {
+                setTimeout(() => {
+                    document.querySelectorAll('.btn-clay, .btn-ivory, .text-link').forEach(el => el.classList.add('hovered'));
+                }, 900);
+            }
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>

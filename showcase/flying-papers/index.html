@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flying Papers — Posters, Prints &amp; Pandemonium</title>
+
+    <!-- Fonts: Archivo variable wdth/wght (Founders Grotesk Condensed substitute) + Inter (Degular substitute) + JetBrains Mono (bergen_mono substitute), per DESIGN.md (self-hosted in ../fonts/) -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from tokens.json
+           (value layer: 1:1; typography/spacing scaled ×2 for the 1920×1080 stage)
+           =========================================== */
+        :root {
+            /* Colors — exact */
+            --color-dusk-violet: #8584bd;
+            --color-hi-vis-yellow: #f4ed36;
+            --color-buttery-yellow: #f9cc73;
+            --color-lilac-shadow: #61609a;
+            --color-bubblegum-pink: #f8c1ba;
+            --color-matcha-cream: #b5c995;
+            --color-magenta-punch: #ac4f98;
+            --color-firecracker-red: #c94245;
+            --color-bone-white: #f9f5f2;
+            --color-ink-black: #1a1a1a;
+            --color-pure-black: #000000;
+
+            /* Fonts — DESIGN.md substitutes */
+            --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+            --font-ui: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+            /* Type scale — ×2 for stage */
+            --text-caption: 20px;
+            --text-body: 32px;
+            --text-body-lg: 36px;
+            --text-subheading: 60px;
+            --text-heading-sm: 200px;
+            --text-heading: 298px;
+            --text-heading-lg: 368px;
+            --text-display: 682px;
+
+            /* Spacing — ×2 for stage */
+            --spacing-16: 32px;
+            --spacing-20: 40px;
+            --spacing-40: 80px;
+            --spacing-60: 120px;
+            --spacing-80: 160px;
+            --spacing-160: 320px;
+            --section-gap: 80px;
+            --card-padding: 34px;
+            --element-gap: 34px;
+
+            /* Radii — exact (signature: sharp 6px blocks vs 100px pills) */
+            --radius-cards: 6px;
+            --radius-tags: 100px;
+            --radius-buttons: 100px;
+
+            /* Surfaces — exact */
+            --surface-stage: #8584bd;
+            --surface-bone-card: #f9f5f2;
+            --surface-lilac-block: #61609a;
+            --surface-accent-pink: #f8c1ba;
+            --surface-accent-matcha: #b5c995;
+            --surface-accent-magenta: #ac4f98;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: var(--surface-stage);
+            font-family: var(--font-ui);
+            color: var(--color-bone-white);
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--surface-stage);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--surface-stage);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #8584bd; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           FLYING PAPERS — riso-poster system
+           (flat paint, violet stage, 6px blocks, 100px pills,
+           oversized condensed display, no shadows, no gradients)
+           =========================================== */
+
+        /* Frame helper — content bottom safety zone 160px keeps clear of fixed chrome */
+        .frame {
+            position: absolute;
+            inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Brand wordmark — top-left, per-slide (part of the page, not deck chrome) */
+        .wordmark {
+            position: absolute;
+            top: 56px; left: var(--frame-pad-x);
+            font-family: var(--font-display);
+            font-size: 60px;
+            font-weight: 800;
+            line-height: 0.8;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 800;
+            color: var(--color-hi-vis-yellow);
+        }
+
+        /* Display voice — ObviouslyVariable substitute, calt disabled everywhere */
+        .display {
+            font-family: var(--font-display);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 900;
+        }
+        .yellow { color: var(--color-hi-vis-yellow); }
+        .buttery { color: var(--color-buttery-yellow); }
+
+        /* Mono stamped labels — Bergen Mono 12px ×2, 0.80 leading, 0.05em tracking */
+        .mono-tag {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-bone-white);
+        }
+        .mono-sub {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-buttery-yellow);
+        }
+
+        /* Mono Label Tag — stamped pill, 100px radius, no fill */
+        .chip {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            border: 1px solid currentColor;
+            border-radius: var(--radius-tags);
+            padding: 10px 26px;
+        }
+
+        /* Body — DegularVariable substitute */
+        .body {
+            font-family: var(--font-ui);
+            font-size: var(--text-body);
+            line-height: 1.0;
+            letter-spacing: 0.8px;
+            color: var(--color-ink-black);
+        }
+        .body-on-color {
+            font-family: var(--font-ui);
+            font-size: var(--text-body);
+            line-height: 1.0;
+            letter-spacing: 0.8px;
+            color: var(--color-bone-white);
+        }
+
+        /* Outlined Display Button — the only action pattern on the violet stage */
+        .btn-outline {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            color: var(--color-hi-vis-yellow);
+            background: transparent;
+            border: 2px solid var(--color-hi-vis-yellow);
+            border-radius: var(--radius-buttons);
+            padding: 28px 68px;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+        .btn-outline:hover { background: var(--color-hi-vis-yellow); color: var(--color-pure-black); }
+
+        /* Gate Pill Button — cream fill, pure black text, 100px radius, no shadow */
+        .btn-pill {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            color: var(--color-pure-black);
+            background: var(--color-bone-white);
+            border: none;
+            border-radius: var(--radius-buttons);
+            padding: 28px 68px;
+            cursor: pointer;
+        }
+
+        /* Underline Text Link — tertiary action, mono, 1px underline */
+        .link-underline {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 0.8;
+            color: var(--color-bone-white);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 1px;
+            cursor: pointer;
+        }
+
+        /* Cards — flat paint swatches, exactly 6px radius, 17px padding ×2, no border/shadow */
+        .card { border-radius: var(--radius-cards); padding: var(--card-padding); }
+        .card-bone { background: var(--surface-bone-card); border: 1px solid var(--color-ink-black); }
+        .card-pink { background: var(--surface-accent-pink); }
+        .card-matcha { background: var(--surface-accent-matcha); }
+        .card-magenta { background: var(--surface-accent-magenta); }
+
+        .card-label {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+        }
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 64px;
+            line-height: 0.85;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 900;
+        }
+        .card-body { font-size: 28px; letter-spacing: 0.6px; }
+        .on-light { color: var(--color-ink-black); }
+        .on-paint { color: var(--color-bone-white); }
+
+        /* Agenda rows — on the bone-white card, 1px ink hairlines */
+        .agenda-card { margin-top: var(--spacing-40); }
+        .agenda-row {
+            display: flex;
+            align-items: baseline;
+            gap: 48px;
+            padding: 24px 0;
+        }
+        .agenda-row + .agenda-row { border-top: 1px solid var(--color-ink-black); }
+        .agenda-num {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 0.8;
+            color: var(--color-pure-black);
+            width: 88px;
+        }
+        .agenda-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 56px;
+            line-height: 0.8;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 900;
+            color: var(--color-ink-black);
+            flex: 1;
+        }
+        .agenda-tag {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-ink-black);
+        }
+
+        /* Stat blocks */
+        .stat-num {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: var(--text-heading-sm);
+            line-height: 0.8;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 900;
+            color: var(--color-hi-vis-yellow);
+        }
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-bone-white);
+            margin-top: 24px;
+        }
+
+        /* Receipt table — mono rows, 1px ink hairlines, on bone card */
+        .table-rows { width: 100%; border-collapse: collapse; }
+        .table-rows th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-ink-black);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-ink-black);
+        }
+        .table-rows td {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 0.8;
+            color: var(--color-ink-black);
+            padding: 24px 0;
+            border-bottom: 1px solid var(--color-ink-black);
+        }
+        .table-rows th:last-child, .table-rows td:last-child { text-align: right; }
+        .table-rows tr:last-child td { border-bottom: none; }
+
+        /* Quote card — magenta accent surface, screams louder than the stage */
+        .quote-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 110px;
+            line-height: 0.85;
+            letter-spacing: 0.02em;
+            font-feature-settings: "calt" 0;
+            font-variation-settings: "wdth" 75, "wght" 900;
+            color: var(--color-bone-white);
+        }
+        .attr-row {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-top: 48px;
+        }
+        .attr-rule { width: 96px; height: 1px; background: var(--color-bone-white); }
+        .attr-name {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-hi-vis-yellow);
+        }
+        .attr-role {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-bone-white);
+        }
+
+        /* Method block — lilac-shadow nested surface */
+        .block-lilac {
+            background: var(--surface-lilac-block);
+            border-radius: var(--radius-cards);
+            padding: var(--card-padding);
+        }
+        .step {
+            display: flex;
+            align-items: baseline;
+            gap: 40px;
+            padding: 26px 0;
+        }
+        .step + .step { border-top: 1px solid var(--color-bone-white); }
+        .step-num {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 0.8;
+            color: var(--color-hi-vis-yellow);
+            width: 72px;
+        }
+        .step-text {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-bone-white);
+        }
+        .method-note {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-buttery-yellow);
+            margin-top: var(--spacing-40);
+        }
+
+        /* Mascot — line-drawn star, thick black outline, flat cream + yellow fills */
+        .star { display: inline-block; vertical-align: middle; }
+
+        /* Confetti chips — flat paint squares, 6px radius */
+        .confetti { display: flex; gap: 24px; align-items: center; }
+        .chip-square {
+            width: 56px; height: 56px;
+            border-radius: var(--radius-cards);
+        }
+        .chip-pink { background: var(--color-bubblegum-pink); }
+        .chip-matcha { background: var(--color-matcha-cream); }
+        .chip-lilac { background: var(--color-lilac-shadow); }
+        .tilt { transform: rotate(8deg); }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            line-height: 0.8;
+            letter-spacing: 0.05em;
+            color: var(--color-bone-white);
+        }
+        .chrome-hint { text-align: left; }
+                        .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-bone-white);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-bone-white);
+            color: var(--color-ink-black);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* Reveal animation — restrained poster pop-in */
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;        /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：海报工作室，让一切发出声响。本页为讲者备注演示，按 N 切换。">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">CREATIVE STUDIO &mdash; EST. 2016</div>
+                <h1 class="display yellow reveal d1" style="font-size:482px; line-height:0.9; margin-top:40px;">
+                    LOUD.
+                    <svg class="star" style="width:0.42em; height:0.42em; margin-left:0.08em; transform:translateY(-0.06em);" viewBox="0 0 100 100" aria-hidden="true">
+                        <path d="M50 0 C56 34 66 44 100 50 C66 56 56 66 50 100 C44 66 34 56 0 50 C34 44 44 34 50 0 Z" fill="#f9f5f2" stroke="#000000" stroke-width="5"/>
+                        <circle cx="50" cy="50" r="9" fill="#f4ed36"/>
+                    </svg>
+                </h1>
+                <p class="mono-sub reveal d2" style="margin-top:60px;">POSTERS &middot; PRINTS &middot; PANDEMONIUM</p>
+                <div class="reveal d3" style="display:flex; gap:64px; align-items:center; margin-top:80px;">
+                    <button class="btn-outline">SEE THE WORK &darr;</button>
+                    <a class="link-underline" href="#">hello@flyingpapers.studio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">AGENDA</div>
+                <h2 class="display buttery reveal d1" style="font-size:180px; margin-top:40px;">THE SCRAPBOOK</h2>
+                <div class="card card-bone agenda-card reveal d2">
+                    <div class="agenda-row">
+                        <span class="agenda-num">01</span><span class="agenda-title">THE STUDIO STORY</span><span class="agenda-tag">PRINCIPLES</span>
+                    </div>
+                    <div class="agenda-row">
+                        <span class="agenda-num">02</span><span class="agenda-title">WHAT WE MAKE</span><span class="agenda-tag">SERVICES</span>
+                    </div>
+                    <div class="agenda-row">
+                        <span class="agenda-num">03</span><span class="agenda-title">THE NUMBERS</span><span class="agenda-tag">DATA</span>
+                    </div>
+                    <div class="agenda-row">
+                        <span class="agenda-num">04</span><span class="agenda-title">HOW WE MAKE IT</span><span class="agenda-tag">METHOD</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — SERVICES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">SERVICES</div>
+                <h2 class="display reveal d1" style="font-size:200px; margin-top:40px;">
+                    <span class="buttery">WHAT WE</span> <span class="yellow">MAKE</span>
+                </h2>
+                <div class="reveal d2" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:80px; margin-top:80px;">
+                    <div class="card card-magenta">
+                        <div class="card-label on-paint" style="margin-bottom:24px;">01 &mdash; IDENTITY</div>
+                        <h3 class="card-title on-paint" style="margin-bottom:24px;">BRAND NOISE</h3>
+                        <p class="body-on-color card-body">Identity systems with volume. Logos that don&rsquo;t whisper, wordmarks that shout.</p>
+                    </div>
+                    <div class="card card-bone">
+                        <div class="card-label on-light" style="margin-bottom:24px;">02 &mdash; PAPER</div>
+                        <h3 class="card-title on-light" style="margin-bottom:24px;">PRINTS &amp; ZINES</h3>
+                        <p class="body card-body">Riso posters, fanzines, and editions in runs of 100. Paper that fights back.</p>
+                    </div>
+                    <div class="card card-matcha">
+                        <div class="card-label on-light" style="margin-bottom:24px;">03 &mdash; WEB</div>
+                        <h3 class="card-title on-light" style="margin-bottom:24px;">SITES &amp; MOTION</h3>
+                        <p class="body card-body">Websites that move like confetti &mdash; loud on the surface, fast underneath.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — DATA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">THE NUMBERS</div>
+                <h2 class="display yellow reveal d1" style="font-size:150px; margin-top:40px;">LOUD IS MEASURABLE</h2>
+                <div class="reveal d2" style="display:flex; gap:80px; margin-top:80px; align-items:flex-start;">
+                    <div style="flex:1; display:flex; flex-direction:column; gap:80px;">
+                        <div>
+                            <div class="stat-num">312</div>
+                            <div class="stat-label">RISO EDITIONS PRINTED THIS YEAR</div>
+                        </div>
+                        <div>
+                            <div class="stat-num">48</div>
+                            <div class="stat-label">FESTIVALS &amp; GIGS OUTFITTED</div>
+                        </div>
+                    </div>
+                    <div class="card card-bone" style="flex:1.25;">
+                        <div class="card-label on-light" style="margin-bottom:24px;">RECENT SHIPMENTS</div>
+                        <table class="table-rows">
+                            <tr><th>PROJECT</th><th>MEDIUM</th><th>STATUS</th></tr>
+                            <tr><td>MOON UNIT &mdash; ALBUM ART</td><td>RISO &middot; 2 COLOR</td><td>SOLD OUT</td></tr>
+                            <tr><td>WILD PARADE &mdash; KIT</td><td>4 POSTERS</td><td>ON TOUR</td></tr>
+                            <tr><td>STATIC FANZINE &mdash; 07</td><td>48 PAGES</td><td>IN PRINT</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">WORD ON THE STREET</div>
+                <div class="card card-magenta reveal d2" style="margin-top:120px; max-width:1680px;">
+                    <p class="quote-text">&ldquo;Their posters don&rsquo;t just hang on walls &mdash; they argue with the room.&rdquo;</p>
+                    <div class="attr-row">
+                        <span class="attr-name">MARTA RUIZ</span>
+                        <span class="attr-rule"></span>
+                        <span class="attr-role">CURATOR, PAPER MOON GALLERY</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — METHOD ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; gap:160px;">
+                <div style="flex:1.15;">
+                    <div class="wordmark reveal">FLYING PAPERS</div>
+                    <div class="mono-tag reveal d1" style="margin-top:16px;">THE METHOD</div>
+                    <h2 class="display reveal d1" style="font-size:200px; margin-top:40px; line-height:0.8;">
+                        <span class="buttery">DRAW,</span><br>
+                        <span class="yellow">PRINT,</span><br>
+                        <span class="buttery">SHIP.</span>
+                    </h2>
+                </div>
+                <div style="flex:1; padding-top:150px;">
+                    <p class="mono-sub reveal d2" style="margin-bottom:40px;">THREE STEPS, WRITTEN DOWN SO ANYONE CAN AUDIT THEM:</p>
+                    <div class="block-lilac reveal d2">
+                        <div class="step">
+                            <span class="step-num">01</span><span class="step-text">SKETCH STUPID. THROW NOTHING AWAY.</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">02</span><span class="step-text">SET THE TYPE HUGE. THEN BIGGER.</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">03</span><span class="step-text">PROOF ON PAPER. SHIP IT FAR.</span>
+                        </div>
+                    </div>
+                    <p class="method-note reveal d3">EVERY JOB GETS A FULL INK-AND-PAPER PROOF. NO EXCEPTIONS.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — FEATURED ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">FEATURED WORKS</div>
+                <h2 class="display buttery reveal d1" style="font-size:140px; margin-top:40px;">STUFF THAT MADE NOISE</h2>
+                <div class="reveal d2" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:80px; margin-top:80px;">
+                    <div class="card card-pink">
+                        <div class="card-label on-light" style="margin-bottom:24px;">POSTER SERIES 01</div>
+                        <h3 class="card-title on-light" style="margin-bottom:24px;">MOON UNIT</h3>
+                        <p class="body card-body" style="margin-bottom:32px;">Album art for a band that sings about satellites. Riso, two colors, 500 copies, all gone.</p>
+                        <span class="chip on-light">SOLD OUT</span>
+                    </div>
+                    <div class="card card-bone">
+                        <div class="card-label on-light" style="margin-bottom:24px;">FESTIVAL KIT 2025</div>
+                        <h3 class="card-title on-light" style="margin-bottom:24px;">WILD PARADE</h3>
+                        <p class="body card-body" style="margin-bottom:32px;">A four-poster system for a street festival. Same shapes, four moods, zero chill.</p>
+                        <span class="chip on-light">ON TOUR</span>
+                    </div>
+                    <div class="card card-matcha">
+                        <div class="card-label on-light" style="margin-bottom:24px;">ZINE ISSUE 07</div>
+                        <h3 class="card-title on-light" style="margin-bottom:24px;">STATIC</h3>
+                        <p class="body card-body" style="margin-bottom:32px;">48 pages of static and essays about standing still. Printed on paper that fights back.</p>
+                        <span class="chip on-light">IN PRINT</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal">FLYING PAPERS</div>
+                <div class="mono-tag reveal d1">FINAL PAGE</div>
+                <h2 class="display reveal d1" style="font-size:220px; line-height:0.85; margin-top:40px;">
+                    <span class="buttery">LET&rsquo;S MAKE</span><br>
+                    <span class="yellow">NOISE
+                        <svg class="star" style="width:0.4em; height:0.4em; margin-left:0.05em; transform:translateY(-0.05em);" viewBox="0 0 100 100" aria-hidden="true">
+                            <path d="M50 0 C56 34 66 44 100 50 C66 56 56 66 50 100 C44 66 34 56 0 50 C34 44 44 34 50 0 Z" fill="#f9f5f2" stroke="#000000" stroke-width="5"/>
+                            <circle cx="50" cy="50" r="9" fill="#f4ed36"/>
+                        </svg>
+                    </span>
+                </h2>
+                <p class="mono-sub reveal d2" style="margin-top:40px;">HELLO@FLYINGPAPERS.STUDIO &mdash; BRIEFS WELCOME, CHAOS PREFERRED</p>
+                <div class="reveal d3" style="display:flex; gap:64px; align-items:center; margin-top:60px;">
+                    <button class="btn-pill">START A PROJECT</button>
+                    <a class="link-underline" href="#">OR JUST SAY HI</a>
+                </div>
+                <div class="confetti reveal d3" style="margin-top:40px;">
+                    <span class="chip-square chip-pink tilt"></span>
+                    <span class="chip-square chip-matcha"></span>
+                    <span class="chip-square chip-lilac tilt"></span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupDotNav();
+            this.setupStageScale();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>

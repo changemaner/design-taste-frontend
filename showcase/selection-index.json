@@ -1,0 +1,717 @@
+{
+  "version": "1",
+  "styles": {
+    "air": {
+      "slug": "air",
+      "name": "Air",
+      "tagline": "midnight sky through glass sculpture",
+      "mood": [
+        "futuristic",
+        "airy",
+        "minimal",
+        "quiet"
+      ],
+      "tone": [
+        "confident",
+        "calm",
+        "refined"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "dark",
+      "best_for": "Developer-tool / AI-product landing pages and product launches that want a dark, atmospheric, type-driven register — full-bleed hero imagery plus restrained flat UI chrome, similar to Linear/Vercel territory.",
+      "avoid_for": "Content-dense enterprise dashboards, warm or playful consumer brand presentations, long-form editorial pages, or any context that needs light-mode clarity or a single strong CTA color — this system only works as dark, quiet, and image-led.",
+      "type": "material",
+      "design_md": "refero-styles/Air",
+      "preview_available": true
+    },
+    "anthropic": {
+      "slug": "anthropic",
+      "name": "Anthropic",
+      "tagline": "scientific field journal on warm parchment — quiet ivory surfaces, editorial serif headlines, and a single clay accent that only appears when you must act",
+      "mood": [
+        "editorial",
+        "warm",
+        "quiet"
+      ],
+      "tone": [
+        "authoritative",
+        "refined",
+        "calm"
+      ],
+      "formality": "high",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "AI research / deep-tech brand sites, research-publication landing pages, and thoughtful product announcements that want credibility without corporate chill — an authoritative editorial register on warm paper.",
+      "avoid_for": "Fast, playful consumer or startup marketing, conversion-heavy SaaS funnels needing loud CTAs, dark-mode-first products, or any context requiring cool-tone or high-energy visuals — the clay accent must stay rare and quiet.",
+      "type": "material",
+      "design_md": "refero-styles/Anthropic",
+      "preview_available": true
+    },
+    "caldera": {
+      "slug": "caldera",
+      "name": "Caldera",
+      "tagline": "forge fire on warm limestone. The canvas is raw warm plaster, and every orange element reads as glowing embers pressed into the surface.",
+      "mood": [
+        "industrial",
+        "bold",
+        "warm"
+      ],
+      "tone": [
+        "confident",
+        "energetic",
+        "authoritative"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Crypto / web3 / protocol ecosystem landing pages and feature announcements that want volcanic urgency with warm credibility — ultrabold condensed type, flat warm surfaces, and one dominant orange, Berachain/Monad territory.",
+      "avoid_for": "Data-dense dashboards, formal enterprise or luxury brand decks, text-heavy long-form editorial, or anything needing cool-tone restraint — the 189px type and single-orange palette overwhelm quiet or informational contexts.",
+      "type": "material",
+      "design_md": "refero-styles/Caldera",
+      "preview_available": true
+    },
+    "composer": {
+      "slug": "composer",
+      "name": "Composer",
+      "tagline": "Bauhaus confetti on concrete",
+      "mood": [
+        "editorial",
+        "chromatic",
+        "bold"
+      ],
+      "tone": [
+        "confident",
+        "energetic",
+        "playful"
+      ],
+      "formality": "medium",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "Fintech / trading / devtool marketing pages that want a confident, maximalist editorial manifesto register — poster-scale grotesque headlines on a light ash canvas with Bauhaus color blocks, Stripe/Replit-adjacent.",
+      "avoid_for": "Quiet luxury or premium brand presentations, long-form reading experiences, dark-mode-first products, or restrained minimal SaaS where loud confetti and 244px type would feel noisy — color here is punctuation, not decoration to add casually.",
+      "type": "material",
+      "design_md": "refero-styles/Composer",
+      "preview_available": true
+    },
+    "discover": {
+      "slug": "discover",
+      "name": "Discover",
+      "tagline": "Type museum on white marble — a near-black wordmark, a whisper of coral, and everything else recedes.",
+      "mood": [
+        "minimal",
+        "monochrome",
+        "editorial",
+        "quiet"
+      ],
+      "tone": [
+        "refined",
+        "authoritative",
+        "calm"
+      ],
+      "formality": "medium",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "Type foundries, font marketplaces, and gallery-like product catalogues where the product itself is typography — a near-monochrome museum register with one coral action color and specimen-first layout.",
+      "avoid_for": "Content-heavy SaaS dashboards, brand-first storytelling sites needing imagery or illustration, playful consumer brands, or dark-mode products — the 1% colorfulness and white-marble quiet fail when color or content density is required.",
+      "type": "material",
+      "design_md": "refero-styles/Discover",
+      "preview_available": true
+    },
+    "flying-papers": {
+      "slug": "flying-papers",
+      "name": "Flying Papers",
+      "tagline": "Saturday morning cartoon confessional",
+      "mood": [
+        "playful",
+        "bold",
+        "chromatic",
+        "retro"
+      ],
+      "tone": [
+        "playful",
+        "rebellious",
+        "energetic"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Age-gated creative / editorial microsites, riso-print-style brand statements, and playful anti-corporate campaigns that want to take attention rather than ask for it — one poster per screen, Saturday-morning-cartoon energy.",
+      "avoid_for": "Formal enterprise, data-dense dashboards, professional SaaS or B2B software pages, or any context needing credibility or quiet restraint — the oversized display type and flat violet stage overwhelm informational content.",
+      "type": "material",
+      "design_md": "refero-styles/Flying Papers",
+      "preview_available": true
+    },
+    "frankys": {
+      "slug": "frankys",
+      "name": "FRANKY'S",
+      "tagline": "Retro arcade kiosk on a skate-shop counter.",
+      "mood": [
+        "retro",
+        "playful",
+        "bold"
+      ],
+      "tone": [
+        "playful",
+        "casual",
+        "rebellious"
+      ],
+      "formality": "low",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "E-commerce product pages for streetwear / skate / indie apparel brands that want a retro arcade-kiosk feel — compact cream product grids, pixel type, one orange marquee and one green buy button, Palace/Polar-adjacent.",
+      "avoid_for": "Formal enterprise, financial or B2B software, dark-mode products, or any premium/editorial context — the 8-bit single-font system and cream+black binary read toy-like and can't carry subtle or authoritative messaging.",
+      "type": "material",
+      "design_md": "refero-styles/FRANKY'S",
+      "preview_available": true
+    },
+    "general-intelligence-company": {
+      "slug": "general-intelligence-company",
+      "name": "General Intelligence Company",
+      "tagline": "Literary journal beside a bonfire",
+      "mood": [
+        "editorial",
+        "warm",
+        "organic",
+        "quiet"
+      ],
+      "tone": [
+        "authoritative",
+        "calm",
+        "refined"
+      ],
+      "formality": "high",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "AI research / venture / co-founder-match sites and literary-brand storytelling pages that want a contemplative, journal-like register — hand-painted illustration plus quiet serif display, warm parchment, Stripe/Anthropic-adjacent.",
+      "avoid_for": "Conversion-hungry SaaS funnels needing loud filled CTAs, dark-mode-first products, playful consumer brands, or data-dense dashboards — the whispered serif, 95%-neutral palette, and one blue border can't carry urgency or high information density.",
+      "type": "material",
+      "design_md": "refero-styles/General Intelligence Company",
+      "preview_available": true
+    },
+    "good-glyphs": {
+      "slug": "good-glyphs",
+      "name": "Good Glyphs",
+      "tagline": "oversized charity poster on mint paper — type so large it behaves as architecture, not text.",
+      "mood": [
+        "minimal",
+        "bold",
+        "editorial"
+      ],
+      "tone": [
+        "confident",
+        "rebellious",
+        "calm"
+      ],
+      "formality": "medium",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "Charity / donation campaigns, creative-collective and type-foundry poster sites where type is the product — an oversized printed-poster register, one mint canvas, one black ink, type-as-architecture, Field Notes / It's Nice That-adjacent.",
+      "avoid_for": "Any context needing multiple colors, imagery, or hierarchy beyond type — software dashboards, e-commerce catalogues, corporate sites, or playful multi-color brands; the two-color band system and 288px type leave no room for anything but typography.",
+      "type": "material",
+      "design_md": "refero-styles/Good Glyphs",
+      "preview_available": true
+    },
+    "henry": {
+      "slug": "henry",
+      "name": "Henry",
+      "tagline": "Gothic broadside poster on warm cream paper. One hundred percent monochrome, no chromatic accent, all visual intensity carried by display type and full-bleed paper-to-ink inversions.",
+      "mood": [
+        "editorial",
+        "monochrome",
+        "retro",
+        "brutalist"
+      ],
+      "tone": [
+        "authoritative",
+        "rebellious",
+        "refined"
+      ],
+      "formality": "high",
+      "density": "comfortable",
+      "scheme": "mixed",
+      "best_for": "Editorial / creative personal portfolios, studio and magazine-style brand sites where type is the entire visual — a warm monochrome broadside register, display-serif headlines, condensed mastheads, paper-to-ink inversions, Pentagram/Rauno Freiberg-adjacent.",
+      "avoid_for": "SaaS product marketing, e-commerce, dashboards, or any context needing imagery, product art, or a single CTA color — with no chromatic accent, no filled CTAs, and no shadows, the system can only carry type-first editorial content.",
+      "type": "material",
+      "design_md": "refero-styles/Henry",
+      "preview_available": true
+    },
+    "huddle": {
+      "slug": "huddle",
+      "name": "Huddle",
+      "tagline": "Pastel inventory cards on cream paper",
+      "mood": [
+        "editorial",
+        "minimal",
+        "warm",
+        "quiet"
+      ],
+      "tone": [
+        "calm",
+        "refined",
+        "confident"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Design-studio / curated project directories, membership and community launch pages, and catalog-style listings that want a quiet editorial register — off-white canvas, large light-weight headlines, and three pastel status cards doing the structural work.",
+      "avoid_for": "High-saturation e-commerce marketplaces, data-dense dashboards or analytics products, dark-mode-first interfaces, and any context needing a loud filled CTA — the muted pastels and flat hairline system read as a considered directory, not a promotional storefront.",
+      "type": "material",
+      "design_md": "refero-styles/Huddle",
+      "preview_available": true
+    },
+    "hyer-aviation": {
+      "slug": "hyer-aviation",
+      "name": "Hyer Aviation",
+      "tagline": "Cockpit twilight over parchment. A pale dawn-sky meets a slab-serif logo the size of a fuselage, with one warm clay accent breaking the monochrome restraint.",
+      "mood": [
+        "luxurious",
+        "editorial",
+        "monochrome",
+        "bold"
+      ],
+      "tone": [
+        "premium",
+        "confident",
+        "refined"
+      ],
+      "formality": "high",
+      "density": "spacious",
+      "scheme": "mixed",
+      "best_for": "Luxury aviation / premium travel editorial landing pages and high-end service brands that want near-monochrome architectural confidence — a pale sky hero, a slab-serif wordmark at fuselage scale, and one clay feature card per page.",
+      "avoid_for": "Playful or warm consumer brands, information-dense SaaS dashboards, long-form reading surfaces, and any light-mode-only or single-accent-reliant context — the system needs both the dark-band oscillation and the one-warm-note restraint to work.",
+      "type": "material",
+      "design_md": "refero-styles/Hyer Aviation",
+      "preview_available": true
+    },
+    "ikea": {
+      "slug": "ikea",
+      "name": "IKEA",
+      "tagline": "sunlit Swedish flat-pack showroom",
+      "mood": [
+        "minimal",
+        "warm",
+        "bold"
+      ],
+      "tone": [
+        "friendly",
+        "confident",
+        "approachable"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Large consumer retail and e-commerce editorial homepages, product-heavy brand storytelling built around one strong brand color, and flat Scandinavian identities — media-led card grids with a single yellow action plane doing all the interface work.",
+      "avoid_for": "Dark-mode-first products, luxury/minimal premium brands where yellow would read as noise, dense data UIs, and any context needing shadow-based depth, multiple accent colors, or more than two font weights.",
+      "type": "material",
+      "design_md": "refero-styles/IKEA",
+      "preview_available": true
+    },
+    "lamanna": {
+      "slug": "lamanna",
+      "name": "Lamanna",
+      "tagline": "Neon circus tent on a Naples sidewalk",
+      "mood": [
+        "chromatic",
+        "bold",
+        "playful",
+        "retro"
+      ],
+      "tone": [
+        "energetic",
+        "playful",
+        "confident"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Maximalist food and bakery brands, playful local-business landing pages, and loud promotional campaigns that want full-bleed chromatic energy — orange-and-yellow color bands, starburst badges, and circus-tent decoration as the brand.",
+      "avoid_for": "Corporate and financial contexts, calm minimal or premium brands, readable long-form editorial, and any interface needing restrained palettes or quiet UX — the screaming orange canvas and solid-block type overwhelm informational content.",
+      "type": "material",
+      "design_md": "refero-styles/Lamanna",
+      "preview_available": true
+    },
+    "leandra-isler": {
+      "slug": "leandra-isler",
+      "name": "Leandra-isler",
+      "tagline": "dried botanicals pressed into warm vellum — calm, tactile, editorial, almost reverent.",
+      "mood": [
+        "warm",
+        "editorial",
+        "minimal",
+        "quiet"
+      ],
+      "tone": [
+        "calm",
+        "refined",
+        "approachable"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Healing and wellness practices, single-practitioner editorial sites, galleries, and quiet warm-toned brands wanting a reverent gallery-wall atmosphere — one real plant photograph and vast vellum whitespace doing all the emotional work.",
+      "avoid_for": "Dark-mode or technology products, playful multi-color brands, data-dense UIs, and any context needing cards, filled buttons, or pill chips — the interface has no containers, so standard UI chrome reads as alien on the flat vellum.",
+      "type": "material",
+      "design_md": "refero-styles/Leandra-isler",
+      "preview_available": true
+    },
+    "lpalo": {
+      "slug": "lpalo",
+      "name": "Lpalo",
+      "tagline": "A children's storybook spread on warm peach paper — one slab-serif headline shouting through scattered crayon doodles.",
+      "mood": [
+        "playful",
+        "warm",
+        "chromatic",
+        "organic"
+      ],
+      "tone": [
+        "playful",
+        "friendly",
+        "energetic"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Playful podcast and media platforms, children's-content or creative community brands, and expressive landing pages that want an authoritative-voice-childlike-delivery tension — chunky slab-serif headlines shouting over scattered crayon doodles on peach paper.",
+      "avoid_for": "Corporate or enterprise contexts, data-dense dashboards, dark-mode products, and any interface needing neutral grays, shadows, or conventional filled CTAs — the storybook slab-serif and crayon palette overwhelm serious or informational content.",
+      "type": "material",
+      "design_md": "refero-styles/Lpalo",
+      "preview_available": true
+    },
+    "mercury": {
+      "slug": "mercury",
+      "name": "Mercury",
+      "tagline": "Alpine banking at blue hour",
+      "mood": [
+        "quiet",
+        "futuristic",
+        "minimal",
+        "monochrome"
+      ],
+      "tone": [
+        "premium",
+        "confident",
+        "calm"
+      ],
+      "formality": "high",
+      "density": "spacious",
+      "scheme": "dark",
+      "best_for": "Fintech and premium banking landing pages, dark-mode developer tools, and product launches wanting cinematic aspiration — an onyx canvas, graphite cards, intermediate-weight typography, and one cobalt action button as the gravitational center.",
+      "avoid_for": "Playful consumer brands, multi-color or light-mode contexts, editorial long-form reading, and any interface needing more than one bright accent or shadow-based depth — the cobalt single-action discipline and hushed premium darkness only work as dark, monochrome, and calm.",
+      "type": "material",
+      "design_md": "refero-styles/Mercury",
+      "preview_available": true
+    },
+    "monad": {
+      "slug": "monad",
+      "name": "Monad",
+      "tagline": "editorial tech journal on warm parchment",
+      "mood": [
+        "technical",
+        "editorial",
+        "quiet",
+        "warm"
+      ],
+      "tone": [
+        "confident",
+        "calm",
+        "authoritative"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Developer-tool and data-infrastructure landing pages wanting a literary technical register — warm parchment canvas, editorial serif headlines, monospace body, and a data-pipeline diagram as the visual centerpiece.",
+      "avoid_for": "Consumer retail and playful multi-color brands, image-led hero marketing, and any interface needing bold (600+) headlines, pure-white backgrounds, or sans-serif body text — the serif-mono pairing and warm parchment canvas define the identity, and swapping them breaks it.",
+      "type": "material",
+      "design_md": "refero-styles/Monad",
+      "preview_available": true
+    },
+    "monopo-saigon": {
+      "slug": "monopo-saigon",
+      "name": "Monopo Saigon",
+      "tagline": "Liquid iridescence behind editorial silence — a monochrome editorial gallery floating on molten light.",
+      "mood": [
+        "editorial",
+        "minimal",
+        "monochrome",
+        "quiet"
+      ],
+      "tone": [
+        "confident",
+        "refined",
+        "calm"
+      ],
+      "formality": "medium",
+      "density": "spacious",
+      "scheme": "light",
+      "best_for": "Premium design-studio and agency portfolio sites, editorial brand statements, and gallery-style product showcases wanting radical monochrome discipline — a black-and-white editorial gallery floating on one molten iridescent hero.",
+      "avoid_for": "Data-dense or transactional products, playful multi-color consumer brands, and any interface needing chromatic UI fills, shadows, or intermediate border radii — the system jumps straight from sharp 0px to full 75px pill, and the iridescent gradient is media only, never UI color.",
+      "type": "material",
+      "design_md": "refero-styles/monopo saigon",
+      "preview_available": true
+    },
+    "motherduck": {
+      "slug": "motherduck",
+      "name": "MotherDuck",
+      "tagline": "Crayon-coded terminal on cream paper — a developer tool that refuses to dress like one.",
+      "mood": [
+        "technical",
+        "brutalist",
+        "warm",
+        "playful"
+      ],
+      "tone": [
+        "playful",
+        "confident",
+        "casual"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Developer-tool / data-infra landing pages, product launches, technical announcements that want credibility WITHOUT corporate seriousness — a light-canvas, notebook-sketch register that reads playful and confident.",
+      "avoid_for": "Formal enterprise sales decks, luxury/editorial brand presentations, heavy data-dense financial reports, any context needing premium restraint or dark-mode authority.",
+      "type": "material",
+      "design_md": "refero-styles/MotherDuck",
+      "preview_available": true
+    },
+    "oryzo-ai": {
+      "slug": "oryzo-ai",
+      "name": "ORYZO AI",
+      "tagline": "Darkroom product editorial. A lone object floating in warm darkness, cream typography the only decoration.",
+      "mood": [
+        "luxurious",
+        "minimal",
+        "futuristic",
+        "quiet"
+      ],
+      "tone": [
+        "premium",
+        "confident",
+        "refined"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "mixed",
+      "best_for": "Premium hardware and single-product brand sites, studio portfolio reveals, and cinematic product launches that want a museum-artifact atmosphere — one object floating in warm darkness with cream typography as the only decoration.",
+      "avoid_for": "Light-mode SaaS or e-commerce, data-dense interfaces, playful multi-color brands, and any context needing lowercase headings, pure white text, or multiple filled CTAs — the museum-label uppercase voice and warm darkness only work with restraint and full-viewport sections.",
+      "type": "material",
+      "design_md": "refero-styles/ORYZO AI",
+      "preview_available": true
+    },
+    "patch": {
+      "slug": "patch",
+      "name": "Patch",
+      "tagline": "electric blueprint on drafting paper",
+      "mood": [
+        "bold",
+        "technical",
+        "retro",
+        "playful"
+      ],
+      "tone": [
+        "confident",
+        "playful",
+        "energetic"
+      ],
+      "formality": "medium",
+      "density": "spacious",
+      "scheme": "light",
+      "best_for": "Confident tech/engineering-adjacent agency or B2B service pages (a medical-marketing agency pitched as engineering), launch sites that want a loud blueprint statement — full-bleed indigo hero, aggressive condensed headline, orange CTA, sketch illustration, numbered section markers.",
+      "avoid_for": "Consumer lifestyle brands, gentle/friendly product pages, dense data dashboards, or any context needing rounded softness or photographic warmth — the aggressive sub-1.0 condensed display, full-bleed electric indigo, and 5px-sharp blueprint geometry dominate everything they touch.",
+      "type": "material",
+      "design_md": "refero-styles/Patch",
+      "preview_available": true
+    },
+    "raycast": {
+      "slug": "raycast",
+      "name": "Raycast",
+      "tagline": "Midnight command center, coral neon",
+      "mood": [
+        "technical",
+        "quiet",
+        "monochrome"
+      ],
+      "tone": [
+        "confident",
+        "authoritative",
+        "calm"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "dark",
+      "best_for": "Developer-tool and power-user productivity landing pages (launcher, automation, keyboard-first apps) that want a dark power-tool cockpit: near-black canvas, hairline borders, inset key-shadow cards, a neutral light-gray CTA, and one cinematic hero artwork.",
+      "avoid_for": "Consumer retail, playful multi-color brands, light-mode marketing pages, or any context needing a welcoming or friendly register — the 98% achromatic near-black cockpit, single coral accent, and key-cap card treatment read as a serious power-user product, not a consumer pitch.",
+      "type": "material",
+      "design_md": "refero-styles/Raycast",
+      "preview_available": true
+    },
+    "seline-analytics": {
+      "slug": "seline-analytics",
+      "name": "Seline Analytics",
+      "tagline": "Quiet analyst's desk on warm paper",
+      "mood": [
+        "quiet",
+        "minimal",
+        "editorial"
+      ],
+      "tone": [
+        "calm",
+        "confident",
+        "refined"
+      ],
+      "formality": "medium",
+      "density": "compact",
+      "scheme": "light",
+      "best_for": "Analytics and B2B SaaS landing pages (analytics, dashboards, developer tools) that want an editorial, quietly confident register — warm stone canvas, one cyan CTA, weight-400 geometric headlines, flat white cards with hairline borders, and a grayscale dashboard mockup as the hero proof.",
+      "avoid_for": "Consumer retail, playful multi-color brands, image-led lifestyle marketing, or any context needing loud or emotional display — the whisper-weight headlines, single-cyan restraint, and flat paper surfaces make this a calm analytical voice that struggles with high-energy consumer pitches.",
+      "type": "material",
+      "design_md": "refero-styles/Seline Analytics",
+      "preview_available": true
+    },
+    "steep": {
+      "slug": "steep",
+      "name": "Steep",
+      "tagline": "serif analytics on warm paper",
+      "mood": [
+        "editorial",
+        "quiet",
+        "minimal",
+        "warm"
+      ],
+      "tone": [
+        "calm",
+        "confident",
+        "refined"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "AI / analytics / data-infrastructure product landing pages that want an editorial, magazine-spread feel — oversized italicized serif headlines on white paper, one peach accent card, pill controls, and floating product UI artifacts (region tables, activation charts, AI composer) instead of a dashboard shell.",
+      "avoid_for": "Dense operational dashboards, dark-mode products, consumer retail, or any context needing heavy chrome or saturated multi-color surfaces — the editorial serif voice, whisper-thin shadows, 97% achromatic palette, and oversized rounded cards are a magazine-spread register, not a data-dense cockpit.",
+      "type": "material",
+      "design_md": "refero-styles/Steep",
+      "preview_available": true
+    },
+    "superhi-plus": {
+      "slug": "superhi-plus",
+      "name": "SuperHi Plus",
+      "tagline": "Cobalt blueprint scattered with emoji marbles. The page lives half in electric blue, half in ice white, swapping sides as you scroll.",
+      "mood": [
+        "bold",
+        "playful",
+        "chromatic",
+        "futuristic"
+      ],
+      "tone": [
+        "confident",
+        "playful",
+        "energetic"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "dark",
+      "best_for": "Product/community launch pages and educational-brand sites (a creative school, cohort, or app) that want a bold binary statement — full-bleed cobalt-and-ice split panels swapping sides, one weight-400 neo-grotesque voice at 42–85px, arrow-prefixed navigation, and 3D emoji marbles as personality.",
+      "avoid_for": "Data-dense SaaS dashboards, consumer retail, formal corporate sites, or any context needing quiet restraint or multi-color illustration — the full-bleed cobalt-and-ice split, single-weight 400 type, and emoji-marble texture are a bold declarative voice that overwhelms informational density.",
+      "type": "material",
+      "design_md": "refero-styles/SuperHi Plus",
+      "preview_available": true
+    },
+    "superr": {
+      "slug": "superr",
+      "name": "Superr",
+      "tagline": "Warm schoolyard notebook in soft afternoon light. A cream page, an orange marker uncapped, and a stack of sticker-laminated name labels waiting to be peeled.",
+      "mood": [
+        "warm",
+        "playful",
+        "organic",
+        "retro"
+      ],
+      "tone": [
+        "playful",
+        "friendly",
+        "quirky"
+      ],
+      "formality": "low",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Consumer product launches and playful D2C brands (notebooks, stationery, lifestyle goods) that want a warm schoolyard feel — cream-paper canvas, hand-marker orange annotations, photographed product objects, chunky lowercase display type, and sticker illustrations scattered like physical peel-and-stick.",
+      "avoid_for": "Enterprise SaaS dashboards, dark-mode products, formal corporate reports, or any context needing neutral data-density or a screen-white canvas — the cream-paper, marker-orange, sticker-and-notebook vocabulary is a warm, tactile, slightly mischievous register that fights neutral professionalism.",
+      "type": "material",
+      "design_md": "refero-styles/Superr",
+      "preview_available": true
+    },
+    "syllabus": {
+      "slug": "syllabus",
+      "name": "Syllabus",
+      "tagline": "cream-paper magazine meets geometric sans-serif. Warm off-white surfaces, near-black violet ink, and one buttery yellow accent that functions as the page's only raised voice — like a sticky note pressed onto fine stationery.",
+      "mood": [
+        "editorial",
+        "minimal",
+        "warm",
+        "quiet"
+      ],
+      "tone": [
+        "confident",
+        "calm",
+        "refined"
+      ],
+      "formality": "medium",
+      "density": "spacious",
+      "scheme": "light",
+      "best_for": "Editorial-tech product landing pages (premium SaaS, waitlists, developer-adjacent launches) that want a print-magazine feel — warm cream paper canvas, near-black violet ink, oversized geometric headlines, sharp 0px corners, one buttery-yellow hard-shadow CTA, and flat line-art illustrations.",
+      "avoid_for": "Dark-mode products, dense operational dashboards, consumer retail with heavy photography, or any context needing soft rounded corners or screen-white purity — the sharp-cornered 0px-radius geometry, cream canvas, and hard-offset sticker CTA are a distinctive premium print-magazine voice that resists neutral SaaS conventions.",
+      "type": "material",
+      "design_md": "refero-styles/Syllabus",
+      "preview_available": true
+    },
+    "ventriloc": {
+      "slug": "ventriloc",
+      "name": "Ventriloc",
+      "tagline": "Editorial data observatory on warm paper — a single orange ember punctuating monochrome precision.",
+      "mood": [
+        "editorial",
+        "quiet",
+        "minimal",
+        "technical"
+      ],
+      "tone": [
+        "calm",
+        "confident",
+        "authoritative"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "light",
+      "best_for": "Data-product and analytics SaaS landing pages (observability, finance dashboards, B2B data platforms) that want an editorial observatory feel — warm paper-white canvas, monospaced-precision data cards, a single orange ember as highlight, weight-400 PolySans headlines, and chart widgets as the imagery.",
+      "avoid_for": "Consumer retail, playful multi-color brands, loud startup launches, or any context needing bold or emotional typography — the whisper-weight PolySans, 95% achromatic restraint, asymmetric cut-corner cards, and generous whitespace are a quiet editorial voice that reads like a printed annual report, not a hype page.",
+      "type": "material",
+      "design_md": "refero-styles/Ventriloc",
+      "preview_available": true
+    },
+    "wispr-flow": {
+      "slug": "wispr-flow",
+      "name": "Wispr Flow",
+      "tagline": "cream broadsheet, dark velvet chambers",
+      "mood": [
+        "editorial",
+        "warm",
+        "quiet",
+        "minimal"
+      ],
+      "tone": [
+        "calm",
+        "confident",
+        "premium"
+      ],
+      "formality": "medium",
+      "density": "comfortable",
+      "scheme": "mixed",
+      "best_for": "AI / productivity / speech-to-text software landing pages (dictation, writing tools, typing apps) that want an editorial broadsheet feel — cream and dark-velvet chambers, weight-400 EB Garamond display at 48–120px, oversized rounded corners, a soft lavender CTA, and waveform visualizers as signature graphics.",
+      "avoid_for": "Dense operational dashboards, formal corporate sites, consumer retail with heavy photography, or any context needing sharp corners or screen-pure white — the cream broadsheet, 2px ink borders, oversized rounded chambers, and lavender CTA are a warm editorial voice that reads like a printed magazine rebuilt for software, not a neutral B2B page.",
+      "type": "material",
+      "design_md": "refero-styles/Wispr Flow",
+      "preview_available": true
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Data-dense SaaS dashboards, consumer retail, formal corporate sites, or any context needing quiet restraint or multi-color illustration — the full-bleed cobalt-and-ice split, single-weight 400 type, and emoji-marble texture are a bold declarative voice that overwhelms informational density.",
+  "best_for": "Product/community launch pages and educational-brand sites (a creative school, cohort, or app) that want a bold binary statement — full-bleed cobalt-and-ice split panels swapping sides, one weight-400 neo-grotesque voice at 42–85px, arrow-prefixed navigation, and 3D emoji marbles as personality.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "bold",
+    "playful",
+    "chromatic",
+    "futuristic"
+  ],
+  "name": "SuperHi Plus",
+  "palette_voice": "A strict two-color binary — saturated Cobalt Voltage (#0033e5) and Ice White (#f0f7ff) — with every panel belonging to exactly one camp and the two swapping roles as you scroll; the blue is both background and text, the white both counter-surface and text; Cobalt Mist (#527ceb) is a sparing tonal fill and Pitch black fills SVG icons only. No gradients, no tints, no third hue — the blue/white tension is the entire rhythm.",
+  "scheme": "dark",
+  "signature_moves": [
+    "The 50/50 split-screen panel: every section is two equal full-bleed panels that swap colors — one Ice White with display type/imagery, one Cobalt Voltage with body — alternating which side is which down the page",
+    "Single-weight neo-grotesque type at enormous scale (up to 85px) at weight 400 only — no bold, no light, no italic; size and the blue/white contrast create all hierarchy",
+    "The arrow-prefixed (→) text navigation button as the signature affordance for all clickable text, rendered at 42px with no border or fill",
+    "Clusters of 3D-rendered emoji-face spheres in cobalt and ice tones filling every empty light panel — the marbles ARE the social proof and personality",
+    "1px inset borders (Cobalt Voltage or Ice White) as the universal depth indicator — pill radii (50–72px) sit next to sharp 16px cards, and no drop shadows exist anywhere"
+  ],
+  "slug": "superhi-plus",
+  "source": {
+    "leading_body": 1.33,
+    "path": "refero-styles/SuperHi Plus/",
+    "radius": "16px cards/buttons, 50px tags/nav buttons, 72px pill buttons, 2px inputs",
+    "shadow": "no drop shadows — depth is 1px inset borders only: rgb(0,51,229) 0px 0px 0px 1px inset / rgb(240,247,255) 0px 0px 0px 1px inset",
+    "theme": "dark"
+  },
+  "tagline": "Cobalt blueprint scattered with emoji marbles. The page lives half in electric blue, half in ice white, swapping sides as you scroll.",
+  "tone": [
+    "confident",
+    "playful",
+    "energetic"
+  ],
+  "typographic_voice": "A single neo-grotesque display face (Haas Grot Disp Web, subst. Söhne/Inter/Space Grotesk) at weight 400 only, from 16px body to 85px hero — the radical flattening makes the page read as one declarative voice rather than a hierarchy of emphases; line heights compress from 1.50 at 16px to 1.13 at 85px, letter-spacing stays at 0px throughout; never use a second family, a bold/light cut, a high-x-height humanist font, or dense columns narrower than 480px."
+}

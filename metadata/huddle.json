@@ -1,0 +1,37 @@
+{
+  "avoid_for": "High-saturation e-commerce marketplaces, data-dense dashboards or analytics products, dark-mode-first interfaces, and any context needing a loud filled CTA — the muted pastels and flat hairline system read as a considered directory, not a promotional storefront.",
+  "best_for": "Design-studio / curated project directories, membership and community launch pages, and catalog-style listings that want a quiet editorial register — off-white canvas, large light-weight headlines, and three pastel status cards doing the structural work.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "minimal",
+    "warm",
+    "quiet"
+  ],
+  "name": "Huddle",
+  "palette_voice": "Paper White (#ffffff) canvas with Ink Black (#151515) text, plus a fixed taxonomy of three muted pastel card fills (pale sage, lavender mist, dusty rose) that function as category tiles; Deep Violet (#453b60) marks the live/active state and a single warm-on-warm pairing (Burnt Amber #65451d border + Honey Gold #e4b976 text on tags) is the only place gold appears — never as a filled CTA; no saturated accents, no box-shadows, separation via 1px hairlines and background contrast.",
+  "scheme": "light",
+  "signature_moves": [
+    "Three pastel card colors (sage/lavender/dusty rose) as a fixed status taxonomy — one color per project status, never mixed within a card",
+    "A deliberate radius vocabulary: 100px pill tags and secondary buttons, 8px cards, 1000px reserved for the single primary button — corner treatment is the hierarchy",
+    "All-caps bullet/step-number micro-labels ('• STEP 1: THE BRIEF') in 12px Nng as the primary wayfinding device",
+    "Burnt-amber border + honey-gold text on tag pills — the only warm highlight pair, reserved for emphasis",
+    "1px hairline borders instead of box-shadows — the system is flat by design, elevation via color contrast"
+  ],
+  "slug": "huddle",
+  "source": {
+    "leading_body": 1.42,
+    "path": "refero-styles/Huddle/",
+    "radius": "8px cards / 100px tags & pills / 1000px primary button",
+    "shadow": "none — flat, 1px hairline borders only",
+    "theme": "light"
+  },
+  "tagline": "Pastel inventory cards on cream paper",
+  "tone": [
+    "calm",
+    "refined",
+    "confident"
+  ],
+  "typographic_voice": "One custom geometric sans (Nng, subst. Inter/Söhne) carries the entire hierarchy — display headlines at 44–69px weight 300–400 with tight negative tracking (-0.021em at 69px) read dense and poster-like rather than airy; all-caps 12px micro-labels in weight 500 label the system; bold display (600+) is forbidden, no serifs, no decorative faces, mono only for code-like identifiers."
+}

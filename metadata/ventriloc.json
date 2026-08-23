@@ -1,0 +1,38 @@
+{
+  "avoid_for": "Consumer retail, playful multi-color brands, loud startup launches, or any context needing bold or emotional typography — the whisper-weight PolySans, 95% achromatic restraint, asymmetric cut-corner cards, and generous whitespace are a quiet editorial voice that reads like a printed annual report, not a hype page.",
+  "best_for": "Data-product and analytics SaaS landing pages (observability, finance dashboards, B2B data platforms) that want an editorial observatory feel — warm paper-white canvas, monospaced-precision data cards, a single orange ember as highlight, weight-400 PolySans headlines, and chart widgets as the imagery.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "quiet",
+    "minimal",
+    "technical"
+  ],
+  "name": "Ventriloc",
+  "palette_voice": "A warm paper-white canvas (#ffffff) with warm-gray surfaces (Ash #efefef, Fog #f5f5f5, Ivory #ebe6dd) — warm grays and ivory instead of cool tech-blue; Graphite (#202020) anchors all text and the dark filled CTA; a single Ember Orange (#ff682c) punctuates the monochrome like a highlighter on a printed report — used only for link underlines, chart highlights, and small icon accents, never as a CTA fill; Brass (#816729) adds a muted warm counterpoint for chart strokes and tags. Pages stay 95% achromatic.",
+  "scheme": "light",
+  "signature_moves": [
+    "The asymmetric border-radius 6px 0px 0px on featured cards — a single cut corner that signals editorial layout instead of a standard card grid, paired with 0px-radius buttons and 200px-radius nav pills (a three-radius system: sharp → asymmetric → fully round)",
+    "PolySans at weight 400 with -0.02em tracking for every heading, nav item, and button label — whisper-weight editorial authority that no bold headline could replicate",
+    "The 66px display headline at line-height 0.91 with -1.32px tracking — a tight, poster-like typographic statement on white canvas",
+    "Dark Graphite-filled sharp-cornered CTA button (0px radius) contrasted against the soft rounded card system",
+    "Data dashboard cards (line charts, stat rings, revenue widgets) in Ember Orange and Brass strokes floating on warm-gray surfaces — the charts ARE the imagery, no shadows, alternating white/ash bands instead of dividers"
+  ],
+  "slug": "ventriloc",
+  "source": {
+    "leading_body": 1.33,
+    "leading_note": "fallback, no --leading-body token in variables.css (scale only has caption/subheading/heading/display); DESIGN.md describes 16px PolySans/1.0 for buttons and body in Inter 1.15–1.50; tokens.json base body step is Inter 15px at 1.33",
+    "path": "refero-styles/Ventriloc/",
+    "radius": "asymmetric-card 6px 0px 0px, cards 8px, data-widgets 20px, buttons 0px, nav-pills 200px, tags 20px",
+    "shadow": "none — depth comes from surface-color contrast (white/ash alternation), no box-shadows on cards or buttons",
+    "theme": "light"
+  },
+  "tagline": "Editorial data observatory on warm paper — a single orange ember punctuating monochrome precision.",
+  "tone": [
+    "calm",
+    "confident",
+    "authoritative"
+  ],
+  "typographic_voice": "A two-face system where PolySans (subst. Inter Tight/Space Grotesk) is the voice and Inter is the grammar: PolySans at weight 400 only (never 500/600) with -0.02em tracking across headings, nav items, and button labels, with the 66px display at 0.91 leading; Inter handles all body copy, captions, and metadata at 400–600; line-height never exceeds 1.25 on display headings; the tight letter-spacing compensates for the light weight at large sizes, keeping headlines precise and architectural."
+}

@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Consumer retail, playful multi-color brands, image-led lifestyle marketing, or any context needing loud or emotional display — the whisper-weight headlines, single-cyan restraint, and flat paper surfaces make this a calm analytical voice that struggles with high-energy consumer pitches.",
+  "best_for": "Analytics and B2B SaaS landing pages (analytics, dashboards, developer tools) that want an editorial, quietly confident register — warm stone canvas, one cyan CTA, weight-400 geometric headlines, flat white cards with hairline borders, and a grayscale dashboard mockup as the hero proof.",
+  "density": "compact",
+  "formality": "medium",
+  "mood": [
+    "quiet",
+    "minimal",
+    "editorial"
+  ],
+  "name": "Seline Analytics",
+  "palette_voice": "A warm-stone canvas (#fafaf9) reads as paper, not screen, with flat white (#ffffff) cards floating above it; 1px stone hairlines (#e8e6e5) are the primary structural device instead of heavy dividers or panels; the single vivid cyan (#3ba6f1) is the only chromatic voice — one filled CTA plus one cyan highlight span per headline, the loudest thing on the page by deliberate restraint of everything else; a near-black Ink (#0c0a09) carries all headings.",
+  "scheme": "light",
+  "signature_moves": [
+    "The weight-400 headline whisper: Roobert at 52px/400 with tight negative tracking (-0.021em) — authority through restraint, never bumping to 600/700",
+    "Exactly one cyan highlight span per headline (#3398e1 text on a #c1e1f7 pill wash) marking the value-prop keyword — the brand's voice marker",
+    "The cyan filled pill CTA (#3ba6f1, 9999px radius) as the only chromatic filled element on any screen, used once per viewport maximum",
+    "Flat white content cards defined by 1px stone borders, not shadows — the border IS the structure; only the hero dashboard preview earns a deep floating shadow",
+    "The hooded line-art mascot sticker with drop-shadow, used once per section as a playful counterweight to the monochrome data UI"
+  ],
+  "slug": "seline-analytics",
+  "source": {
+    "leading_body": 1.64,
+    "leading_note": "fallback, no --leading-body token in variables.css; DESIGN.md names 14px Inter weight 400 at 1.64 line-height as the dominant body size (--leading-body-lg is 1.69)",
+    "path": "refero-styles/Seline Analytics/",
+    "radius": "9999px buttons/tags, 10px cards, 16px feature cards, 6px inputs, 4px icons",
+    "shadow": "content cards rgba(0,0,0,0.05) 0px 4px 16px 0px; single hero floating preview rgba(17,12,46,0.12) 0px 12px 45px 0px",
+    "theme": "light"
+  },
+  "tagline": "Quiet analyst's desk on warm paper",
+  "tone": [
+    "calm",
+    "confident",
+    "refined"
+  ],
+  "typographic_voice": "A two-face system: Roobert (subst. Inter Tight/Satoshi) is the display voice at weight 400 only (18–52px) with tight negative tracking (-0.025em at 32px, -0.021em at 52px) — headlines occupy their space without shouting; Inter is the neutral workhorse for all body/nav/UI at 14px weight 400 with 1.64 line-height and positive tracking at small sizes; no bold headings, no serif, no italic, no gradients."
+}

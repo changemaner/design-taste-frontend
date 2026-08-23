@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Dark-mode or technology products, playful multi-color brands, data-dense UIs, and any context needing cards, filled buttons, or pill chips — the interface has no containers, so standard UI chrome reads as alien on the flat vellum.",
+  "best_for": "Healing and wellness practices, single-practitioner editorial sites, galleries, and quiet warm-toned brands wanting a reverent gallery-wall atmosphere — one real plant photograph and vast vellum whitespace doing all the emotional work.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "warm",
+    "editorial",
+    "minimal",
+    "quiet"
+  ],
+  "name": "Leandra-isler",
+  "palette_voice": "Warm Vellum Sand (#f4e6cd) canvas stretching edge-to-edge with a 4-stop vertical gradient wash (#8f774b → #ba9d6a → #d6bd97 → #f4e6cd) only on the hero; Aged Ink (#1e211e) near-black carries 95% of rules, headings, and body; the living green of a single botanical photograph is the only non-neutral color in the system; Pressed Linen (#edddc3) is the sole secondary surface — no competing UI colors, no shadows.",
+  "scheme": "light",
+  "signature_moves": [
+    "Extreme display scaling — one typeface stretched from 14px captions to 158–173px weight-500 hero headlines; scale itself is the hierarchy",
+    "Underlined text links only — 1px underline offset 2–4px below the baseline, never a filled button, never a pill chip",
+    "Edge-to-edge vellum canvas with no max-width container; sections separated by 80–120px of space and occasional 1px hairlines, never cards or panels",
+    "A single botanical photograph bleeding past the viewport edges — the 'specimen pressed on paper' metaphor",
+    "Warm vertical vellum gradient wash on the hero only — the one place light and shadow exist in the system"
+  ],
+  "slug": "leandra-isler",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Leandra-isler/",
+    "radius": "0px tags/cards/buttons / 4px images",
+    "shadow": "none — flat, vellum hero gradient only",
+    "theme": "light"
+  },
+  "tagline": "dried botanicals pressed into warm vellum — calm, tactile, editorial, almost reverent.",
+  "tone": [
+    "calm",
+    "refined",
+    "approachable"
+  ],
+  "typographic_voice": "One geometric-grotesk sans (PP Neue Montreal, subst. Söhne/Inter) across every element — no serif, no mono, no display face; body stays 16–20px weight 400 with 1.5 line-height while display headlines scale to 122–173px weight 500 with -0.045em tight tracking, giving the same family both whispered body copy and shouted editorial moments without switching personality."
+}

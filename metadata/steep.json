@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Dense operational dashboards, dark-mode products, consumer retail, or any context needing heavy chrome or saturated multi-color surfaces — the editorial serif voice, whisper-thin shadows, 97% achromatic palette, and oversized rounded cards are a magazine-spread register, not a data-dense cockpit.",
+  "best_for": "AI / analytics / data-infrastructure product landing pages that want an editorial, magazine-spread feel — oversized italicized serif headlines on white paper, one peach accent card, pill controls, and floating product UI artifacts (region tables, activation charts, AI composer) instead of a dashboard shell.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "editorial",
+    "quiet",
+    "minimal",
+    "warm"
+  ],
+  "name": "Steep",
+  "palette_voice": "A near-monochrome white paper canvas (#ffffff) with quiet gray layers (Mist #f2f2f3, Fog #fafafb) carries everything; Ink Black (#17191c) is the only dark surface — body text, nav, and the filled pill button; a single warm Blush Peach (#fbe1d1) accent card paired with Sienna Brown (#5d2a1a) ink reads like kraft paper and appears at most once per page; Slate/Ash/Smoke grays handle muted text. Color is rationed to functional emphasis — everything else is achromatic.",
+  "scheme": "light",
+  "signature_moves": [
+    "Oversized Signifier weight-400 serif headlines (44/64/90px) with tight negative tracking and the occasional italicized phrase — the serif whispers authority rather than shouting in bold",
+    "Floating product-artifact cards (region table, activation chart, AI composer) scattered around hero headlines on white with hairline borders and barely-there 10% shadows — the only elements allowed visible elevation",
+    "The single Blush Peach (#fbe1d1) accent card with Sienna Brown ink — the one chromatic surface in the system, used as a rare kraft-paper editorial callout",
+    "Filled Ink Black pill button always paired with a ghost pill button as a matched set on the same row — the solid black lozenge is the signature action",
+    "A 4px spacing base with generous 80px section gaps and 24px-radius soft cards — the page breathes and never crowds"
+  ],
+  "slug": "steep",
+  "source": {
+    "leading_body": 1.35,
+    "path": "refero-styles/Steep/",
+    "radius": "24px cards, 20px elevated cards, 16px inputs/small cards, 9999px buttons (pill)",
+    "shadow": "subtle, barely-there — floating artifacts only: rgba(4,23,43,0.05) 0px 0px 0px 1px + rgba(0,0,0,0.1) 0px 20px 25px -5px; content cards have no shadow",
+    "theme": "light"
+  },
+  "tagline": "serif analytics on warm paper",
+  "tone": [
+    "calm",
+    "confident",
+    "refined"
+  ],
+  "typographic_voice": "A two-voice system: Signifier (subst. GT Sectra/Tiempos/Source Serif 4) is the display serif at weight 400 only across 44/64/90px with tight negative tracking (-2.25px at 90px) — headlines whisper authority through stroke contrast, never bold; Sohne (subst. Inter) is the workhorse sans for all body/UI using fine half-step weights (430/450/480) instead of jumping to bold; no bold display, no sans headlines, no italic in body."
+}

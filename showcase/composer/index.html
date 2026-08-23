@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Composer — Bauhaus confetti on concrete</title>
+
+    <!-- Fonts: Neue Haas Grotesk Display → "Archivo Expanded" substitute; Inter per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from DESIGN.md
+           (value layer: 1:1; typography/spacing ×2 for 1920×1080 stage)
+           =========================================== */
+        :root {
+            /* Colors — exact */
+            --color-signal-blue: #1871da;
+            --color-pulse-green: #1ec072;
+            --color-hot-pink: #f6609f;
+            --color-cotton-candy: #ffb4ed;
+            --color-solar-yellow: #ffbb38;
+            --color-ember-orange: #ff5500;
+            --color-forest-moss: #31805a;
+            --color-tangerine: #ffa724;
+            --color-ultraviolet: #9664d7;
+            --color-deep-iris: #0c4cbe;
+            --color-azure: #1f86ff;
+            --color-alert-red: #c60808;
+            --color-deep-moss: #1c372a;
+            --color-concrete: #e5e7eb;
+            --color-obsidian: #000000;
+            --color-paper: #ffffff;
+            --color-carbon: #101516;
+            --color-mist: #f7f7f7;
+            --color-pebble: #bec6cc;
+            --color-graphite: #262d2f;
+
+            /* Fonts */
+            --font-display: 'Archivo', sans-serif;
+            --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — ×2 */
+            --text-caption: 24px;
+            --text-body: 30px;
+            --leading-body: 1.5;
+            --text-sub: 44px;
+            --text-heading: 64px;
+            --text-heading-lg: 96px;
+            --text-display-xl: 200px;  /* 244 source, compressed to fit stage with tracking room */
+
+            /* Spacing — ×2 */
+            --sp-1: 16px; --sp-2: 32px; --sp-3: 48px; --sp-4: 64px; --sp-5: 96px;
+
+            /* Radii — exact */
+            --radius-cards: 6px;
+            --radius-icons: 2px;
+            --radius-buttons: 9999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; background: #e5e7eb; overflow: hidden; }
+        .deck-viewport { position: fixed; inset: 0; background: #e5e7eb; }
+        .deck-stage { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+
+        .slide {
+            position: absolute; inset: 0;
+            visibility: hidden; opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+            background: var(--color-concrete);
+            overflow: hidden;
+        }
+        .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; }
+
+        /* Confetti — Bauhaus info-shape rectangles, zero radius, solid fills */
+        .confetti { position: absolute; }
+
+        .frame { position: absolute; inset: 0; padding: 112px 120px 160px; }
+        .nav-pill {
+            position: absolute; top: 44px; left: 120px; right: 120px;
+            display: flex; align-items: center; gap: 36px;
+            background: var(--color-paper);
+            border: 1px solid var(--color-concrete);
+            border-radius: var(--radius-buttons);
+            padding: 16px 40px;
+            font-family: var(--font-body); font-weight: 500; font-size: 28px;
+            color: var(--color-obsidian);
+        }
+        .nav-pill .logo { font-family: var(--font-display); font-weight: 800; font-size: 36px; letter-spacing: 0.01em; }
+        .nav-pill .cta { margin-left: auto; }
+        .btn-obsidian {
+            background: var(--color-obsidian); color: var(--color-paper);
+            border: none; border-radius: var(--radius-buttons);
+            padding: 24px 56px; font-family: var(--font-body); font-weight: 600; font-size: 30px;
+            cursor: pointer; line-height: 1;
+            box-shadow: 0 1px 2px 0 rgba(24,113,218,0.25);
+        }
+        .tag-pill {
+            display: inline-block; background: var(--color-paper); color: var(--color-obsidian);
+            border: 1px solid var(--color-pebble); border-radius: var(--radius-buttons);
+            padding: 10px 28px; font-family: var(--font-body); font-weight: 500; font-size: 24px;
+        }
+        .display {
+            font-family: var(--font-display); font-weight: 800;
+            letter-spacing: 0.01em; line-height: 0.95;
+            color: var(--color-obsidian);
+        }
+        .heading { font-family: var(--font-display); font-weight: 800; letter-spacing: 0.01em; color: var(--color-obsidian); }
+        .body-m, .body {
+            font-family: var(--font-body); font-weight: 400;
+            font-size: var(--text-body); line-height: var(--leading-body);
+            color: var(--color-obsidian);
+        }
+        .body-muted { font-family: var(--font-body); font-weight: 400; font-size: 28px; line-height: var(--leading-body); color: rgba(0,0,0,0.72); }
+        .card {
+            background: var(--color-paper);
+            border: 1px solid var(--color-concrete);
+            border-radius: var(--radius-cards);
+            padding: 40px;
+        }
+        .hl { background: var(--color-cotton-candy); }
+
+        /* Deck chrome — fixed to viewport */
+        .deck-chrome {
+            position: fixed; left: 0; right: 0; bottom: 24px; z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            padding: 0 48px; pointer-events: none;
+            font-family: var(--font-body); font-size: 22px; color: var(--color-obsidian);
+        }
+        .dot-nav {
+            display: flex; gap: var(--nav-dot-gap); align-items: center;
+            pointer-events: auto; width: fit-content;
+            color: var(--color-obsidian);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit; border-radius: 50%;
+            border: 2px solid currentColor; background: transparent;
+            padding: 0; cursor: pointer; transition: transform 0.2s ease;
+        }
+        .nav-dot.active { background: currentColor; transform: scale(var(--nav-active-scale)); }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        .speaker-note {
+            display: none; position: fixed; left: 50%; bottom: 96px;
+            transform: translateX(-50%); z-index: 2000;
+            max-width: 780px; max-height: 240px; overflow: auto;
+            padding: 20px 28px; border-radius: 16px;
+            font-family: var(--font-body); font-size: 24px; line-height: 1.6;
+            background: var(--color-obsidian); color: var(--color-mist);
+            pointer-events: none; text-align: left;
+        }
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --motion-duration: 0.7s;
+            --motion-distance: 28px;
+            --motion-stagger-step: 0.12s;
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;
+            --nav-dot-gap: 18px;
+            --nav-pill-pad-y: 14px;
+            --nav-pill-pad-x: 28px;
+            --nav-pill-alpha: 0.08;
+            --nav-pill-border-alpha: 0.28;
+            --nav-active-scale: 1.15;
+            --nav-hover-scale: 1.35;
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;
+            --frame-pad-top: 112px;
+            --frame-pad-x: 120px;
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        .slide.visible [class*="btn"] { transition: opacity 0.2s ease, transform 0.25s ease, background-color 0.2s ease; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #e5e7eb; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="Composer 开场：混凝土灰画布撒满 Bauhaus 彩色矩形——蓝色/绿/粉/黄，像信息形状。巨字 + 唯一黑色 filled 按钮。按 N 关备注。">
+            <div class="confetti" style="width:160px;height:160px; background:var(--color-signal-blue); right:220px; top:180px;"></div>
+            <div class="confetti" style="width:90px;height:220px; background:var(--color-hot-pink); right:520px; top:360px;"></div>
+            <div class="confetti" style="width:220px;height:90px; background:var(--color-pulse-green); right:150px; bottom:280px;"></div>
+            <nav class="nav-pill reveal">
+                <span class="logo">COMPOSER</span>
+                <span>PRODUCT</span><span>BLOG</span><span>CAREERS</span>
+                <button class="btn-obsidian cta" type="button">Get started</button>
+            </nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:176px; max-width:1000px;">
+                    <span class="tag-pill reveal d1">Editorial trading manifesto</span>
+                    <div class="display reveal d2" style="font-size:124px; margin-top:28px;">
+                        COMPOSE<br>YOUR <span style="color:var(--color-signal-blue);">MARKET</span>
+                    </div>
+                    <p class="body-muted reveal d3" style="max-width:720px; margin-top:28px;">
+                        The intelligence layer for teams who build the next market — information
+                        shaped like color, decisions set in type.
+                    </p>
+                    <div class="reveal d4" style="margin-top:32px;">
+                        <button class="btn-obsidian" type="button">Start composing</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — THE PROBLEM ========== -->
+        <section class="slide" data-note="问题页：市场数据是灰的——平铺直叙、无可读性。Composer 用编辑杂志式重组。">
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:200px; left:120px; right:120px;">
+                    <span class="tag-pill reveal">The problem</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">MARKETS ARE<br>DROWNING IN <span style="color:var(--color-alert-red);">GRAY</span></div>
+                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px;">
+                        <div class="card reveal d2">
+                            <div style="font-size:28px; font-family:var(--font-body); font-weight:600; color:var(--color-signal-blue);">Signal deluge</div>
+                            <div class="body-muted" style="margin-top:16px;">Feeds, alerts, and firehoses — signal buried in an undifferentiated stream.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div style="font-size:28px; font-family:var(--font-body); font-weight:600; color:var(--color-signal-blue);">Context debt</div>
+                            <div class="body-muted" style="margin-top:16px;">Every number arrives unanchored — no narrative, no hierarchy, no weight.</div>
+                        </div>
+                        <div class="card reveal d4">
+                            <div style="font-size:28px; font-family:var(--font-body); font-weight:600; color:var(--color-signal-blue);">Latency of action</div>
+                            <div class="body-muted" style="margin-top:16px;">By the time a committee agrees what matters, the window is gone.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE INSIGHT ========== -->
+        <section class="slide" data-note="洞察页：信息应该像杂志封面，而不是数据报表——层级、节奏、留白。彩色是标点。">
+            <div class="confetti" style="width:200px;height:140px; right:200px; bottom:200px; background:var(--color-solar-yellow);"></div>
+            <div class="confetti" style="width:120px;height:120px; background:var(--color-hot-pink); right:400px; top:200px;"></div>
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:260px; max-width:1000px;">
+                    <span class="tag-pill reveal">The insight</span>
+                    <div class="heading reveal d1" style="font-size:110px; margin:32px 0 48px;">
+                        READ LIKE<br>A <span style="color:var(--color-forest-moss);">COVER</span>
+                    </div>
+                    <p class="body-muted reveal d2" style="max-width:820px; line-height:1.5;">
+                        The best market signals are editorial. Composer sets the story first — scale,
+                        hierarchy, and rhythm — then lets color punctuate the argument instead of
+                        coloring every cell.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — HOW IT WORKS ========== -->
+        <section class="slide" data-note="原理页：摄取→构图→决策。灰调数据进来，杂志式信号出去。三卡讲管线。">
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:200px; left:120px; right:120px;">
+                    <span class="tag-pill reveal">How it works</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">FROM NOISE<br>TO <span style="color:var(--color-signal-blue);">NARRATIVE</span></div>
+                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px;">
+                        <div class="card reveal d2">
+                            <div style="width:56px;height:56px; border-radius:var(--radius-icons); background:var(--color-signal-blue);"></div>
+                            <div style="font-size:30px; font-family:var(--font-body); font-weight:600; margin-top:24px;">Ingest</div>
+                            <div class="body-muted" style="margin-top:12px;">Every feed, fill, and field lands in one canonical model.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div style="width:56px;height:56px; border-radius:var(--radius-icons); background:var(--color-hot-pink);"></div>
+                            <div style="font-size:30px; font-family:var(--font-body); font-weight:600; margin-top:24px;">Compose</div>
+                            <div class="body-muted" style="margin-top:12px;">The layout engine ranks signal and sets the editorial hierarchy.</div>
+                        </div>
+                        <div class="card reveal d4">
+                            <div style="width:56px;height:56px; border-radius:var(--radius-icons); background:var(--color-pulse-green);"></div>
+                            <div style="font-size:30px; font-family:var(--font-body); font-weight:600; margin-top:24px;">Decide</div>
+                            <div class="body-muted" style="margin-top:12px;">Teams act on a narrative, not a spreadsheet — faster by design.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — PRODUCT ========== -->
+        <section class="slide" data-note="产品页：控制台是干净的灰调仪表——不彩色。功能/色彩在此收束，只留信号。">
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:200px; left:120px; right:120px;">
+                    <span class="tag-pill reveal">The console</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 48px;">QUIET WHERE<br>IT <span style="color:var(--color-signal-blue);">COUNTS</span></div>
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:40px;">
+                        <div class="card reveal d2" style="background:var(--color-graphite); border:none; padding:48px;">
+                            <div style="font-family:var(--font-body); font-weight:500; font-size:24px; color:rgba(255,255,255,0.6);">MARKET PULSE / BAUHAUS</div>
+                            <div style="font-family:var(--font-display); font-weight:800; font-size:120px; color:var(--color-paper); margin-top:20px;">+2.4<span style="font-size:0.5em;">%</span></div>
+                            <div style="display:flex; gap:16px; margin-top:32px;">
+                                <span style="width:32px;height:32px; border-radius:var(--radius-icons); background:var(--color-signal-blue);"></span>
+                                <span style="width:32px;height:32px; border-radius:var(--radius-icons); background:var(--color-pulse-green);"></span>
+                                <span style="width:32px;height:32px; border-radius:var(--radius-icons); background:var(--color-solar-yellow);"></span>
+                            </div>
+                        </div>
+                        <div class="card reveal d3" style="display:flex; flex-direction:column; justify-content:center; gap:24px;">
+                            <div class="body-muted">One pane for the whole flow — ingest, composed briefs, and team decisions in context.</div>
+                            <button class="btn-obsidian" type="button" style="align-self:flex-start;">Open console</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — TRUST ========== -->
+        <section class="slide" data-note="信任页：纪律即信任——黑色是唯一动作用色，色彩永远只做标点。两条事实卡。">
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:200px; left:120px; right:120px;">
+                    <span class="tag-pill reveal">Built on discipline</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">COLOR IS<br>NOT <span style="color:var(--color-ember-orange);">ACTION</span></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+                        <div class="card reveal d2">
+                            <div style="font-size:28px; font-family:var(--font-body); font-weight:600; color:var(--color-obsidian);">Black = action</div>
+                            <div class="body-muted" style="margin-top:16px;">The only filled button is black. Chromatic color punctuates, never commands.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div style="font-size:28px; font-family:var(--font-body); font-weight:600; color:var(--color-obsidian);">Type = truth</div>
+                            <div class="body-muted" style="margin-top:16px;">Black on white at 21:1 contrast — readability is the safety floor, always.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — SCALE ========== -->
+        <section class="slide" data-note="规模页：一个黑色大字撑全文 + 三个 confetti 色块作信息标点。">
+            <div class="confetti" style="width:140px;height:140px; background:var(--color-hot-pink); right:240px; top:300px;"></div>
+            <div class="confetti" style="width:160px;height:90px; background:var(--color-solar-yellow); right:420px; bottom:260px;"></div>
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span><button class="btn-obsidian cta" type="button">Get started</button></nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:320px; max-width:1300px;">
+                    <span class="tag-pill reveal">In production</span>
+                    <div style="display:flex; align-items:flex-end; gap:80px; margin-top:40px;">
+                        <div class="card reveal d2" style="background:var(--color-paper); border:none; padding:56px 64px;">
+                            <div style="font-family:var(--font-display); font-weight:800; font-size:150px; color:var(--color-obsidian); letter-spacing:0.01em; line-height:0.9;">3.1<span style="font-size:0.45em;">x</span></div>
+                        </div>
+                        <div class="reveal d3" style="max-width:680px;">
+                            <div class="body-muted" style="line-height:1.5;">
+                                Faster to a defensible decision for teams on Composer — the layout
+                                engine turns raw flow into an argument your stakeholders can actually read.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING ========== -->
+        <section class="slide" data-note="收尾：把市场谱成曲子。彩色标点 + 黑色动作。">
+            <div class="confetti" style="width:180px;height:120px; background:var(--color-signal-blue); left:160px; bottom:200px;"></div>
+            <div class="confetti" style="width:140px;height:90px; background:var(--color-pulse-green); right:420px; bottom:160px;"></div>
+            <nav class="nav-pill reveal"><span class="logo">COMPOSER</span><span>PRODUCT</span><span>BLOG</span></nav>
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div style="max-width:1500px;">
+                    <div class="display reveal d1" style="font-size:150px;">
+                        COMPOSE<br>THE <span style="color:var(--color-hot-pink);">NEXT</span> MOVE
+                    </div>
+                    <p class="body-muted reveal d2" style="max-width:760px; margin-top:48px;">
+                        Stop reading spreadsheets. Start reading the market the way it deserves —
+                        like a story with stakes.
+                    </p>
+                    <div class="reveal d3" style="margin-top:56px;">
+                        <button class="btn-obsidian" type="button">Start composing</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* Deck controller — standard stage scale + nav + presenter */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale(); this.setupDotNav(); this.setupKeyboardNav(); this.setupTouchNav();
+            this.initFromQuery(); this.showSlide(this.currentSlide);
+        }
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            }; scale(); window.addEventListener('resize', scale);
+        }
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button'); d.className = 'nav-dot'; d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1)); d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i)); this.dotNav.appendChild(d);
+            });
+        }
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => { d.classList.toggle('active', i === this.currentSlide); });
+            this.updateNotes();
+        }
+    }
+    new SlidePresentation();
+</script>
+</body>
+</html>

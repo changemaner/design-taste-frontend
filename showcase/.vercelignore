@@ -1,0 +1,5 @@
+# deploy.py 维护：本地重导出与可再生产物，不上传
+exports/
+*/screenshots/
+__pycache__/
+.vercel/

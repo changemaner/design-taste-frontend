@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh"><head><meta charset="utf-8">
+<title>设计风格图廊</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 32px; background: #f5f5f4; color: #1a1a1a; }
+  h1 { font-size: 28px; } h1 small { color: #888; font-weight: normal; }
+  .filters { margin: 16px 0 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters button { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 20px; cursor: pointer; }
+  .filters button.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .preview { height: 160px; display: flex; align-items: center; justify-content: center; background: #eee; }
+  .shot { width: 100%; height: 100%; object-fit: cover; }
+  .placeholder { color: #999; font-size: 13px; text-align: center; }
+  .body { padding: 16px; }
+  .body h3 { margin: 0 0 6px; font-size: 18px; }
+  .tag { margin: 0 0 10px; color: #666; font-size: 13px; }
+  .swatches { display: flex; gap: 4px; margin: 0 0 10px; }
+  .sw { width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,.1); }
+  .tags { display: flex; gap: 6px; margin-bottom: 8px; }
+  .chip { font-size: 11px; padding: 2px 8px; background: #f0f0ef; border-radius: 10px; }
+  .sig { font-size: 12px; color: #555; line-height: 1.6; }
+</style></head><body>
+<h1>设计风格图廊 <small>design-taste-frontend · 30 套素材 + 自定义区</small></h1>
+<div class="filters">
+  <button data-f="all" class="active">全部</button>
+  <button data-f="material">品牌素材</button>
+  <button data-f="custom">自定义</button>
+  <button data-f="light">浅色</button>
+  <button data-f="dark">深色</button>
+</div>
+<div class="grid" id="grid">
+        <article class="card" data-type="material" data-scheme="dark" data-density="comfortable">
+          <div class="preview"><img class="shot" src="air/slide-0.png" alt="Air"></div>
+          <div class="body">
+            <h3>Air</h3>
+            <p class="tag">midnight sky through glass sculpture</p>
+            <div class="swatches"><span class="sw" style="background:#ffffff" title="whiteout:#ffffff"></span><span class="sw" style="background:#f5f5f5" title="haze:#f5f5f5"></span><span class="sw" style="background:#1b1b1b" title="ink:#1b1b1b"></span><span class="sw" style="background:#000000" title="black-void:#000000"></span><span class="sw" style="background:#426188" title="twilight-blue:#426188"></span><span class="sw" style="background:#2b7fff" title="signal-blue:#2b7fff"></span></div>
+            <div class="tags">
+              <span class="chip">深色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Ghost buttons — transparent fill + 1px white border + white text, 8px radius — the only nav CTA treatment; no filled colored buttons anywhere<br>• Full-bleed dark photographic sections (clouds, glass sculpture) with centered headline overlays, no container constraint — imagery carries the emotion<br>• Compressed display headline at 259px/900 weight/0.85 leading, uppercase, bleeding to viewport edges, used sparingly for maximum-impact statements</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="anthropic/slide-0.png" alt="Anthropic"></div>
+          <div class="body">
+            <h3>Anthropic</h3>
+            <p class="tag">scientific field journal on warm parchment — quiet ivory surfaces, editorial serif headlines, and a single clay accent that only appears when you must act</p>
+            <div class="swatches"><span class="sw" style="background:#141413" title="slate-dark:#141413"></span><span class="sw" style="background:#f0eee6" title="ivory-medium:#f0eee6"></span><span class="sw" style="background:#faf9f5" title="ivory-light:#faf9f5"></span><span class="sw" style="background:#b0aea5" title="cloud-medium:#b0aea5"></span><span class="sw" style="background:#87867f" title="cloud-dark:#87867f"></span><span class="sw" style="background:#cccbc8" title="stone:#cccbc8"></span><span class="sw" style="background:#3d3d3a" title="slate-medium:#3d3d3a"></span><span class="sw" style="background:#e3dacc" title="oat-warm:#e3dacc"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">high</span>
+            </div>
+            <div class="sig">• Bottom-only 8px border-radius on filled buttons (sharp top corners) — the signature 'tab pulled from a stack' corner that replaces the generic pill<br>• Filled Ivory button (#faf9f5 fill, #141413 text) as the default primary CTA, with Clay reserved for the single most consequential action per page<br>• Persistent 1px underline on every inline link — editorial print convention, not hover-reveal</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="caldera/slide-0.png" alt="Caldera"></div>
+          <div class="body">
+            <h3>Caldera</h3>
+            <p class="tag">forge fire on warm limestone. The canvas is raw warm plaster, and every orange element reads as glowing embers pressed into the surface.</p>
+            <div class="swatches"><span class="sw" style="background:#fc5000" title="ember:#fc5000"></span><span class="sw" style="background:#524ae9" title="plasma-violet:#524ae9"></span><span class="sw" style="background:#f5f28e" title="sulfur:#f5f28e"></span><span class="sw" style="background:#f7f6f2" title="limestone:#f7f6f2"></span><span class="sw" style="background:#e2e2df" title="pumice:#e2e2df"></span><span class="sw" style="background:#070607" title="obsidian:#070607"></span><span class="sw" style="background:#ffffff" title="chalk:#ffffff"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Triple-radius system — 100px inputs / 40px cards & rectangular buttons / 800px full pills — the consistent roundness that defines every control<br>• 189px ultrabold compressed display headline at 0.94 line-height — sign-painted, near-architectural scale as the page signature<br>• Hero halftone dot pattern — orange dots on a violet-to-orange gradient, always at hero scale with 40px radius, the most recognizable motif</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="composer/slide-0.png" alt="Composer"></div>
+          <div class="body">
+            <h3>Composer</h3>
+            <p class="tag">Bauhaus confetti on concrete</p>
+            <div class="swatches"><span class="sw" style="background:#1871da" title="signal-blue:#1871da"></span><span class="sw" style="background:#1ec072" title="pulse-green:#1ec072"></span><span class="sw" style="background:#f6609f" title="hot-pink:#f6609f"></span><span class="sw" style="background:#ffb4ed" title="cotton-candy:#ffb4ed"></span><span class="sw" style="background:#ffbb38" title="solar-yellow:#ffbb38"></span><span class="sw" style="background:#ff5500" title="ember-orange:#ff5500"></span><span class="sw" style="background:#31805a" title="forest-moss:#31805a"></span><span class="sw" style="background:#ffa724" title="tangerine:#ffa724"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• 244px display headline at weight 600, line-height 1.0, positive tracking — transforms headings into posters, paired with a smaller 'headline + dek' subtitle<br>• Confetti color blocks — zero-radius solid rectangles (40-200px) scattered across the gray canvas as geometric information, not decoration<br>• Filled black pill CTA (Obsidian fill, white text, 9999px radius, arrow glyph) — the system's only filled button, never chromatic</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="discover/slide-0.png" alt="Discover"></div>
+          <div class="body">
+            <h3>Discover</h3>
+            <p class="tag">Type museum on white marble — a near-black wordmark, a whisper of coral, and everything else recedes.</p>
+            <div class="swatches"><span class="sw" style="background:#121212" title="ink:#121212"></span><span class="sw" style="background:#ffffff" title="canvas:#ffffff"></span><span class="sw" style="background:#dbdada" title="fog:#dbdada"></span><span class="sw" style="background:#8e8e93" title="slate:#8e8e93"></span><span class="sw" style="background:#000000" title="obsidian:#000000"></span><span class="sw" style="background:#ee585a" title="signal-coral:#ee585a"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• 120px Aeonik 700 wordmark at -1.32px tracking, near-edge-to-edge on white — the brand name as the hero image<br>• Single 12px Signal Coral notification dot on the wordmark's final letter — one pop of color that says 'new' without a badge<br>• 32px border-radius on all cards, buttons, and containers — the large soft radius that defines the modern gallery feel</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="flying-papers/slide-0.png" alt="Flying Papers"></div>
+          <div class="body">
+            <h3>Flying Papers</h3>
+            <p class="tag">Saturday morning cartoon confessional</p>
+            <div class="swatches"><span class="sw" style="background:#8584bd" title="dusk-violet:#8584bd"></span><span class="sw" style="background:#f4ed36" title="hi-vis-yellow:#f4ed36"></span><span class="sw" style="background:#f9cc73" title="buttery-yellow:#f9cc73"></span><span class="sw" style="background:#61609a" title="lilac-shadow:#61609a"></span><span class="sw" style="background:#f8c1ba" title="bubblegum-pink:#f8c1ba"></span><span class="sw" style="background:#b5c995" title="matcha-cream:#b5c995"></span><span class="sw" style="background:#ac4f98" title="magenta-punch:#ac4f98"></span><span class="sw" style="background:#c94245" title="firecracker-red:#c94245"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• One dominant display headline (184-341px) per screen — every screen reads as a single bold poster with generous breathing room<br>• Outlined Hi-Vis Yellow action button (2-3px border, 100px pill) as the only action treatment — no filled CTA anywhere<br>• Cartoon mascot illustration with thick 2-3px black outlines and flat 2-3 color fills, peeking through or standing on the type</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="frankys/slide-0.png" alt="FRANKY'S"></div>
+          <div class="body">
+            <h3>FRANKY'S</h3>
+            <p class="tag">Retro arcade kiosk on a skate-shop counter.</p>
+            <div class="swatches"><span class="sw" style="background:#f3e5df" title="arcade-cream:#f3e5df"></span><span class="sw" style="background:#000000" title="ink-black:#000000"></span><span class="sw" style="background:#e5e7eb" title="pixel-gray:#e5e7eb"></span><span class="sw" style="background:#333333" title="charcoal:#333333"></span><span class="sw" style="background:#151515" title="carbon:#151515"></span><span class="sw" style="background:#737373" title="muted-gray:#737373"></span><span class="sw" style="background:#faa21f" title="marquee-orange:#faa21f"></span><span class="sw" style="background:#128e44" title="buy-green:#128e44"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• Black-and-white checkerboard (#f3e5df / #000000, ~48px tiles) as the hero product panel and brand pattern — never a functional UI surface<br>• 6px radius on all CTAs, tags, and toggles with a 1px inset cream highlight (rgb(243,229,223) 0 1px 0 0 inset) for the arcade-button bevel<br>• Marquee sheen gradient band (orange → cream → orange) across the top — the only decorative chromatic surface on the page</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="general-intelligence-company/slide-0.png" alt="General Intelligence Company"></div>
+          <div class="body">
+            <h3>General Intelligence Company</h3>
+            <p class="tag">Literary journal beside a bonfire</p>
+            <div class="swatches"><span class="sw" style="background:#fefffc" title="parchment:#fefffc"></span><span class="sw" style="background:#ffffff" title="paper:#ffffff"></span><span class="sw" style="background:#f9faf7" title="linen:#f9faf7"></span><span class="sw" style="background:#171717" title="ink-black:#171717"></span><span class="sw" style="background:#2c2c2c" title="graphite:#2c2c2c"></span><span class="sw" style="background:#444141" title="charcoal:#444141"></span><span class="sw" style="background:#646464" title="ash:#646464"></span><span class="sw" style="background:#b4b8b4" title="fog:#b4b8b4"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">high</span>
+            </div>
+            <div class="sig">• Frosted navigation pill — floating top-center, rgba white + backdrop-blur(9-20px), 50px pill radius, 1px twilight border — lets the illustrated hero show through<br>• Full-bleed hand-painted atmospheric illustrations (moonlit skylines, wildflower meadows) as the emotional work, with UI living on clean white between scenes<br>• Border-only CTA in Signal Blue (#41a1cf) at 8px radius — no fill, no shadow, the chromatic border is the button's entire identity</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="good-glyphs/slide-0.png" alt="Good Glyphs"></div>
+          <div class="body">
+            <h3>Good Glyphs</h3>
+            <p class="tag">oversized charity poster on mint paper — type so large it behaves as architecture, not text.</p>
+            <div class="swatches"><span class="sw" style="background:#c7ffcd" title="pledge-mint:#c7ffcd"></span><span class="sw" style="background:#000000" title="ink-black:#000000"></span><span class="sw" style="background:#101010" title="carbon:#101010"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• 288px / weight 300 / line-height 0.80 / -0.03em tracking display headline — the brand name rendered as a locked wall of ink, size IS the identity<br>• Full-bleed mint-to-black band alternation producing poster-strip rhythm rather than card-based hierarchy<br>• Fully pill-shaped 140px controls for every interactive element — no squared or rounded-rect variants, hover inverts fill (mint→black, black→mint)</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="mixed" data-density="comfortable">
+          <div class="preview"><img class="shot" src="henry/slide-0.png" alt="Henry"></div>
+          <div class="body">
+            <h3>Henry</h3>
+            <p class="tag">Gothic broadside poster on warm cream paper. One hundred percent monochrome, no chromatic accent, all visual intensity carried by display type and full-bleed paper-to-ink inversions.</p>
+            <div class="swatches"><span class="sw" style="background:#fafafa" title="paper:#fafafa"></span><span class="sw" style="background:#eeeeee" title="hairline:#eeeeee"></span><span class="sw" style="background:#9f9f9f" title="midstone:#9f9f9f"></span><span class="sw" style="background:#666666" title="ash:#666666"></span><span class="sw" style="background:#b3b3b3" title="pebble:#b3b3b3"></span><span class="sw" style="background:#3e3b36" title="sepia:#3e3b36"></span><span class="sw" style="background:#2a2722" title="headline-ink:#2a2722"></span></div>
+            <div class="tags">
+              <span class="chip">混合</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">high</span>
+            </div>
+            <div class="sig">• Full-bleed Paper/Ink section inversion — cream type on Ink bands and ink type on Paper, flipped like a broadsheet, never gradient-blended<br>• Manuka section mastheads at 226-371px, weight 400, line-height 0.75, uppercase, edge-to-edge — condensed type as the entire section identity<br>• Louize Display headline at 116-132px with an intersecting half-size italic phrase set inside the same baseline (e.g. 'of the' at 35px within 132px type)</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="huddle/slide-0.png" alt="Huddle"></div>
+          <div class="body">
+            <h3>Huddle</h3>
+            <p class="tag">Pastel inventory cards on cream paper</p>
+            <div class="swatches"><span class="sw" style="background:#ffffff" title="paper-white:#ffffff"></span><span class="sw" style="background:#151515" title="ink-black:#151515"></span><span class="sw" style="background:#23241f" title="graphite:#23241f"></span><span class="sw" style="background:#3a4444" title="slate-gray:#3a4444"></span><span class="sw" style="background:#333333" title="stone-border:#333333"></span><span class="sw" style="background:#808080" title="mist-gray:#808080"></span><span class="sw" style="background:#e5e6e1" title="bone:#e5e6e1"></span><span class="sw" style="background:#d3e5e9" title="pale-sage:#d3e5e9"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Three pastel card colors (sage/lavender/dusty rose) as a fixed status taxonomy — one color per project status, never mixed within a card<br>• A deliberate radius vocabulary: 100px pill tags and secondary buttons, 8px cards, 1000px reserved for the single primary button — corner treatment is the hierarchy<br>• All-caps bullet/step-number micro-labels ('• STEP 1: THE BRIEF') in 12px Nng as the primary wayfinding device</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="mixed" data-density="spacious">
+          <div class="preview"><img class="shot" src="hyer-aviation/slide-0.png" alt="Hyer Aviation"></div>
+          <div class="body">
+            <h3>Hyer Aviation</h3>
+            <p class="tag">Cockpit twilight over parchment. A pale dawn-sky meets a slab-serif logo the size of a fuselage, with one warm clay accent breaking the monochrome restraint.</p>
+            <div class="swatches"><span class="sw" style="background:#000d10" title="deep-ink:#000d10"></span><span class="sw" style="background:#ffffff" title="pure-white:#ffffff"></span><span class="sw" style="background:#8e8e95" title="cool-ash:#8e8e95"></span><span class="sw" style="background:#d5d3d4" title="pebble:#d5d3d4"></span><span class="sw" style="background:#0f0f1c" title="midnight-hull:#0f0f1c"></span><span class="sw" style="background:#151623" title="charcoal-deck:#151623"></span><span class="sw" style="background:#bc7155" title="clay-ember:#bc7155"></span></div>
+            <div class="tags">
+              <span class="chip">混合</span>
+              <span class="chip">spacious</span>
+              <span class="chip">high</span>
+            </div>
+            <div class="sig">• 187px weight 700 display headline with -3.74px tracking — type set at near-architectural scale so headlines read as physical objects<br>• Every button and nav item is a full 1000px pill while the featured clay card stays hard-edged 0px — the soft/hard tension defines the system<br>• One Clay Ember (#bc7155) featured card per page — the single warm note in an austere monochrome field, single-use per viewport</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="ikea/slide-0.png" alt="IKEA"></div>
+          <div class="body">
+            <h3>IKEA</h3>
+            <p class="tag">sunlit Swedish flat-pack showroom</p>
+            <div class="swatches"><span class="sw" style="background:#ffdb00" title="ikea-yellow:#ffdb00"></span><span class="sw" style="background:#111111" title="ink-black:#111111"></span><span class="sw" style="background:#ffffff" title="pure-white:#ffffff"></span><span class="sw" style="background:#fffefb" title="warm-white:#fffefb"></span><span class="sw" style="background:#818181" title="steel-gray:#818181"></span><span class="sw" style="background:#000000" title="true-black:#000000"></span><span class="sw" style="background:#0159a3" title="link-blue:#0159a3"></span><span class="sw" style="background:#ffa6da" title="soft-pink:#ffa6da"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• The Yellow CTA Card — a solid #ffdb00 plane + bold black headline + circular black arrow button, the unmistakable primary-action signature<br>• Exactly one border radius in the whole system: 8px on cards, images, inputs, buttons, everything — flat-pack modular uniformity<br>• A binary 400/700 weight system — hierarchy is forced through size and color alone, never extra weights</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="lamanna/slide-0.png" alt="Lamanna"></div>
+          <div class="body">
+            <h3>Lamanna</h3>
+            <p class="tag">Neon circus tent on a Naples sidewalk</p>
+            <div class="swatches"><span class="sw" style="background:#ff4100" title="anger-orange:#ff4100"></span><span class="sw" style="background:#ffc700" title="sun-yellow:#ffc700"></span><span class="sw" style="background:#1573dd" title="royal-blue:#1573dd"></span><span class="sw" style="background:#292a2c" title="charcoal:#292a2c"></span><span class="sw" style="background:#000000" title="obsidian:#000000"></span><span class="sw" style="background:#fdbeba" title="blush-peach:#fdbeba"></span><span class="sw" style="background:#fee3c1" title="cream:#fee3c1"></span><span class="sw" style="background:#f6e653" title="lemon-cream:#f6e653"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• Full-bleed color bands with hard chromatic transitions (orange → blush → yellow) as section dividers — no max-width container, no card padding, every element touches the viewport edge<br>• Right Grotesk Spatial display at line-height 0.89 so headlines stack into dense solid slabs rather than airy type<br>• 3D drop-shadow headlines — a solid #ff4100 offset on #ffc700 text, no blur, built-in dimensional depth</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="leandra-isler/slide-0.png" alt="Leandra-isler"></div>
+          <div class="body">
+            <h3>Leandra-isler</h3>
+            <p class="tag">dried botanicals pressed into warm vellum — calm, tactile, editorial, almost reverent.</p>
+            <div class="swatches"><span class="sw" style="background:#f4e6cd" title="vellum-sand:#f4e6cd"></span><span class="sw" style="background:#edddc3" title="pressed-linen:#edddc3"></span><span class="sw" style="background:#1e211e" title="aged-ink:#1e211e"></span><span class="sw" style="background:#000000" title="charcoal-black:#000000"></span><span class="sw" style="background:#8f774b" title="twilight-bronze:#8f774b"></span><span class="sw" style="background:#ba9d6a" title="hayfield:#ba9d6a"></span><span class="sw" style="background:#d6bd97" title="wheat-sheaf:#d6bd97"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Extreme display scaling — one typeface stretched from 14px captions to 158–173px weight-500 hero headlines; scale itself is the hierarchy<br>• Underlined text links only — 1px underline offset 2–4px below the baseline, never a filled button, never a pill chip<br>• Edge-to-edge vellum canvas with no max-width container; sections separated by 80–120px of space and occasional 1px hairlines, never cards or panels</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="lpalo/slide-0.png" alt="Lpalo"></div>
+          <div class="body">
+            <h3>Lpalo</h3>
+            <p class="tag">A children's storybook spread on warm peach paper — one slab-serif headline shouting through scattered crayon doodles.</p>
+            <div class="swatches"><span class="sw" style="background:#f6e0db" title="peach-paper:#f6e0db"></span><span class="sw" style="background:#000000" title="charcoal-ink:#000000"></span><span class="sw" style="background:#ffffff" title="snow:#ffffff"></span><span class="sw" style="background:#ef724f" title="ember-orange:#ef724f"></span><span class="sw" style="background:#981082" title="magenta-pop:#981082"></span><span class="sw" style="background:#e7db4c" title="sunbeam-yellow:#e7db4c"></span><span class="sw" style="background:#ace2df" title="mint-wash:#ace2df"></span><span class="sw" style="background:#84bfff" title="powder-blue:#84bfff"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• Chunky single-weight slab-serif headlines (Alfa Slab One, 46–120px) at line-height ≤ 1.20 so type reads as shouting — the brand's heavy lifter<br>• White cards with 2px pure-black borders and 40–47px pill radii — the signature outlined-card language, no shadows<br>• Line-art doodles (headphones, robots, cassettes) scattered at varied rotations around text — asymmetry is part of the storybook feel</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="dark" data-density="spacious">
+          <div class="preview"><img class="shot" src="mercury/slide-0.png" alt="Mercury"></div>
+          <div class="body">
+            <h3>Mercury</h3>
+            <p class="tag">Alpine banking at blue hour</p>
+            <div class="swatches"><span class="sw" style="background:#171721" title="onyx-canvas:#171721"></span><span class="sw" style="background:#1e1e2a" title="graphite-card:#1e1e2a"></span><span class="sw" style="background:#272735" title="obsidian-button:#272735"></span><span class="sw" style="background:#70707d" title="slate-border:#70707d"></span><span class="sw" style="background:#e2e3ed" title="mist-border:#e2e3ed"></span><span class="sw" style="background:#c3c3cc" title="ash-text:#c3c3cc"></span><span class="sw" style="background:#ededf3" title="ivory-text:#ededf3"></span><span class="sw" style="background:#5266eb" title="cobalt:#5266eb"></span></div>
+            <div class="tags">
+              <span class="chip">深色</span>
+              <span class="chip">spacious</span>
+              <span class="chip">high</span>
+            </div>
+            <div class="sig">• One Cobalt-filled pill button per page as the sole chromatic action — the gravitational center of the layout<br>• Intermediate-weight typography (arcadiaDisplay at 480, not 600/700) — asserts without shouting, the signature restraint<br>• Graphite cards (#1e1e2a, 12px radius, 32px padding) with no border and no shadow — the one-step value lift creates separation</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="monad/slide-0.png" alt="Monad"></div>
+          <div class="body">
+            <h3>Monad</h3>
+            <p class="tag">editorial tech journal on warm parchment</p>
+            <div class="swatches"><span class="sw" style="background:#f6f3f1" title="parchment:#f6f3f1"></span><span class="sw" style="background:#2b59d1" title="lake-blue:#2b59d1"></span><span class="sw" style="background:#cfdaf5" title="periwinkle-mist:#cfdaf5"></span><span class="sw" style="background:#a0b5eb" title="sky-blue:#a0b5eb"></span><span class="sw" style="background:#a7fccd" title="mint:#a7fccd"></span><span class="sw" style="background:#ff9473" title="coral:#ff9473"></span><span class="sw" style="background:#ecda98" title="gold:#ecda98"></span><span class="sw" style="background:#f37a0a" title="crimson:#f37a0a"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• The serif-mono pairing — Untitled Serif at weight 400 for all headlines, ABC Diatype Mono for every body/nav/button/UI string — the serif announces, the mono instructs<br>• Uppercase + tight-tracking mono labels on nav, buttons, and tags (18px / 14px), making functional text read as data<br>• Lake Blue pill button with a trailing arrow as the single saturated conversion action per screen</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="spacious">
+          <div class="preview"><img class="shot" src="monopo-saigon/slide-0.png" alt="Monopo Saigon"></div>
+          <div class="body">
+            <h3>Monopo Saigon</h3>
+            <p class="tag">Liquid iridescence behind editorial silence — a monochrome editorial gallery floating on molten light.</p>
+            <div class="swatches"><span class="sw" style="background:#000000" title="obsidian:#000000"></span><span class="sw" style="background:#ffffff" title="paper:#ffffff"></span><span class="sw" style="background:#181818" title="inkstone:#181818"></span><span class="sw" style="background:#6d6d6d" title="felt-gray:#6d6d6d"></span><span class="sw" style="background:#636363" title="slate-pill:#636363"></span><span class="sw" style="background:#9a9a9a" title="ash-mist:#9a9a9a"></span><span class="sw" style="background:#808080" title="pewter:#808080"></span><span class="sw" style="background:#a02d25" title="iridescent-fade:#a02d25"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">spacious</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Monumental Roobert headlines at 225px weight 400 owning the full viewport — no subheads, no CTAs crowding the hero<br>• The 75px full-pill radius on buttons and tags against 0px corners everywhere else — sharp editorial contrast with no intermediate rounding<br>• Whisper-weight section headlines (78px weight 300) and 94px/0.76 line-height statement blocks — type as art object, lines nearly touching</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="motherduck/slide-0.png" alt="MotherDuck"></div>
+          <div class="body">
+            <h3>MotherDuck</h3>
+            <p class="tag">Crayon-coded terminal on cream paper — a developer tool that refuses to dress like one.</p>
+            <div class="swatches"><span class="sw" style="background:#f4efea" title="cream-paper:#f4efea"></span><span class="sw" style="background:#ffffff" title="frost-white:#ffffff"></span><span class="sw" style="background:#f8f8f7" title="chalk-gray:#f8f8f7"></span><span class="sw" style="background:#ebf9ff" title="ice-wash:#ebf9ff"></span><span class="sw" style="background:#f9fbe7" title="notebook-pale:#f9fbe7"></span><span class="sw" style="background:#383838" title="charcoal-ink:#383838"></span><span class="sw" style="background:#a1a1a1" title="pencil-gray:#a1a1a1"></span><span class="sw" style="background:#818181" title="graphite:#818181"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• Hard offset shadow (rgb(56,56,56) -6px 6px 0px 0px) on every button and interactive card — the elevation system<br>• 2px near-square corners everywhere — non-negotiable notebook-paper geometry<br>• Hand-drawn line-art mascots (ducks, clouds, speech bubbles) in charcoal + wet-cement strokes, bleeding past container edges</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="mixed" data-density="comfortable">
+          <div class="preview"><img class="shot" src="oryzo-ai/slide-0.png" alt="ORYZO AI"></div>
+          <div class="body">
+            <h3>ORYZO AI</h3>
+            <p class="tag">Darkroom product editorial. A lone object floating in warm darkness, cream typography the only decoration.</p>
+            <div class="swatches"><span class="sw" style="background:#ffedd7" title="warm-cream:#ffedd7"></span><span class="sw" style="background:#100904" title="walnut-shadow:#100904"></span><span class="sw" style="background:#382416" title="bark-brown:#382416"></span><span class="sw" style="background:#40372e" title="cork-border:#40372e"></span><span class="sw" style="background:#6c5f51" title="driftwood:#6c5f51"></span><span class="sw" style="background:#dc5000" title="ember-accent:#dc5000"></span><span class="sw" style="background:#000000" title="pure-black:#000000"></span><span class="sw" style="background:#ffbf02" title="brand-gold:#ffbf02"></span></div>
+            <div class="tags">
+              <span class="chip">混合</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Green cutting-mat photographic hero (top-down cork coaster on #445231 with white grid, pencils, craft knife, paperclip) — the brand's in-context moment; sections below switch to warm-dark void mode<br>• Uppercase weight 500 for labels, nav, and display with the sole exception of 29px/400 Literata serif body — the serif mixed-case shift is the signal that you are reading description, not label<br>• Museum-label typography at line-height 0.9 on 41–51px display sizes — uppercase letterforms overlap their bounds and stack as sculptural solid form</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="spacious">
+          <div class="preview"><img class="shot" src="patch/slide-0.png" alt="Patch"></div>
+          <div class="body">
+            <h3>Patch</h3>
+            <p class="tag">electric blueprint on drafting paper</p>
+            <div class="swatches"><span class="sw" style="background:#1f00ff" title="electric-indigo:#1f00ff"></span><span class="sw" style="background:#ff622b" title="patch-orange:#ff622b"></span><span class="sw" style="background:#ffffff" title="pure-white:#ffffff"></span><span class="sw" style="background:#f2f2f2" title="fog-gray:#f2f2f2"></span><span class="sw" style="background:#f8f8f8" title="bone:#f8f8f8"></span><span class="sw" style="background:#ececec" title="mist:#ececec"></span><span class="sw" style="background:#d3d3d3" title="gridline:#d3d3d3"></span><span class="sw" style="background:#212121" title="ink:#212121"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">spacious</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Full-bleed electric-indigo (#1f00ff) hero and alternating indigo/white section bands — the page is built on the blue/white duopoly<br>• PP Right weight 800 condensed display with sub-1.0 line heights (0.85–0.94), stacking headlines like concrete blocks — never below 21px<br>• The single filled orange (#ff622b) CTA button (5px radius, no shadow) as the only chromatic conversion surface; everything else outlined or text</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="dark" data-density="comfortable">
+          <div class="preview"><img class="shot" src="raycast/slide-0.png" alt="Raycast"></div>
+          <div class="body">
+            <h3>Raycast</h3>
+            <p class="tag">Midnight command center, coral neon</p>
+            <div class="swatches"><span class="sw" style="background:#040506" title="void-black:#040506"></span><span class="sw" style="background:#07080a" title="ink:#07080a"></span><span class="sw" style="background:#111214" title="obsidian:#111214"></span><span class="sw" style="background:#1b1c1e" title="graphite:#1b1c1e"></span><span class="sw" style="background:#6a6b6c" title="smoke:#6a6b6c"></span><span class="sw" style="background:#9c9c9d" title="ash:#9c9c9d"></span><span class="sw" style="background:#e6e6e6" title="mist:#e6e6e6"></span><span class="sw" style="background:#454647" title="iron:#454647"></span></div>
+            <div class="tags">
+              <span class="chip">深色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• The 'keyboard key' inner-shadow stack (inset top highlight + outer 1px ring + inset bottom shadow) on every elevated card — cards read as pressed key caps, not floating panels<br>• One full-bleed cinematic hero: massive abstract red/coral (#ff6363) and blue radial-gradient geometry — the only place the system breaks its own austere rules<br>• Neutral Mist (#e6e6e6) filled download buttons with Iron text as the only CTA — the system deliberately has no chromatic action button</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="compact">
+          <div class="preview"><img class="shot" src="seline-analytics/slide-0.png" alt="Seline Analytics"></div>
+          <div class="body">
+            <h3>Seline Analytics</h3>
+            <p class="tag">Quiet analyst's desk on warm paper</p>
+            <div class="swatches"><span class="sw" style="background:#fafaf9" title="stone-canvas:#fafaf9"></span><span class="sw" style="background:#ffffff" title="pure-white:#ffffff"></span><span class="sw" style="background:#e8e6e5" title="stone-border:#e8e6e5"></span><span class="sw" style="background:#d6d3d1" title="stone-muted:#d6d3d1"></span><span class="sw" style="background:#a8a29e" title="ash-gray:#a8a29e"></span><span class="sw" style="background:#78716c" title="warm-gray:#78716c"></span><span class="sw" style="background:#0c0a09" title="ink-black:#0c0a09"></span><span class="sw" style="background:#1c1917" title="soot:#1c1917"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">compact</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• The weight-400 headline whisper: Roobert at 52px/400 with tight negative tracking (-0.021em) — authority through restraint, never bumping to 600/700<br>• Exactly one cyan highlight span per headline (#3398e1 text on a #c1e1f7 pill wash) marking the value-prop keyword — the brand's voice marker<br>• The cyan filled pill CTA (#3ba6f1, 9999px radius) as the only chromatic filled element on any screen, used once per viewport maximum</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="steep/slide-0.png" alt="Steep"></div>
+          <div class="body">
+            <h3>Steep</h3>
+            <p class="tag">serif analytics on warm paper</p>
+            <div class="swatches"><span class="sw" style="background:#17191c" title="ink-black:#17191c"></span><span class="sw" style="background:#ffffff" title="paper-white:#ffffff"></span><span class="sw" style="background:#f2f2f3" title="mist-gray:#f2f2f3"></span><span class="sw" style="background:#fafafb" title="fog-white:#fafafb"></span><span class="sw" style="background:#777b86" title="slate-gray:#777b86"></span><span class="sw" style="background:#979799" title="ash-gray:#979799"></span><span class="sw" style="background:#a3a6af" title="smoke-gray:#a3a6af"></span><span class="sw" style="background:#fbe1d1" title="blush-peach:#fbe1d1"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Oversized Signifier weight-400 serif headlines (44/64/90px) with tight negative tracking and the occasional italicized phrase — the serif whispers authority rather than shouting in bold<br>• Floating product-artifact cards (region table, activation chart, AI composer) scattered around hero headlines on white with hairline borders and barely-there 10% shadows — the only elements allowed visible elevation<br>• The single Blush Peach (#fbe1d1) accent card with Sienna Brown ink — the one chromatic surface in the system, used as a rare kraft-paper editorial callout</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="dark" data-density="comfortable">
+          <div class="preview"><img class="shot" src="superhi-plus/slide-0.png" alt="SuperHi Plus"></div>
+          <div class="body">
+            <h3>SuperHi Plus</h3>
+            <p class="tag">Cobalt blueprint scattered with emoji marbles. The page lives half in electric blue, half in ice white, swapping sides as you scroll.</p>
+            <div class="swatches"><span class="sw" style="background:#0033e5" title="cobalt-voltage:#0033e5"></span><span class="sw" style="background:#f0f7ff" title="ice-white:#f0f7ff"></span><span class="sw" style="background:#527ceb" title="cobalt-mist:#527ceb"></span><span class="sw" style="background:#000000" title="pitch:#000000"></span></div>
+            <div class="tags">
+              <span class="chip">深色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• The 50/50 split-screen panel: every section is two equal full-bleed panels that swap colors — one Ice White with display type/imagery, one Cobalt Voltage with body — alternating which side is which down the page<br>• Single-weight neo-grotesque type at enormous scale (up to 85px) at weight 400 only — no bold, no light, no italic; size and the blue/white contrast create all hierarchy<br>• The arrow-prefixed (→) text navigation button as the signature affordance for all clickable text, rendered at 42px with no border or fill</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="superr/slide-0.png" alt="Superr"></div>
+          <div class="body">
+            <h3>Superr</h3>
+            <p class="tag">Warm schoolyard notebook in soft afternoon light. A cream page, an orange marker uncapped, and a stack of sticker-laminated name labels waiting to be peeled.</p>
+            <div class="swatches"><span class="sw" style="background:#fdfbf9" title="cream-paper:#fdfbf9"></span><span class="sw" style="background:#171717" title="charcoal:#171717"></span><span class="sw" style="background:#2b1a07" title="cocoa-ink:#2b1a07"></span><span class="sw" style="background:#000000" title="true-black:#000000"></span><span class="sw" style="background:#f7efe9" title="dew-drop:#f7efe9"></span><span class="sw" style="background:#ff6f1e" title="marker-orange:#ff6f1e"></span><span class="sw" style="background:#ce500a" title="burnt-sienna:#ce500a"></span><span class="sw" style="background:#3b82f6" title="sky-sticker:#3b82f6"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">low</span>
+            </div>
+            <div class="sig">• The 104px lowercase gelica weight-600 display headline at line-height 1.08 — a tactile object rather than a title, always left-aligned and never center-aligned after the first line<br>• Handwritten Marker Orange captions (gelica 20–24px, weight 400) paired with thin hand-drawn Charcoal SVG arrows pointing at the photographed product object<br>• Photographed leather-bound notebooks as the hero product asset, tilted 5–8° off-axis with a white name-label sticker (Name / Class / Roll no.) on the cover</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="spacious">
+          <div class="preview"><img class="shot" src="syllabus/slide-0.png" alt="Syllabus"></div>
+          <div class="body">
+            <h3>Syllabus</h3>
+            <p class="tag">cream-paper magazine meets geometric sans-serif. Warm off-white surfaces, near-black violet ink, and one buttery yellow accent that functions as the page's only raised voice — like a sticky note pressed onto fine stationery.</p>
+            <div class="swatches"><span class="sw" style="background:#0d0129" title="ink-violet:#0d0129"></span><span class="sw" style="background:#fae59b" title="butter-yellow:#fae59b"></span><span class="sw" style="background:#19615c" title="deep-teal:#19615c"></span><span class="sw" style="background:#fffcf7" title="cream-paper:#fffcf7"></span><span class="sw" style="background:#ffffff" title="pure-white:#ffffff"></span><span class="sw" style="background:#000000" title="shadow-black:#000000"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">spacious</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• The Butter Yellow CTA with a hard-offset black shadow (1px 1px 3px #000000) and 1px Ink Violet border — every action becomes a physical, pressable sticker against the cream<br>• Sharp 0px corners everywhere — buttons, cards, tags, and inputs are all square; the only shadow in the system is the hard yellow-button offset<br>• The strict Roobert 700/400 weight pair at wide size jumps (16→20→24→40→48→56→64px) — hierarchy comes from scale jumps, never interpolated sizes or tracking</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="light" data-density="comfortable">
+          <div class="preview"><img class="shot" src="ventriloc/slide-0.png" alt="Ventriloc"></div>
+          <div class="body">
+            <h3>Ventriloc</h3>
+            <p class="tag">Editorial data observatory on warm paper — a single orange ember punctuating monochrome precision.</p>
+            <div class="swatches"><span class="sw" style="background:#202020" title="graphite:#202020"></span><span class="sw" style="background:#ffffff" title="canvas-white:#ffffff"></span><span class="sw" style="background:#efefef" title="ash:#efefef"></span><span class="sw" style="background:#f5f5f5" title="fog:#f5f5f5"></span><span class="sw" style="background:#ebe6dd" title="ivory:#ebe6dd"></span><span class="sw" style="background:#4d4d4d" title="steel:#4d4d4d"></span><span class="sw" style="background:#828282" title="slate:#828282"></span><span class="sw" style="background:#e8e8e8" title="mist:#e8e8e8"></span></div>
+            <div class="tags">
+              <span class="chip">浅色</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• The asymmetric border-radius 6px 0px 0px on featured cards — a single cut corner that signals editorial layout instead of a standard card grid, paired with 0px-radius buttons and 200px-radius nav pills (a three-radius system: sharp → asymmetric → fully round)<br>• PolySans at weight 400 with -0.02em tracking for every heading, nav item, and button label — whisper-weight editorial authority that no bold headline could replicate<br>• The 66px display headline at line-height 0.91 with -1.32px tracking — a tight, poster-like typographic statement on white canvas</div>
+          </div>
+        </article>
+        <article class="card" data-type="material" data-scheme="mixed" data-density="comfortable">
+          <div class="preview"><img class="shot" src="wispr-flow/slide-0.png" alt="Wispr Flow"></div>
+          <div class="body">
+            <h3>Wispr Flow</h3>
+            <p class="tag">cream broadsheet, dark velvet chambers</p>
+            <div class="swatches"><span class="sw" style="background:#f0d7ff" title="lavender-whisper:#f0d7ff"></span><span class="sw" style="background:#034f46" title="forest-ink:#034f46"></span><span class="sw" style="background:#ffa946" title="ember-glow:#ffa946"></span><span class="sw" style="background:#1a1a1a" title="vast-ink:#1a1a1a"></span><span class="sw" style="background:#ffffeb" title="lumen-cream:#ffffeb"></span><span class="sw" style="background:#e4e4d0" title="lumen-stone:#e4e4d0"></span><span class="sw" style="background:#8a8a80" title="fog:#8a8a80"></span><span class="sw" style="background:#222222" title="charcoal:#222222"></span></div>
+            <div class="tags">
+              <span class="chip">混合</span>
+              <span class="chip">comfortable</span>
+              <span class="chip">medium</span>
+            </div>
+            <div class="sig">• Cream and dark 'velvet chamber' sections alternating page-wide, each dark chamber bookended by cream, with oversized 40–80px border radii that make sections feel like rounded inset pebbles rather than elevated overlays<br>• EB Garamond weight-400 display serif at 48–120px with 0.85–0.95 line-height — authority through sheer scale and tight leading, never bold; negative tracking (-3.6px at 120px)<br>• The 2px solid Vast Ink border on every interactive element — the thick border is the signature, non-negotiable on the lavender CTA</div>
+          </div>
+        </article></div>
+<script>
+  const btns = document.querySelectorAll('.filters button');
+  const cards = document.querySelectorAll('.card');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.remove('active')); b.classList.add('active');
+    const f = b.dataset.f;
+    cards.forEach(c => {
+      const ok = f === 'all' || c.dataset.type === f || c.dataset.scheme === f;
+      c.style.display = ok ? '' : 'none';
+    });
+  }));
+</script>
+</body></html>

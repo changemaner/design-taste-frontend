@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Formal enterprise sales decks, luxury/editorial brand presentations, heavy data-dense financial reports, any context needing premium restraint or dark-mode authority.",
+  "best_for": "Developer-tool / data-infra landing pages, product launches, technical announcements that want credibility WITHOUT corporate seriousness — a light-canvas, notebook-sketch register that reads playful and confident.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "technical",
+    "brutalist",
+    "warm",
+    "playful"
+  ],
+  "name": "MotherDuck",
+  "palette_voice": "Warm cream canvas (#f4efea) + near-square charcoal-ink (#383838) lines, with a single sky-blue (#6fc2ff) action color and a crayon-bright rainbow (canary/mint/lilac/coral...) reserved strictly for illustration and marquee rhythm — never for filled CTAs.",
+  "scheme": "light",
+  "signature_moves": [
+    "Hard offset shadow (rgb(56,56,56) -6px 6px 0px 0px) on every button and interactive card — the elevation system",
+    "2px near-square corners everywhere — non-negotiable notebook-paper geometry",
+    "Hand-drawn line-art mascots (ducks, clouds, speech bubbles) in charcoal + wet-cement strokes, bleeding past container edges",
+    "Full-bleed canary-yellow marquee strip between content bands as rhythmic reset",
+    "Rainbow-outline button palette distributed across repeated tiles like a pencil cup"
+  ],
+  "slug": "motherduck",
+  "source": {
+    "leading_body": 1.6,
+    "path": "refero-styles/MotherDuck/",
+    "radius": "2px near-square everywhere",
+    "shadow": "single hard offset -6px 6px 0px 0px #383838",
+    "theme": "light"
+  },
+  "tagline": "Crayon-coded terminal on cream paper — a developer tool that refuses to dress like one.",
+  "tone": [
+    "playful",
+    "confident",
+    "casual"
+  ],
+  "typographic_voice": "Monospace-first universal face (Aeonik Mono, subst. JetBrains Mono) for every text role — headline whispers at 300 weight, nav commands at 600; 0.0200em positive tracking counteracts monospace density. No serifs, no italics, no decorative display faces."
+}

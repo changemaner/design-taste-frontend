@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Enterprise SaaS dashboards, dark-mode products, formal corporate reports, or any context needing neutral data-density or a screen-white canvas — the cream-paper, marker-orange, sticker-and-notebook vocabulary is a warm, tactile, slightly mischievous register that fights neutral professionalism.",
+  "best_for": "Consumer product launches and playful D2C brands (notebooks, stationery, lifestyle goods) that want a warm schoolyard feel — cream-paper canvas, hand-marker orange annotations, photographed product objects, chunky lowercase display type, and sticker illustrations scattered like physical peel-and-stick.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "warm",
+    "playful",
+    "organic",
+    "retro"
+  ],
+  "name": "Superr",
+  "palette_voice": "A warm cream-paper canvas (#fdfbf9) with a slightly warmer Dew Drop tint (#f7efe9) replaces pure white entirely; Charcoal (#171717) is the only ink — borders, button strokes, and structural edges; Cocoa Ink (#2b1a07) warms up headlines like notebook leather; a single Marker Orange (#ff6f1e) is the accent for handwritten captions, marker highlights, and the footer brand band; Sky/Bubblegum/Sprout sticker hues are decoration only, never functional UI; shadows stay whisper-light.",
+  "scheme": "light",
+  "signature_moves": [
+    "The 104px lowercase gelica weight-600 display headline at line-height 1.08 — a tactile object rather than a title, always left-aligned and never center-aligned after the first line",
+    "Handwritten Marker Orange captions (gelica 20–24px, weight 400) paired with thin hand-drawn Charcoal SVG arrows pointing at the photographed product object",
+    "Photographed leather-bound notebooks as the hero product asset, tilted 5–8° off-axis with a white name-label sticker (Name / Class / Roll no.) on the cover",
+    "Flat sticker illustrations (lightning, bear, heart, ghost) with 2px dark outlines placed at random 5–15° rotations — treated as physical peel-and-stick, never grid-aligned",
+    "The outlined pill button — cream fill with a 1.5px Charcoal border, no fill state; the identity is the dark border, not the background"
+  ],
+  "slug": "superr",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Superr/",
+    "radius": "20px buttons/tags, 12px cards, 8px inputs, 56px footer asymmetric top edge",
+    "shadow": "whisper-light: cards rgba(0,0,0,0.06) 0px 2px 20px 0px, buttons rgba(0,0,0,0.25) 0px 1px 2px 0px",
+    "theme": "light"
+  },
+  "tagline": "Warm schoolyard notebook in soft afternoon light. A cream page, an orange marker uncapped, and a stack of sticker-laminated name labels waiting to be peeled.",
+  "tone": [
+    "playful",
+    "friendly",
+    "quirky"
+  ],
+  "typographic_voice": "One custom rounded soft sans (gelica, subst. Recoleta/Fraunces/DM Serif Display) carries all display, heading, and body text — lowercase is the default, speaking quietly through size and weight (400/500/600) with normal letter-spacing; Geist (subst. Inter/Söhne) appears sparingly for nav and fine-print captions to cut the warmth; never capitalize headlines, never apply letter-spacing, and never let Geist own display sizes."
+}

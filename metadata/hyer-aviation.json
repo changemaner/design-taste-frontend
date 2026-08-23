@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Playful or warm consumer brands, information-dense SaaS dashboards, long-form reading surfaces, and any light-mode-only or single-accent-reliant context — the system needs both the dark-band oscillation and the one-warm-note restraint to work.",
+  "best_for": "Luxury aviation / premium travel editorial landing pages and high-end service brands that want near-monochrome architectural confidence — a pale sky hero, a slab-serif wordmark at fuselage scale, and one clay feature card per page.",
+  "density": "spacious",
+  "formality": "high",
+  "mood": [
+    "luxurious",
+    "editorial",
+    "monochrome",
+    "bold"
+  ],
+  "name": "Hyer Aviation",
+  "palette_voice": "Bright white parchment canvas (pale dawn-sky hero) against Deep Ink (#000d10) as the single structural color — primary text, filled buttons, icon strokes, and footer — with one warm Clay Ember (#bc7155) reserved for a single featured card per page so restraint, not warmth, is the point; Cool Ash (#8e8e95) recedes behind primary copy, Pebble (#d5d3d4) hairlines only at edges; no shadows, elevation via white → clay → dark-slate surface shifts.",
+  "scheme": "mixed",
+  "signature_moves": [
+    "187px weight 700 display headline with -3.74px tracking — type set at near-architectural scale so headlines read as physical objects",
+    "Every button and nav item is a full 1000px pill while the featured clay card stays hard-edged 0px — the soft/hard tension defines the system",
+    "One Clay Ember (#bc7155) featured card per page — the single warm note in an austere monochrome field, single-use per viewport",
+    "Hero headlines end with a period ('Beyond Travel.') — the signature typographic stop",
+    "Alternating full-bleed white canvas and #0f0f1c/#151623 midnight bands for vertical oscillation, with 80px section gaps"
+  ],
+  "slug": "hyer-aviation",
+  "source": {
+    "leading_body": 1.61,
+    "path": "refero-styles/Hyer Aviation/",
+    "radius": "1000px buttons & nav / 45px decorative / 0px hero panels",
+    "shadow": "none — elevation via surface color shifts (white → clay → dark slate)",
+    "theme": "mixed"
+  },
+  "tagline": "Cockpit twilight over parchment. A pale dawn-sky meets a slab-serif logo the size of a fuselage, with one warm clay accent breaking the monochrome restraint.",
+  "tone": [
+    "premium",
+    "confident",
+    "refined"
+  ],
+  "typographic_voice": "A single display sans (HelveticaNowDisplay, subst. Neue Haas Grotesk/Inter) carries everything: weight 700 at 131–187px with extreme tight tracking reads as cast metal and anchors hero sections, while weight 400 at 18px with 1.61 line-height is the most spacious text block in the system; weight 700 is non-negotiable from 23px up, body never below 18px, no light or thin weights anywhere."
+}

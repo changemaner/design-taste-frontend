@@ -1,0 +1,37 @@
+{
+  "avoid_for": "SaaS product marketing, e-commerce, dashboards, or any context needing imagery, product art, or a single CTA color — with no chromatic accent, no filled CTAs, and no shadows, the system can only carry type-first editorial content.",
+  "best_for": "Editorial / creative personal portfolios, studio and magazine-style brand sites where type is the entire visual — a warm monochrome broadside register, display-serif headlines, condensed mastheads, paper-to-ink inversions, Pentagram/Rauno Freiberg-adjacent.",
+  "density": "comfortable",
+  "formality": "high",
+  "mood": [
+    "editorial",
+    "monochrome",
+    "retro",
+    "brutalist"
+  ],
+  "name": "Henry",
+  "palette_voice": "One-hundred-percent warm monochrome: Paper (#fafafa) cream ground and Headline Ink (#2a2722) warm near-black, with Sepia (#3e3b36) flanking and hairline/ash/midstone/pebble as neutral borders — no chromatic accent, no product color, no blue link, ever; full-bleed paper and ink sections alternate like a broadsheet; the only surfaces are Paper and Ink, with zero shadows, one 12px radius, and hierarchy delivered purely by scale, weight, and inversion.",
+  "scheme": "mixed",
+  "signature_moves": [
+    "Full-bleed Paper/Ink section inversion — cream type on Ink bands and ink type on Paper, flipped like a broadsheet, never gradient-blended",
+    "Manuka section mastheads at 226-371px, weight 400, line-height 0.75, uppercase, edge-to-edge — condensed type as the entire section identity",
+    "Louize Display headline at 116-132px with an intersecting half-size italic phrase set inside the same baseline (e.g. 'of the' at 35px within 132px type)",
+    "Square-cornered monochrome halftone plate as a typographic counterweight to the display headline — no radius, no caption, no color",
+    "Brand ticker strip — repeated Louize Display wordmarks on a dark Ink band with 'COMING SOON' ghost tags (12px radius, 1px outline)"
+  ],
+  "slug": "henry",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Henry/",
+    "radius": "12px only — cards, buttons, tags, no square corners, no pills",
+    "shadow": "none — zero elevation tokens, hierarchy via scale, inversion, and 1px hairlines",
+    "theme": "mixed"
+  },
+  "tagline": "Gothic broadside poster on warm cream paper. One hundred percent monochrome, no chromatic accent, all visual intensity carried by display type and full-bleed paper-to-ink inversions.",
+  "tone": [
+    "authoritative",
+    "rebellious",
+    "refined"
+  ],
+  "typographic_voice": "Three-type system: a display serif (Louize Display, subst. Fraunces/GT Sectra) sets poetry and editorial prose at 77-132px weight 400; an ultra-condensed sans (Manuka, subst. Druk/Condor) stamps 226-371px section mastheads in one weight, one case, one color at 0.75 leading; and a neo-grotesque (Neue Montreal, subst. Inter) carries all UI at 12-24px with hairline-tight -0.01em tracking — no serif below 32px on long passages, no tracking looser than 1.5 line-height on body."
+}

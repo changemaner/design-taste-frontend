@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Conversion-hungry SaaS funnels needing loud filled CTAs, dark-mode-first products, playful consumer brands, or data-dense dashboards — the whispered serif, 95%-neutral palette, and one blue border can't carry urgency or high information density.",
+  "best_for": "AI research / venture / co-founder-match sites and literary-brand storytelling pages that want a contemplative, journal-like register — hand-painted illustration plus quiet serif display, warm parchment, Stripe/Anthropic-adjacent.",
+  "density": "comfortable",
+  "formality": "high",
+  "mood": [
+    "editorial",
+    "warm",
+    "organic",
+    "quiet"
+  ],
+  "name": "General Intelligence Company",
+  "palette_voice": "A warm book-page canvas: Parchment (#fefffc) page ground, Paper (#ffffff) cards, Linen (#f9faf7) inputs, green-tinted Mist (#dee2de) hairlines, near-black Graphite (#2c2c2c)/Charcoal (#444141) text (never pure #000); Signal Blue (#41a1cf) is a border-only CTA accent and Cerulean (#0081c0) a rare saturated card surface — the only two chromatic moments; color is 95% absent so hand-painted illustrations carry emotion; elevation is hairline borders plus subtle backdrop-blur, never box-shadow on buttons.",
+  "scheme": "light",
+  "signature_moves": [
+    "Frosted navigation pill — floating top-center, rgba white + backdrop-blur(9-20px), 50px pill radius, 1px twilight border — lets the illustrated hero show through",
+    "Full-bleed hand-painted atmospheric illustrations (moonlit skylines, wildflower meadows) as the emotional work, with UI living on clean white between scenes",
+    "Border-only CTA in Signal Blue (#41a1cf) at 8px radius — no fill, no shadow, the chromatic border is the button's entire identity",
+    "Green-tinted 1px Mist (#dee2de) hairline borders on cards — the signature edge treatment that harmonizes with the illustrations",
+    "Cerulean (#0081c0) saturated card surface as a lone punctuation moment of color intensity"
+  ],
+  "slug": "general-intelligence-company",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/General Intelligence Company/",
+    "radius": "4-8px buttons / 12-16px cards / 24px large surfaces / 50px nav pill",
+    "shadow": "subtle rgba(0,0,0,0.08) 0 1px 1px / 0 4px 5px cards; nav uses backdrop-blur, not box-shadow",
+    "theme": "light"
+  },
+  "tagline": "Literary journal beside a bonfire",
+  "tone": [
+    "authoritative",
+    "calm",
+    "refined"
+  ],
+  "typographic_voice": "A custom display serif (ppmondwest, subst. Fraunces/Recoleta) speaks at 48-54px weight 400 with tight -0.04em tracking — a low, literary, set-not-typed voice; a quiet custom sans (af, subst. Inter/Geist) handles all utilitarian UI at 13-18px with slight -0.01em negative tracking; body line-height 1.5 vs display 1.1; no weight 600+ on the serif, no serif below 27px, sans never used for display."
+}

@@ -1,0 +1,118 @@
+{
+  "air": [
+    "Anton",
+    "Caveat",
+    "Inter"
+  ],
+  "anthropic": [
+    "Inter",
+    "JetBrains+Mono",
+    "Source+Serif+4"
+  ],
+  "caldera": [
+    "Bebas+Neue",
+    "DM+Sans"
+  ],
+  "composer": [
+    "Archivo",
+    "Inter"
+  ],
+  "discover": [
+    "Inter"
+  ],
+  "flying-papers": [
+    "Archivo",
+    "Inter",
+    "JetBrains+Mono"
+  ],
+  "frankys": [
+    "Press+Start+2P",
+    "VT323"
+  ],
+  "general-intelligence-company": [
+    "Fraunces",
+    "Inter"
+  ],
+  "good-glyphs": [
+    "Inter"
+  ],
+  "henry": [
+    "Anton",
+    "Fraunces",
+    "Inter"
+  ],
+  "huddle": [
+    "Inter",
+    "JetBrains+Mono"
+  ],
+  "hyer-aviation": [
+    "Inter"
+  ],
+  "ikea": [
+    "Noto+Sans"
+  ],
+  "lamanna": [
+    "Archivo+Black",
+    "Bowlby+One+SC",
+    "Open+Sans",
+    "Roboto+Condensed"
+  ],
+  "leandra-isler": [
+    "Inter"
+  ],
+  "lpalo": [
+    "Alfa+Slab+One",
+    "Manrope"
+  ],
+  "mercury": [
+    "Inter"
+  ],
+  "monad": [
+    "Inter",
+    "JetBrains+Mono"
+  ],
+  "monopo-saigon": [
+    "Inter",
+    "Raleway"
+  ],
+  "motherduck": [
+    "JetBrains+Mono"
+  ],
+  "oryzo-ai": [
+    "Inter"
+  ],
+  "patch": [
+    "Bebas+Neue",
+    "Inter"
+  ],
+  "raycast": [
+    "Inter",
+    "JetBrains+Mono"
+  ],
+  "seline-analytics": [
+    "Inter"
+  ],
+  "steep": [
+    "Inter",
+    "Source+Serif+4"
+  ],
+  "superhi-plus": [
+    "Inter"
+  ],
+  "superr": [
+    "Inter",
+    "Nunito"
+  ],
+  "syllabus": [
+    "Inter",
+    "JetBrains+Mono"
+  ],
+  "ventriloc": [
+    "Inter",
+    "Space+Grotesk"
+  ],
+  "wispr-flow": [
+    "EB+Garamond",
+    "Inter"
+  ]
+}

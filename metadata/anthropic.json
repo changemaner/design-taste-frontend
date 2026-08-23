@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Fast, playful consumer or startup marketing, conversion-heavy SaaS funnels needing loud CTAs, dark-mode-first products, or any context requiring cool-tone or high-energy visuals — the clay accent must stay rare and quiet.",
+  "best_for": "AI research / deep-tech brand sites, research-publication landing pages, and thoughtful product announcements that want credibility without corporate chill — an authoritative editorial register on warm paper.",
+  "density": "compact",
+  "formality": "high",
+  "mood": [
+    "editorial",
+    "warm",
+    "quiet"
+  ],
+  "name": "Anthropic",
+  "palette_voice": "Warm parchment layering instead of cool tech grays: Ivory Medium (#f0eee6) canvas, Ivory Light (#faf9f5) cards, Manilla (#f5e3c7) for featured editorial spreads, and a single clay accent (#d97757, deepens to #c6613f) reserved strictly for the one consequential filled CTA — no blues, no cool grays, no pure white surfaces, no shadows; hierarchy comes from tonal surface shift plus 1px stone hairlines.",
+  "scheme": "light",
+  "signature_moves": [
+    "Bottom-only 8px border-radius on filled buttons (sharp top corners) — the signature 'tab pulled from a stack' corner that replaces the generic pill",
+    "Filled Ivory button (#faf9f5 fill, #141413 text) as the default primary CTA, with Clay reserved for the single most consequential action per page",
+    "Persistent 1px underline on every inline link — editorial print convention, not hover-reveal",
+    "Featured hero card in manilla paper tone (#f5e3c7) at 24px radius as the editorial-importance surface without color shouting",
+    "Dark full-bleed footer (#141413) as the only inversion band in the system — a grounded anchor after all the parchment"
+  ],
+  "slug": "anthropic",
+  "source": {
+    "leading_body": 1.4,
+    "path": "refero-styles/Anthropic/",
+    "radius": "24px cards / 8px bottom-only filled buttons, 12px outlined / 0px links, nav, badges",
+    "shadow": "none — elevation via surface tone shift (ivory layers) and 1px borders only",
+    "theme": "light"
+  },
+  "tagline": "scientific field journal on warm parchment — quiet ivory surfaces, editorial serif headlines, and a single clay accent that only appears when you must act",
+  "tone": [
+    "authoritative",
+    "refined",
+    "calm"
+  ],
+  "typographic_voice": "Serif (Anthropic Serif, subst. Georgia) carries the editorial voice — body at 20px and display headings at 68px weight 400 — while a sans (Anthropic Sans, subst. Inter) handles all UI chrome, nav, buttons, and a bold 61px declarative sans display; tight negative tracking (-0.02em at 12px) for UI, mono reserved only for code; underlines on links are persistent like print, never reveal-on-hover."
+}

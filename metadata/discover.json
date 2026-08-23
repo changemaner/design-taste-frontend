@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Content-heavy SaaS dashboards, brand-first storytelling sites needing imagery or illustration, playful consumer brands, or dark-mode products — the 1% colorfulness and white-marble quiet fail when color or content density is required.",
+  "best_for": "Type foundries, font marketplaces, and gallery-like product catalogues where the product itself is typography — a near-monochrome museum register with one coral action color and specimen-first layout.",
+  "density": "compact",
+  "formality": "medium",
+  "mood": [
+    "minimal",
+    "monochrome",
+    "editorial",
+    "quiet"
+  ],
+  "name": "Discover",
+  "palette_voice": "Near-monochrome white marble: Canvas (#ffffff) with warm near-black Ink (#121212) for all text and borders (never pure #000), Slate (#8e8e93) for metadata, and a single Signal Coral (#ee585a) reserved strictly for filled CTAs, inline links, the floating filter pill, and a notification dot — never a background wash, never on large surfaces; the only shadow is one ambient token (rgba(72,72,74,0.16) 0 2px 32px 0) for cards and floating elements.",
+  "scheme": "light",
+  "signature_moves": [
+    "120px Aeonik 700 wordmark at -1.32px tracking, near-edge-to-edge on white — the brand name as the hero image",
+    "Single 12px Signal Coral notification dot on the wordmark's final letter — one pop of color that says 'new' without a badge",
+    "32px border-radius on all cards, buttons, and containers — the large soft radius that defines the modern gallery feel",
+    "Oversized 'Aa' type specimens rendered in-card as the product itself, dominating each font preview tile",
+    "Ghost text link in Signal Coral with an external-arrow glyph (↗) — the only interactive text color in a monochrome room"
+  ],
+  "slug": "discover",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Discover/",
+    "radius": "32px cards & buttons / 16px links / 9999px pills",
+    "shadow": "single token rgba(72,72,74,0.16) 0 2px 32px 0 — cards & floating elements only",
+    "theme": "light"
+  },
+  "tagline": "Type museum on white marble — a near-black wordmark, a whisper of coral, and everything else recedes.",
+  "tone": [
+    "refined",
+    "authoritative",
+    "calm"
+  ],
+  "typographic_voice": "A single face (Aeonik, subst. Inter/Satoshi) across the whole UI: weight 700 for the monumental 120px wordmark and display, 500 for labels and nav, 400 for body; tight -0.011em tracking at every size gives the packed, dense wordmark look — no loose display tracking, no serifs, no decorative faces, type is the only visual asset."
+}

@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Playful consumer brands, multi-color or light-mode contexts, editorial long-form reading, and any interface needing more than one bright accent or shadow-based depth — the cobalt single-action discipline and hushed premium darkness only work as dark, monochrome, and calm.",
+  "best_for": "Fintech and premium banking landing pages, dark-mode developer tools, and product launches wanting cinematic aspiration — an onyx canvas, graphite cards, intermediate-weight typography, and one cobalt action button as the gravitational center.",
+  "density": "spacious",
+  "formality": "high",
+  "mood": [
+    "quiet",
+    "futuristic",
+    "minimal",
+    "monochrome"
+  ],
+  "name": "Mercury",
+  "palette_voice": "Near-black Onyx Canvas (#171721) sets a cinematic observatory atmosphere with Graphite Card (#1e1e2a) one step lighter for flat, borderless content surfaces; Ivory Text (#ededf3) is the dominant foreground with Ash (#c3c3cc) muted copy; a single vivid Cobalt (#5266eb) is the only chromatic note, reserved exclusively for the primary 'Open account' action — never decorative, never a secondary button; no shadows, separation purely via graphite-on-onyx value lift.",
+  "scheme": "dark",
+  "signature_moves": [
+    "One Cobalt-filled pill button per page as the sole chromatic action — the gravitational center of the layout",
+    "Intermediate-weight typography (arcadiaDisplay at 480, not 600/700) — asserts without shouting, the signature restraint",
+    "Graphite cards (#1e1e2a, 12px radius, 32px padding) with no border and no shadow — the one-step value lift creates separation",
+    "Pill-shaped interactive controls (32–40px radius) with sharp 4px corners reserved for structural elements only",
+    "Transparent nav over the hero with backdrop-blur frosted-glass on scroll, plus a full-bleed photographic alpine hero"
+  ],
+  "slug": "mercury",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Mercury/",
+    "radius": "12px cards / 32–40px pills (inputs, buttons, nav)",
+    "shadow": "none — flat, value contrast between onyx and graphite",
+    "theme": "dark"
+  },
+  "tagline": "Alpine banking at blue hour",
+  "tone": [
+    "premium",
+    "confident",
+    "calm"
+  ],
+  "typographic_voice": "Two custom faces — arcadia for body/UI and arcadiaDisplay for headlines — built on an intermediate weight axis (360/420/480/530) that avoids the bold/light binary: heading weight 480 is the ceiling, body stays 16px weight 400 with generous 1.5 line-height, and display uses tight 1.1–1.15 leading with positive 0.01–0.02em letter-spacing for a wide-set, architectural quality; never editorial, never corporate."
+}

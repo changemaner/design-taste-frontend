@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Content-dense enterprise dashboards, warm or playful consumer brand presentations, long-form editorial pages, or any context that needs light-mode clarity or a single strong CTA color — this system only works as dark, quiet, and image-led.",
+  "best_for": "Developer-tool / AI-product landing pages and product launches that want a dark, atmospheric, type-driven register — full-bleed hero imagery plus restrained flat UI chrome, similar to Linear/Vercel territory.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "futuristic",
+    "airy",
+    "minimal",
+    "quiet"
+  ],
+  "name": "Air",
+  "palette_voice": "Black Void (#000000) atmospheric canvas with Whiteout (#ffffff) borders and text on dark, Haze (#f5f5f5) light islands for cards and inputs, Ink (#1b1b1b) for the rare light-surface text; a desaturated steel Twilight Blue (#426188) is the only chromatic heading accent and Signal Blue (#2b7fff) is reserved for links/tags only — no filled colored CTAs, no gradients, depth comes from full-bleed photography and flat contrast, never shadow.",
+  "scheme": "dark",
+  "signature_moves": [
+    "Ghost buttons — transparent fill + 1px white border + white text, 8px radius — the only nav CTA treatment; no filled colored buttons anywhere",
+    "Full-bleed dark photographic sections (clouds, glass sculpture) with centered headline overlays, no container constraint — imagery carries the emotion",
+    "Compressed display headline at 259px/900 weight/0.85 leading, uppercase, bleeding to viewport edges, used sparingly for maximum-impact statements",
+    "Dual-style headline mixing one cursive italic word (Cursive 56px) against upright Control TNT — typographic tension that carries personality",
+    "Flat Haze cards (#f5f5f5, 12px radius, no shadow, no border) sitting as light islands on the dark canvas"
+  ],
+  "slug": "air",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Air/",
+    "radius": "4px inputs / 8px buttons / 11-14px cards & images",
+    "shadow": "none — flat surfaces, elevation via background contrast only",
+    "theme": "dark"
+  },
+  "tagline": "midnight sky through glass sculpture",
+  "tone": [
+    "confident",
+    "calm",
+    "refined"
+  ],
+  "typographic_voice": "One geometric sans (Control, subst. Inter) at a consistent weight 500 carries every text role for visual calm; poster-scale compressed uppercase display (900 weight, 259px, 0.85 leading) breaks in for hero statements, and a single cursive italic word within a headline supplies the only personality; no serifs, no decorative faces, body never below 16px or above weight 500."
+}

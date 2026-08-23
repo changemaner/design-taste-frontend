@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotherDuck — Queries, not queues</title>
+
+    <!-- Fonts: JetBrains Mono (Aeonik Mono substitute, mono-first system), per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from DESIGN.md
+           (value layer: 1:1; typography/spacing scaled ×2 for the 1920×1080 stage)
+           =========================================== */
+        :root {
+            /* Colors — exact */
+            --color-cream-paper: #f4efea;
+            --color-frost-white: #ffffff;
+            --color-chalk-gray: #f8f8f7;
+            --color-ice-wash: #ebf9ff;
+            --color-notebook-pale: #f9fbe7;
+            --color-charcoal-ink: #383838;
+            --color-pencil-gray: #a1a1a1;
+            --color-graphite: #818181;
+            --color-soft-silver: #c0c0c0;
+            --color-sky-crayon: #6fc2ff;
+            --color-canary-banner: #ffde00;
+            --color-duck-bill-orange: #ff9538;
+            --color-coral-sketch: #f38e84;
+            --color-peach-sketch: #f5b161;
+            --color-mint-sketch: #38c1b0;
+            --color-lilac-sketch: #b291de;
+            --color-lime-sketch: #b3c419;
+            --color-periwinkle-sketch: #7597ee;
+            --color-slate-sketch: #84a6bc;
+            --color-marigold-sketch: #e1c427;
+            --color-wet-cement: #54b4de;
+            --color-peach-blush: #fdedda;
+
+            --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+            /* Type scale — ×2 for stage, mono-first */
+            --text-caption: 26px;
+            --text-body: 32px;
+            --leading-body: 1.6;
+            --text-sub: 40px;
+            --text-title: 64px;
+            --text-display: 104px;
+
+            /* Spacing — ×2 (8px base) */
+            --sp-1: 16px;
+            --sp-2: 32px;
+            --sp-3: 48px;
+            --sp-4: 64px;
+            --sp-5: 80px;
+            --sp-6: 96px;
+
+            /* Radii — exact: hard 2px corners */
+            --radius: 2px;
+
+            /* Hard offset shadow — zero blur, -6px +6px charcoal, ×2 */
+            --shadow-hard: 12px 12px 0 var(--color-charcoal-ink);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: var(--color-cream-paper);
+            font-family: var(--font-mono);
+            color: var(--color-charcoal-ink);
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-cream-paper);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-cream-paper);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #f4efea; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           MOTHERDUCK — neo-brutalist technical-playful
+           (cream notebook, mono terminal readout, hard
+           2px corners, zero-blur offset shadows, crayon borders)
+           =========================================== */
+
+        /* Frame helper — content bottom safety zone 160px keeps clear of fixed chrome */
+        .frame {
+            position: absolute;
+            inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — duck + mono, top-left per-slide */
+        .wordmark {
+            position: absolute;
+            top: 56px; left: var(--frame-pad-x);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .duck-logo { width: 64px; height: 56px; }
+
+        /* Section tag — mono uppercase, charcoal */
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-charcoal-ink);
+        }
+
+        /* Display headline — mono 800, tight */
+        .h-display {
+            font-family: var(--font-mono);
+            font-size: var(--text-display);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            color: var(--color-charcoal-ink);
+        }
+        .h-title {
+            font-family: var(--font-mono);
+            font-size: var(--text-title);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal-ink);
+        }
+
+        /* Body — mono, charcoal on cream */
+        .body {
+            font-family: var(--font-mono);
+            font-size: var(--text-body);
+            line-height: var(--leading-body);
+            color: var(--color-charcoal-ink);
+        }
+        .body-muted { color: var(--color-graphite); }
+
+        /* Cards — white on cream, 2px radius, hard offset shadow */
+        .card {
+            background: var(--color-frost-white);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            padding: 40px;
+        }
+
+        /* Primary button — Sky Crayon, the only CTA color */
+        .btn-primary {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-charcoal-ink);
+            background: var(--color-sky-crayon);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            padding: 20px 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .btn-outline {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-charcoal-ink);
+            background: var(--color-frost-white);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            padding: 20px 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .btn-primary:hover, .btn-outline:hover {
+            transform: translate(8px, 8px);
+            box-shadow: 4px 4px 0 var(--color-charcoal-ink);
+        }
+
+        /* Crayon chips — rotating rainbow borders */
+        .chip {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-charcoal-ink);
+            background: var(--color-frost-white);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            padding: 10px 20px;
+        }
+        .chip-sky { border-color: var(--color-sky-crayon); }
+        .chip-canary { background: var(--color-canary-banner); }
+        .chip-mint { border-color: var(--color-mint-sketch); }
+        .chip-lilac { border-color: var(--color-lilac-sketch); }
+        .chip-lime { border-color: var(--color-lime-sketch); }
+        .chip-coral { border-color: var(--color-coral-sketch); }
+        .chip-peach { border-color: var(--color-peach-sketch); }
+
+        /* Agenda row — mono, hairline charcoal rules */
+        .agenda-row {
+            display: flex;
+            align-items: baseline;
+            gap: 40px;
+            padding: 28px 0;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+        }
+        .agenda-row:first-of-type { border-top: 2px solid var(--color-charcoal-ink); }
+        .a-num {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-graphite);
+            width: 96px;
+        }
+        .a-title {
+            font-size: 36px;
+            font-weight: 700;
+            flex: 1;
+        }
+        .a-tag {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--color-graphite);
+            text-transform: uppercase;
+        }
+
+        /* Stat number */
+        .stat-num {
+            font-family: var(--font-mono);
+            font-size: 120px;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -3px;
+            color: var(--color-charcoal-ink);
+        }
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            line-height: 1.5;
+            color: var(--color-graphite);
+            margin-top: 20px;
+        }
+
+        /* Terminal table — mono rows */
+        .table-rows { width: 100%; border-collapse: collapse; margin-top: 28px; }
+        .table-rows th {
+            text-align: left;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-graphite);
+            padding: 18px 0;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+        }
+        .table-rows td {
+            font-size: 26px;
+            padding: 14px 0;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+        }
+        .table-rows td:last-child, .table-rows th:last-child { text-align: right; }
+        .table-rows tr:last-child td { border-bottom: none; }
+        .td-muted { color: var(--color-graphite); }
+
+        /* Marquee banner — canary yellow strip */
+        .marquee {
+            background: var(--color-canary-banner);
+            border-top: 2px solid var(--color-charcoal-ink);
+            border-bottom: 2px solid var(--color-charcoal-ink);
+            width: 100%;
+            text-align: center;
+            padding: 22px 40px;
+        }
+        .marquee-text {
+            font-weight: 700;
+            font-size: 36px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-charcoal-ink);
+        }
+
+        /* Quote card — peach blush warm tint */
+        .quote-card {
+            background: var(--color-peach-blush);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            padding: 56px 64px;
+        }
+
+        /* Step rows — terminal readout */
+        .step {
+            display: flex;
+            gap: 32px;
+            align-items: baseline;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-sky-crayon);
+            width: 96px;
+        }
+
+        /* Console mockup — white card, terminal feel */
+        .console {
+            background: var(--color-frost-white);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            overflow: hidden;
+        }
+        .console-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 28px;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+            background: var(--color-chalk-gray);
+        }
+        .console-dot {
+            width: 20px; height: 20px;
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: 50%;
+            background: var(--color-canary-banner);
+        }
+        .console-body { padding: 24px; }
+        .console-row {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+            border-bottom: 2px solid var(--color-charcoal-ink);
+            font-size: 26px;
+        }
+        .console-row .k { color: var(--color-graphite); }
+        .console-row .v { font-weight: 700; }
+        .msg-user {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-charcoal-ink);
+            padding: 16px 20px;
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            background: var(--color-frost-white);
+            display: inline-block;
+        }
+        .msg-ai { margin-top: 24px; font-size: 28px; line-height: 1.5; }
+
+        /* CTA card — canary yellow, the closing statement */
+        .cta-card {
+            background: var(--color-canary-banner);
+            border: 2px solid var(--color-charcoal-ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            padding: 64px 80px;
+            text-align: center;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-mono);
+            font-size: 22px;
+            color: var(--color-graphite);
+            letter-spacing: 0.04em;
+        }
+        /* Dot progress navigation — clickable, current slide solid */
+                .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-charcoal-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-charcoal-ink);
+            color: var(--color-chalk-gray);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;     /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：一句话讲清 Steep —— 数据也能读成杂志。按 N 关闭本备注。">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:56px; left:120px;">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <span class="chip chip-sky reveal d1" style="font-weight:700;">NOW WITH DUCK MODE AI</span>
+                <h1 class="h-display reveal d2" style="margin-top:40px;">Queries,<br>not queues</h1>
+                <p class="body reveal d3" style="max-width:820px; margin-top:48px;">A lakehouse that answers like a friend. Ask in plain English, get answers in seconds &mdash; no tickets, no waiting.</p>
+                <div style="display:flex; gap:40px; align-items:center; margin-top:64px;" class="reveal d4">
+                    <button class="btn-primary">Ask a question</button>
+                    <button class="btn-outline">Tour the pond</button>
+                </div>
+            </div>
+            <div class="marquee reveal d4" style="position:absolute; left:0; right:0; bottom:80px;">
+                <span class="marquee-text">Data warehouse + AI &nbsp;·&nbsp; one pond for everything &nbsp;·&nbsp; queries, not queues</span>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Agenda</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">What we&rsquo;ll cover</h2>
+                <div style="margin-top:64px;">
+                    <div class="agenda-row reveal d1"><span class="a-num">01</span><span class="a-title">Why the pond wins</span><span class="a-tag">Mindset</span></div>
+                    <div class="agenda-row reveal d2"><span class="a-num">02</span><span class="a-title">Answers, not dashboards</span><span class="a-tag">Product</span></div>
+                    <div class="agenda-row reveal d3"><span class="a-num">03</span><span class="a-title">Your stack, one pond</span><span class="a-tag">Platform</span></div>
+                    <div class="agenda-row reveal d3"><span class="a-num">04</span><span class="a-title">The duck asks back</span><span class="a-tag">AI</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — PRINCIPLES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">How we think</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Three rules for a calm pond</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:64px;">
+                    <div class="card reveal d2">
+                        <div class="tag" style="color:var(--color-sky-crayon);">01 &mdash; ASK</div>
+                        <h3 style="font-size:40px; font-weight:700; margin-top:32px;">English is a query language</h3>
+                        <p class="body" style="font-size:28px; margin-top:24px;">If you can ask a colleague, you can ask the pond. SQL is always there when you want it.</p>
+                    </div>
+                    <div class="card reveal d3">
+                        <div class="tag" style="color:var(--color-mint-sketch);">02 &mdash; ANSWER</div>
+                        <h3 style="font-size:40px; font-weight:700; margin-top:32px;">Every answer shows its work</h3>
+                        <p class="body" style="font-size:28px; margin-top:24px;">SQL attached, sources cited. Trust but verify &mdash; the duck never hides the query.</p>
+                    </div>
+                    <div class="card reveal d3">
+                        <div class="tag" style="color:var(--color-lilac-sketch);">03 &mdash; SHARE</div>
+                        <h3 style="font-size:40px; font-weight:700; margin-top:32px;">Answers travel, data stays</h3>
+                        <p class="body" style="font-size:28px; margin-top:24px;">Publish dashboards and apps. The pond stays put; the insight goes with you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — DATA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">The numbers</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Small pond, big splash</h2>
+                <div style="display:flex; gap:48px; margin-top:56px; align-items:flex-start;">
+                    <div style="flex:1; display:flex; flex-direction:column; gap:48px; padding-top:8px;">
+                        <div class="reveal d2">
+                            <div class="stat-num">4s</div>
+                            <div class="stat-label">median time from plain-English question to answered query</div>
+                        </div>
+                        <div class="reveal d3">
+                            <div class="stat-num">10×</div>
+                            <div class="stat-label">fewer tickets after teams start asking the pond instead of filing</div>
+                        </div>
+                    </div>
+                    <div class="card reveal d2" style="flex:1.2;">
+                        <div class="tag">Pond report</div>
+                        <table class="table-rows">
+                            <tr><th>Metric</th><th>Value</th><th>Δ</th></tr>
+                            <tr><td>Questions answered</td><td class="td-muted">1.2M/mo</td><td>+34%</td></tr>
+                            <tr><td>Auto-SQL share</td><td class="td-muted">72%</td><td class="td-muted">+12%</td></tr>
+                            <tr><td>Avg query latency</td><td class="td-muted">180ms</td><td class="td-muted">-40%</td></tr>
+                            <tr><td>Dashboards published</td><td class="td-muted">8.4K</td><td>+21%</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Quackback</div>
+                <div class="quote-card reveal d2" style="margin-top:48px; max-width:1640px;">
+                    <p class="h-title" style="font-size:56px; font-weight:700; line-height:1.35;">&ldquo;We asked the pond what happened to Q2 churn. It answered in four seconds &mdash; SQL attached, sources cited. That has never happened with software.&rdquo;</p>
+                    <div style="display:flex; align-items:center; gap:24px; margin-top:48px;">
+                        <span class="chip chip-canary" style="font-weight:700;">Sofia Reyes</span>
+                        <span class="a-num" style="width:auto;">VP of Data, Ponderly</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — PLATFORM ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:88px;">Platform</div>
+                <h2 class="h-title reveal d1" style="margin-top:32px;">Your stack, one pond</h2>
+                <div style="display:flex; gap:80px; margin-top:56px; align-items:flex-start;">
+                    <div style="flex:1.1;">
+                        <div class="step reveal d2"><span class="step-num">01</span><p class="body">Connect &mdash; point the pond at S3, Postgres, or Parquet. No copies.</p></div>
+                        <div class="step reveal d3"><span class="step-num">02</span><p class="body">Query &mdash; SQL or plain English. Same answers, both ways.</p></div>
+                        <div class="step reveal d3"><span class="step-num">03</span><p class="body">Share &mdash; publish dashboards and apps. Answers travel, data stays.</p></div>
+                    </div>
+                    <div class="card reveal d2" style="flex:1; padding:40px; margin-top:8px;">
+                        <div class="tag">Swimmers in the pond</div>
+                        <p class="body" style="font-size:26px; margin-top:20px; color:var(--color-graphite);">40+ sources and connectors. Your data comes to the pond as-is.</p>
+                        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:32px;">
+                            <span class="chip chip-sky">S3</span>
+                            <span class="chip chip-peach">Postgres</span>
+                            <span class="chip chip-mint">BigQuery</span>
+                            <span class="chip chip-lilac">Snowflake</span>
+                            <span class="chip chip-lime">Parquet</span>
+                            <span class="chip" style="border-color:var(--color-wet-cement);">DuckDB</span>
+                            <span class="chip" style="border-color:var(--color-slate-sketch);">dbt</span>
+                            <span class="chip" style="border-color:var(--color-marigold-sketch);">Airflow</span>
+                            <span class="chip chip-coral">Streamlit</span>
+                            <span class="chip chip-mint">Python</span>
+                            <span class="chip chip-lilac">R</span>
+                            <span class="chip chip-peach">CSV</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — AI ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="tag reveal d1" style="margin-top:64px;">Duck Mode AI</div>
+                <h2 class="h-title reveal d1" style="margin-top:24px;">The duck asks back</h2>
+                <div style="display:flex; gap:80px; margin-top:32px; align-items:flex-start;">
+                    <div class="reveal d2" style="flex:1.15;">
+                        <div class="console">
+                            <div class="console-head">
+                                <span class="console-dot"></span><span class="console-dot" style="background:var(--color-mint-sketch);"></span><span class="console-dot" style="background:var(--color-lilac-sketch);"></span>
+                                <span style="font-size:24px; font-weight:700; margin-left:16px;">Duck Mode &middot; question pond</span>
+                                <span class="chip chip-canary" style="margin-left:auto; font-size:20px;">3 QUESTIONS LEFT</span>
+                            </div>
+                            <div class="console-body">
+                                <span class="msg-user">what drove the april revenue dip?</span>
+                                <div class="msg-ai">
+                                    <div style="display:flex; gap:16px;">
+                                        <span class="chip chip-sky" style="font-size:20px;">AI ANSWER</span>
+                                        <span class="chip" style="font-size:20px;">AUTO-SQL</span>
+                                    </div>
+                                    <p style="margin-top:20px;">83% of the dip came from mid-tier churn plus coupon expiry.</p>
+                                    <div style="display:flex; gap:16px; margin-top:24px;">
+                                        <span class="chip chip-canary" style="font-size:20px;">SHOW THE SQL</span>
+                                        <span class="chip" style="font-size:20px;">CITE SOURCES</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="flex:0.85; display:flex; flex-direction:column; gap:28px; padding-top:8px;">
+                        <div class="reveal d3">
+                            <span class="chip chip-canary">NO SQL? NO PROBLEM</span>
+                            <h3 style="font-size:32px; font-weight:700; margin-top:16px;">Ask in plain English</h3>
+                            <p class="body" style="font-size:24px; margin-top:10px;">Duck Mode writes the query, then shows its work.</p>
+                        </div>
+                        <div class="reveal d3">
+                            <span class="chip chip-sky">TRUST BUT VERIFY</span>
+                            <h3 style="font-size:32px; font-weight:700; margin-top:16px;">Every answer cites its sources</h3>
+                            <p class="body" style="font-size:24px; margin-top:10px;">Each result links to the tables and rows behind it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING CTA ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:static; margin-bottom:64px;">
+                    <svg class="duck-logo" viewBox="0 0 64 56" aria-hidden="true">
+                        <path d="M8,40 C7,28 18,20 30,19 C40,18 48,22 54,28 C60,34 59,42 53,46 C47,51 34,53 22,51 C13,50 9,46 8,40 Z" fill="none" stroke="#383838" stroke-width="4"/>
+                        <ellipse cx="30" cy="20" rx="14" ry="12" fill="none" stroke="#383838" stroke-width="4"/>
+                        <circle cx="26" cy="17" r="2.4" fill="#383838"/>
+                        <path d="M40,19 C44,17 47,19 49,23 C45,24 42,23 40,21 Z" fill="#ff9538" stroke="#383838" stroke-width="3"/>
+                    </svg>
+                    MotherDuck
+                </div>
+                <div class="cta-card reveal d1">
+                    <h2 class="h-display" style="font-size:104px;">Join the flock</h2>
+                    <p class="body" style="margin-top:32px; max-width:760px; margin-left:auto; margin-right:auto;">Duck-sized to try, pond-sized when you&rsquo;re ready. Your data stays yours, the answers come fast.</p>
+                    <div style="display:flex; gap:40px; align-items:center; justify-content:center; margin-top:56px;" class="reveal d2">
+                        <button class="btn-primary" style="background:var(--color-sky-crayon);">Start free</button>
+                        <button class="btn-outline">Talk to us</button>
+                    </div>
+                    <p class="body" style="font-size:24px; margin-top:40px; color:var(--color-graphite);">No credit card &middot; no pipeline homework &middot; just answers</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale();
+            this.setupDotNav();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>

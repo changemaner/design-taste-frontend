@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Dark-mode-first products, luxury/minimal premium brands where yellow would read as noise, dense data UIs, and any context needing shadow-based depth, multiple accent colors, or more than two font weights.",
+  "best_for": "Large consumer retail and e-commerce editorial homepages, product-heavy brand storytelling built around one strong brand color, and flat Scandinavian identities — media-led card grids with a single yellow action plane doing all the interface work.",
+  "density": "comfortable",
+  "formality": "low",
+  "mood": [
+    "minimal",
+    "warm",
+    "bold"
+  ],
+  "name": "IKEA",
+  "palette_voice": "Pure white (#ffffff) and Warm White (#fffefb) surfaces with Ink Black (#111111) for text and dominant borders; IKEA Yellow (#ffdb00) is the singular chromatic workhorse — solid fills for CTAs and featured cards, never a border, never a text color, never decoration; Link Blue (#0159a3) is reserved strictly for text links; zero shadows and zero gradients — depth comes from yellow-vs-white contrast, image overlays, and spacing.",
+  "scheme": "light",
+  "signature_moves": [
+    "The Yellow CTA Card — a solid #ffdb00 plane + bold black headline + circular black arrow button, the unmistakable primary-action signature",
+    "Exactly one border radius in the whole system: 8px on cards, images, inputs, buttons, everything — flat-pack modular uniformity",
+    "A binary 400/700 weight system — hierarchy is forced through size and color alone, never extra weights",
+    "Gradient-to-black overlays at 30–60% opacity on every image card that carries text",
+    "The circular black arrow button (~40px, white arrow) as the universal 'navigate' affordance"
+  ],
+  "slug": "ikea",
+  "source": {
+    "leading_body": 1.57,
+    "path": "refero-styles/IKEA/",
+    "radius": "8px everywhere",
+    "shadow": "none — flat, zero elevation",
+    "theme": "light"
+  },
+  "tagline": "sunlit Swedish flat-pack showroom",
+  "tone": [
+    "friendly",
+    "confident",
+    "approachable"
+  ],
+  "typographic_voice": "A sole custom sans (Noto IKEA, subst. Inter/DM Sans) at exactly two weights — 700 for headlines (36–51px, tight negative tracking down to -0.029em, compressed architectural quality) and 400 for body (16px, generous 1.57 line-height); no italics, no medium, no light weights; the negative tracking is structural, not decorative."
+}

@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Formal enterprise, financial or B2B software, dark-mode products, or any premium/editorial context — the 8-bit single-font system and cream+black binary read toy-like and can't carry subtle or authoritative messaging.",
+  "best_for": "E-commerce product pages for streetwear / skate / indie apparel brands that want a retro arcade-kiosk feel — compact cream product grids, pixel type, one orange marquee and one green buy button, Palace/Polar-adjacent.",
+  "density": "compact",
+  "formality": "low",
+  "mood": [
+    "retro",
+    "playful",
+    "bold"
+  ],
+  "name": "FRANKY'S",
+  "palette_voice": "A deliberately impoverished palette on a warm Arcade Cream (#f3e5df) canvas: Ink Black (#000000) for all text, borders, and checkerboard tiles, Pixel Gray (#e5e7eb) hairlines, Charcoal (#333333)/Carbon (#151515) for checkerboard depth, Marquee Orange (#faa21f) reserved for the top announcement bar only, and a single Buy Green (#128e44) for the filled Add-To-Cart button — the only two chromatic colors in the whole system; depth comes from a 1px inset cream line and the checkerboard, never soft shadows.",
+  "scheme": "light",
+  "signature_moves": [
+    "Black-and-white checkerboard (#f3e5df / #000000, ~48px tiles) as the hero product panel and brand pattern — never a functional UI surface",
+    "6px radius on all CTAs, tags, and toggles with a 1px inset cream highlight (rgb(243,229,223) 0 1px 0 0 inset) for the arcade-button bevel",
+    "Marquee sheen gradient band (orange → cream → orange) across the top — the only decorative chromatic surface on the page",
+    "Single-arcade-font weight jump (400 body → 700 titles/nav/footer) as the complete hierarchy system",
+    "Filled Buy Green Add-To-Cart button (6px radius, white uppercase 700 text) — the only green surface, reserved for purchase only"
+  ],
+  "slug": "frankys",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/FRANKY'S/",
+    "radius": "6px buttons / 12px cards / 9999px tags & inline pills",
+    "shadow": "single inset highlight rgb(243,229,223) 0 1px 0 0 inset + flat #333333 contact shadow under hero cap",
+    "theme": "light"
+  },
+  "tagline": "Retro arcade kiosk on a skate-shop counter.",
+  "tone": [
+    "playful",
+    "casual",
+    "rebellious"
+  ],
+  "typographic_voice": "One 8-bit Arcade pixel font (subst. VT323 / Press Start 2P) sets every word on the site — headings, labels, prices, buttons, body, icons — with the 400-to-700 weight jump as the entire hierarchy tool; letter-spacing stays normal because the font's bitmap grid is the rhythm; all-caps-leaning, only 10-18px sizes, no second typeface, no decorative typography, no sans, no scripts."
+}

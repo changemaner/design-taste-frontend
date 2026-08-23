@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Any context needing multiple colors, imagery, or hierarchy beyond type — software dashboards, e-commerce catalogues, corporate sites, or playful multi-color brands; the two-color band system and 288px type leave no room for anything but typography.",
+  "best_for": "Charity / donation campaigns, creative-collective and type-foundry poster sites where type is the product — an oversized printed-poster register, one mint canvas, one black ink, type-as-architecture, Field Notes / It's Nice That-adjacent.",
+  "density": "compact",
+  "formality": "medium",
+  "mood": [
+    "minimal",
+    "bold",
+    "editorial"
+  ],
+  "name": "Good Glyphs",
+  "palette_voice": "Anti-UI two-color system: one soft Pledge Mint (#c7ffcd) canvas carries the entire chromatic load while pure Ink Black (#000000) handles every stroke, border, label, and filled element — no neutral grays, no semantic colors, no shadows, no gradients; the only color-on-color moment is mint glyph artwork on the black showcase band; surfaces alternate between full-bleed mint and full-bleed black bands for a poster-strip rhythm instead of card hierarchy.",
+  "scheme": "light",
+  "signature_moves": [
+    "288px / weight 300 / line-height 0.80 / -0.03em tracking display headline — the brand name rendered as a locked wall of ink, size IS the identity",
+    "Full-bleed mint-to-black band alternation producing poster-strip rhythm rather than card-based hierarchy",
+    "Fully pill-shaped 140px controls for every interactive element — no squared or rounded-rect variants, hover inverts fill (mint→black, black→mint)",
+    "Black showcase band spanning viewport width with 288px dingbat glyphs in Pledge Mint — the product proven at use size, the only color-on-black moment",
+    "1px solid black borders + 14px soft card radius — components feel stamped rather than designed"
+  ],
+  "slug": "good-glyphs",
+  "source": {
+    "leading_body": 1.5,
+    "path": "refero-styles/Good Glyphs/",
+    "radius": "14px cards / 140px full-pill buttons",
+    "shadow": "none — no elevation, hierarchy via scale and band alternation only",
+    "theme": "light"
+  },
+  "tagline": "oversized charity poster on mint paper — type so large it behaves as architecture, not text.",
+  "tone": [
+    "confident",
+    "rebellious",
+    "calm"
+  ],
+  "typographic_voice": "Helvetica Neue (subst. Inter/Neue Haas) at weight 300 powers the 288px display — the light weight at extreme size with locked -0.03em tracking lets the letters breathe inside a wall of ink, and the 0.80 line-height stacks them into a single graphic block; weight 400 handles all body/labels at 13-14px with the same tracking; one 28px mid-tier subhead jumps straight to 288px — never weight 700, type as architecture, not text."
+}

@@ -1,0 +1,37 @@
+{
+  "avoid_for": "Consumer retail and playful multi-color brands, image-led hero marketing, and any interface needing bold (600+) headlines, pure-white backgrounds, or sans-serif body text — the serif-mono pairing and warm parchment canvas define the identity, and swapping them breaks it.",
+  "best_for": "Developer-tool and data-infrastructure landing pages wanting a literary technical register — warm parchment canvas, editorial serif headlines, monospace body, and a data-pipeline diagram as the visual centerpiece.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "technical",
+    "editorial",
+    "quiet",
+    "warm"
+  ],
+  "name": "Monad",
+  "palette_voice": "Warm Parchment (#f6f3f1) is the signature canvas and most surface fills — never pure white; Off-Black (#242424) and Graphite (#4e4d4d) carry text while 1px Ash (#cecac8) hairlines define all edges; a single vivid Lake Blue (#2b59d1) is the only saturated fill, reserved for the primary action only; Periwinkle Mist (#cfdaf5) elevates one card and pastel gradient washes (coral, sky, mint, gold) stay strictly decorative inside illustrations; one subtle ambient shadow token exists but cards prefer borders and surface contrast.",
+  "scheme": "light",
+  "signature_moves": [
+    "The serif-mono pairing — Untitled Serif at weight 400 for all headlines, ABC Diatype Mono for every body/nav/button/UI string — the serif announces, the mono instructs",
+    "Uppercase + tight-tracking mono labels on nav, buttons, and tags (18px / 14px), making functional text read as data",
+    "Lake Blue pill button with a trailing arrow as the single saturated conversion action per screen",
+    "The custom data-pipeline diagram — pill-shaped bordered nodes connected by thin curved Ash lines, the page's visual centerpiece",
+    "Soft gradient atmospheric washes (Coral → Sky Blue → Mint) with blur(50–75px) as decorative halos behind hero content"
+  ],
+  "slug": "monad",
+  "source": {
+    "leading_body": 1.35,
+    "path": "refero-styles/Monad/",
+    "radius": "40px cards / 100px buttons / 9999px tags & pills",
+    "shadow": "subtle ambient — rgba(0,0,0,0.1) 0px 0px 10px 0px",
+    "theme": "light"
+  },
+  "tagline": "editorial tech journal on warm parchment",
+  "tone": [
+    "confident",
+    "calm",
+    "authoritative"
+  ],
+  "typographic_voice": "A two-voice system: Untitled Serif (subst. Times/Georgia) at weight 400 locked across all sizes (24–80px) with -0.02em tracking carries editorial authority through stroke contrast rather than weight — headlines whisper, never shout; ABC Diatype Mono (subst. JetBrains Mono) handles all body, nav, buttons, badges, and tags at 12–20px with negative tracking, reading as data not marketing; no bold headings, no sans body, no pure-white canvas."
+}

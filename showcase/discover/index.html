@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover — Type museum on white marble</title>
+
+    <!-- Fonts: Aeonik → Satoshi substitute; per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+    <style>
+        /* ===========================================
+           THEME — exact token values from DESIGN.md
+           (value layer: 1:1; typography/spacing ×2 for 1920×1080 stage)
+           =========================================== */
+        :root {
+            /* Colors — exact */
+            --color-ink: #121212;
+            --color-canvas: #ffffff;
+            --color-fog: #dbdada;
+            --color-slate: #8e8e93;
+            --color-obsidian: #000000;
+            --color-signal-coral: #ee585a;
+
+            /* Font — Aeonik → Inter substitute */
+            --font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — ×2 (tight -0.011em tracking is part of the voice) */
+            --text-caption: 24px;
+            --text-body: 32px;
+            --leading-body: 1.5;
+            --text-sub: 48px;
+            --text-heading: 88px;
+            --text-display: 200px;   /* 120 source ×2 → 240, compressed to 200 for stage */
+
+            /* Spacing — ×2 (10px → 20px, 24px → 48px rhythm) */
+            --sp-1: 20px; --sp-2: 40px; --sp-3: 60px; --sp-4: 80px; --sp-5: 96px;
+
+            /* Radii — exact */
+            --radius-cards: 32px;
+            --radius-full: 9999px;
+
+            /* Shadow — single token */
+            --shadow-card: rgba(72,72,74,0.16) 0px 4px 64px 0px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; background: #ffffff; overflow: hidden; }
+        .deck-viewport { position: fixed; inset: 0; background: #ffffff; }
+        .deck-stage { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+
+        .slide {
+            position: absolute; inset: 0;
+            visibility: hidden; opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+            background: var(--color-canvas);
+            overflow: hidden;
+        }
+        .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; }
+
+        .frame { position: absolute; inset: 0; padding: 112px 120px 160px; }
+        .nav-bar {
+            position: absolute; top: 44px; left: 120px; right: 120px;
+            display: flex; align-items: center; gap: 40px;
+            font-family: var(--font); font-weight: 500; font-size: 28px;
+            color: var(--color-ink); letter-spacing: -0.011em;
+        }
+        .nav-bar .logo { font-weight: 700; font-size: 36px; }
+        .nav-bar .right { margin-left: auto; }
+        .btn-coral {
+            background: var(--color-signal-coral); color: var(--color-canvas);
+            border: none; border-radius: var(--radius-full);
+            padding: 24px 56px; font-family: var(--font); font-weight: 700; font-size: 30px;
+            cursor: pointer; line-height: 1; letter-spacing: -0.011em;
+            box-shadow: var(--shadow-card);
+        }
+        .chip-coral {
+            display: inline-block; background: var(--color-signal-coral); color: var(--color-canvas);
+            border-radius: var(--radius-full); padding: 10px 28px;
+            font-family: var(--font); font-weight: 700; font-size: 24px; letter-spacing: -0.011em;
+        }
+        .link-coral { color: var(--color-signal-coral); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+        .display {
+            font-family: var(--font); font-weight: 700;
+            letter-spacing: -0.011em; line-height: 1.0;
+            color: var(--color-ink);
+        }
+        .heading { font-family: var(--font); font-weight: 700; letter-spacing: -0.011em; color: var(--color-ink); }
+        .body-m, .body {
+            font-family: var(--font); font-weight: 400;
+            font-size: var(--text-body); line-height: var(--leading-body);
+            color: var(--color-ink); letter-spacing: -0.011em;
+        }
+        .body-muted { font-family: var(--font); font-weight: 400; font-size: 28px; line-height: var(--leading-body); color: var(--color-slate); letter-spacing: -0.011em; }
+        .card {
+            background: var(--color-canvas);
+            border-radius: var(--radius-cards);
+            box-shadow: var(--shadow-card);
+            padding: 48px;
+        }
+        .specimen {
+            font-family: var(--font); font-weight: 700; letter-spacing: -0.011em;
+            color: var(--color-ink); line-height: 1;
+        }
+
+        /* Deck chrome — fixed to viewport */
+        .deck-chrome {
+            position: fixed; left: 0; right: 0; bottom: 24px; z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            padding: 0 48px; pointer-events: none;
+            font-family: var(--font); font-size: 22px; color: var(--color-ink);
+        }
+        .dot-nav {
+            display: flex; gap: var(--nav-dot-gap); align-items: center;
+            pointer-events: auto; width: fit-content;
+            color: var(--color-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit; border-radius: 50%;
+            border: 2px solid currentColor; background: transparent;
+            padding: 0; cursor: pointer; transition: transform 0.2s ease;
+        }
+        .nav-dot.active { background: currentColor; transform: scale(var(--nav-active-scale)); }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        .speaker-note {
+            display: none; position: fixed; left: 50%; bottom: 96px;
+            transform: translateX(-50%); z-index: 2000;
+            max-width: 780px; max-height: 240px; overflow: auto;
+            padding: 20px 28px; border-radius: 16px;
+            font-family: var(--font); font-size: 24px; line-height: 1.6;
+            background: var(--color-ink); color: var(--color-canvas);
+            pointer-events: none; text-align: left;
+        }
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --motion-duration: 0.7s;
+            --motion-distance: 28px;
+            --motion-stagger-step: 0.12s;
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;
+            --nav-dot-gap: 18px;
+            --nav-pill-pad-y: 14px;
+            --nav-pill-pad-x: 28px;
+            --nav-pill-alpha: 0.08;
+            --nav-pill-border-alpha: 0.28;
+            --nav-active-scale: 1.15;
+            --nav-hover-scale: 1.35;
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;
+            --frame-pad-top: 112px;
+            --frame-pad-x: 120px;
+        }
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        .slide.visible [class*="btn"] { transition: opacity 0.2s ease, transform 0.25s ease, background-color 0.2s ease; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #ffffff; }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="Discover 开场：白色大理石上一枚近黑大字 + 一抹珊瑚红。字体即主角，其余全部退后。按 N 关备注。">
+            <nav class="nav-bar reveal">
+                <span class="logo">DISCOVER</span>
+                <span>Fonts</span><span>Library</span><span>About</span>
+                <button class="btn-coral right" type="button">Sign in</button>
+            </nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:230px; max-width:1700px;">
+                    <div class="display reveal d1" style="font-size:190px;">
+                        FONT<br><span style="color:var(--color-signal-coral);">NINJA</span>
+                    </div>
+                    <p class="body-muted reveal d2" style="max-width:760px; margin-top:48px;">
+                        A near-monochrome gallery for letterforms — every glyph displayed at
+                        extreme scale, one warm coral note where you should click.
+                    </p>
+                    <div class="reveal d3" style="margin-top:40px; display:flex; gap:24px; align-items:center;">
+                        <button class="btn-coral" type="button">Browse the library</button>
+                        <span class="link-coral" style="font-size:30px;">Try the Chrome extension →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — THE PROBLEM ========== -->
+        <section class="slide" data-note="问题页：选字体像猜谜——满屏预览、没有上下文、没有对比。Discover 用博物馆逻辑重排。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:220px; left:120px; right:120px;">
+                    <span class="chip-coral reveal">The problem</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">TYPEFACES,<br>OUT OF <span style="color:var(--color-slate);">CONTEXT</span></div>
+                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;">
+                        <div class="card reveal d2">
+                            <div class="specimen" style="font-size:64px;">Aa</div>
+                            <div class="body-muted" style="margin-top:16px;">Preview walls show every face at once — none of them in your real interface.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div class="specimen" style="font-size:64px;">40</div>
+                            <div class="body-muted" style="margin-top:16px;">Forty tabs open comparing one stroke difference that only matters at 12px.</div>
+                        </div>
+                        <div class="card reveal d4">
+                            <div class="specimen" style="font-size:64px;">?</div>
+                            <div class="body-muted" style="margin-top:16px;">Licensing surprise at the last minute — the font you love isn't yours to ship.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE INSIGHT ========== -->
+        <section class="slide" data-note="洞察页：字体应该像博物馆藏品——大、安静、有对比。Discover 把选字体变成看展。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:280px; max-width:1400px;">
+                    <span class="chip-coral reveal">The insight</span>
+                    <div class="heading reveal d1" style="font-size:110px; margin:32px 0 48px;">
+                        JUDGE TYPE<br><span style="color:var(--color-ink);">IN THE GALLERY</span>
+                    </div>
+                    <p class="body-muted reveal d2" style="max-width:820px; line-height:1.5;">
+                        A letterform only makes sense in context. Discover strips the noise,
+                        shows one face at monumental scale, and lets you weigh it the way a
+                        curator weighs a painting.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — HOW IT WORKS ========== -->
+        <section class="slide" data-note="原理页：三步——映射页面字体、逐一放大审视、一键切换对比。珊瑚红只在动作点。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:220px; left:120px; right:120px;">
+                    <span class="chip-coral reveal">How it works</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">THREE MOVES,<br>ONE <span style="color:var(--color-signal-coral);">DECISION</span></div>
+                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;">
+                        <div class="card reveal d2">
+                            <div class="specimen" style="font-size:40px; color:var(--color-slate);">01</div>
+                            <div class="heading" style="font-size:44px; margin:8px 0 16px;">Map</div>
+                            <div class="body-muted">Discover reads the live page and lists every typeface in use.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div class="specimen" style="font-size:40px; color:var(--color-slate);">02</div>
+                            <div class="heading" style="font-size:44px; margin:8px 0 16px;">Weigh</div>
+                            <div class="body-muted">Zoom any face to monumental scale — the real test is at size.</div>
+                        </div>
+                        <div class="card reveal d4">
+                            <div class="specimen" style="font-size:40px; color:var(--color-slate);">03</div>
+                            <div class="heading" style="font-size:44px; margin:8px 0 16px;">Switch</div>
+                            <div class="body-muted">Try a candidate in place, live, before you commit to the license.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — PRODUCT ========== -->
+        <section class="slide" data-note="产品页：巨型 Aa 标本浮在软影卡上——字体才是产品本身，UI 保持安静。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:172px; left:120px; right:120px;">
+                    <span class="chip-coral reveal">The specimen</span>
+                    <div class="heading reveal d1" style="font-size:80px; margin:24px 0 36px;">TYPE,<br>AT <span style="color:var(--color-signal-coral);">WEIGHT</span></div>
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:48px; align-items:center;">
+                        <div class="card reveal d2" style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding:48px;">
+                            <div class="specimen" style="font-size:170px;">Aa</div>
+                            <div class="body-muted" style="margin-top:16px;">Inter / Aeonik substitute — 700 weight shown</div>
+                        </div>
+                        <div class="reveal d3">
+                            <div class="body-muted" style="line-height:1.5;">
+                                The specimen IS the product. Oversized glyphs, immediate contrast,
+                                and licensing facts beside the art — so judgment happens in one glance.
+                            </div>
+                            <div style="margin-top:32px;">
+                                <button class="btn-coral" type="button">Inspect a font</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — TRUST / DETAILS ========== -->
+        <section class="slide" data-note="信任页：许可透明 + 上下文保真，两个安静卡讲清。珊瑚红只做链接。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; top:220px; left:120px; right:120px;">
+                    <span class="chip-coral reveal">Details that matter</span>
+                    <div class="heading reveal d1" style="font-size:96px; margin:32px 0 56px;">SHIP WITH<br><span style="color:var(--color-slate);">CERTAINTY</span></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+                        <div class="card reveal d2">
+                            <div class="heading" style="font-size:44px; margin-bottom:16px;">Licensing, read</div>
+                            <div class="body-muted">Weight, license, and webfont cost beside every specimen — no surprises at deploy.</div>
+                        </div>
+                        <div class="card reveal d3">
+                            <div class="heading" style="font-size:44px; margin-bottom:16px;">Context, kept</div>
+                            <div class="body-muted">Identical rendering to your live page — what you judge is what users get.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — SCALE ========== -->
+        <section class="slide" data-note="规模页：一个大数字撑画面，一块珊瑚 CTA 与一条链接。留白即排版。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span><button class="btn-coral right" type="button">Sign in</button></nav>
+            <div class="frame">
+                <div style="position:absolute; left:120px; top:340px; max-width:1500px;">
+                    <span class="chip-coral reveal">In the wild</span>
+                    <div style="display:flex; align-items:flex-end; gap:96px; margin-top:56px;">
+                        <div style="flex:1;">
+                            <div class="display reveal d2" style="font-size:220px;">2.4<span style="font-size:0.5em;">m</span></div>
+                            <div class="body-muted reveal d3" style="margin-top:40px; max-width:640px;">
+                                Fonts identified per month — a quiet tool that reads louder than
+                                any dashboard because it only speaks when you're about to decide.
+                            </div>
+                        </div>
+                        <div class="reveal d4" style="margin-bottom:16px;">
+                            <button class="btn-coral" type="button">Start identifying</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSING ========== -->
+        <section class="slide" data-note="收尾：把每一次选字体变成一次参观。大 specimen 收束 + 珊瑚 CTA。">
+            <nav class="nav-bar reveal"><span class="logo">DISCOVER</span><span>Fonts</span><span>Library</span></nav>
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div style="max-width:1700px;">
+                    <div class="display reveal d1" style="font-size:200px;">
+                        CHOOSE<br><span style="color:var(--color-signal-coral);">WELL</span>
+                    </div>
+                    <p class="body-muted reveal d2" style="max-width:720px; margin-top:56px;">
+                        Fonts font just decoration — they set the tone of every word. Give them
+                        the judgment they deserve.
+                    </p>
+                    <div class="reveal d3" style="margin-top:48px; display:flex; gap:24px; align-items:center;">
+                        <button class="btn-coral" type="button">Install the extension</button>
+                        <span class="link-coral" style="font-size:30px;">View the gallery →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+<script>
+    /* Deck controller — standard stage scale + nav + presenter */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale(); this.setupDotNav(); this.setupKeyboardNav(); this.setupTouchNav();
+            this.initFromQuery(); this.showSlide(this.currentSlide);
+        }
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            }; scale(); window.addEventListener('resize', scale);
+        }
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button'); d.className = 'nav-dot'; d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1)); d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i)); this.dotNav.appendChild(d);
+            });
+        }
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => { d.classList.toggle('active', i === this.currentSlide); });
+            this.updateNotes();
+        }
+    }
+    new SlidePresentation();
+</script>
+</body>
+</html>

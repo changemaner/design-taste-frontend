@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Glyphs — Keep the poster</title>
+
+    <!-- Fonts: Helvetica Neue -> Inter (300/400 only), per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+
+    <style>
+        :root {
+            /* Colors — exact 1:1 from tokens.json (only 3 colors in the whole system) */
+            --color-canvas: #c7ffcd;      /* Pledge Mint — the ONLY chromatic color */
+            --color-ink: #000000;         /* Ink Black — every stroke, border, label, fill */
+            --color-carbon: #101010;      /* Carbon — functionally identical to ink */
+            --color-on-ink: #ffffff;      /* white on the black showcase band */
+
+            /* Fonts — Helvetica Neue -> Inter (300 display / 400 UI) */
+            --font-ui: 'Inter', Helvetica Neue, ui-sans-serif, system-ui, sans-serif;
+            --font-display: 'Inter', Helvetica Neue, ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — x2 for stage; display at poster scale, lh 0.8 is critical */
+            --text-caption: 26px;
+            --text-body-sm: 28px;
+            --text-body: 32px;
+            --leading-body: 1.5;
+            --text-sub: 56px;
+            --text-title: 96px;
+            --text-display: 176px;
+
+            /* Spacing — x2 (base 4px; tight 7-14px source paddings) */
+            --sp-1: 14px;
+            --sp-2: 28px;
+            --sp-3: 56px;
+            --sp-4: 80px;
+
+            /* Radii — exact 1:1: 14px soft cards, pill controls */
+            --radius-cards: 14px;
+            --radius-full: 9999px;
+
+            /* Borders — solid 1px black everywhere (x2 on stage) */
+            --border-hard: 2px solid var(--color-ink);
+        }
+
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-canvas);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-canvas);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: var(--color-canvas); }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ═══════════ BRAND ─ 品牌组件 CSS（每套素材独立） ═══════════ */
+        /* Frame — content padding with bottom safety zone */
+        .frame {
+            position: absolute; inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — stamped black caps, solid underline */
+        .wordmark {
+            position: absolute; top: 56px; left: var(--frame-pad-x);
+            font-family: var(--font-ui);
+            font-size: 28px; font-weight: 600;
+            letter-spacing: -0.02em; text-transform: uppercase;
+            color: var(--color-ink);
+            border-bottom: var(--border-hard);
+            padding-bottom: 16px;
+        }
+
+        /* Tag — small caps label, stamped */
+        .tag {
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 400;
+            letter-spacing: -0.01em; text-transform: uppercase;
+            color: var(--color-ink);
+        }
+
+        /* Display — 288px-scale wall of type, lh 0.8 locks letters into a block */
+        .h-display {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: var(--text-display);
+            line-height: 0.8;
+            letter-spacing: -0.03em;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+        .h-title {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: 120px; line-height: 0.9;
+            letter-spacing: -0.03em;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+        .h-sub {
+            font-family: var(--font-ui);
+            font-size: 56px; font-weight: 300;
+            letter-spacing: -0.03em; line-height: 1.2;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+
+        /* Body — 13-14px source -> x2, lh 1.5 (contract fallback) */
+        .body {
+            font-family: var(--font-ui);
+            font-size: 32px; line-height: 1.5;
+            color: var(--color-ink);
+        }
+        .body-muted {
+            font-family: var(--font-ui);
+            font-size: 32px; line-height: 1.5;
+            color: var(--color-ink);
+            opacity: 0.75;
+        }
+        .body-cream {
+            font-family: var(--font-ui);
+            font-size: 32px; line-height: 1.5;
+            color: var(--color-on-ink);
+        }
+
+        /* Pill controls — 140px pill radius, solid black border */
+        .btn-pill {
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--color-on-ink);
+            background: var(--color-ink);
+            border: var(--border-hard);
+            border-radius: var(--radius-full);
+            padding: 20px 48px;
+            cursor: pointer;
+        }
+        .btn-pill-outline {
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--color-ink);
+            background: transparent;
+            border: var(--border-hard);
+            border-radius: var(--radius-full);
+            padding: 20px 48px;
+            cursor: pointer;
+        }
+
+        /* Soft cards — 14px radius, solid black border, mint fill */
+        .poster-card {
+            background: var(--color-canvas);
+            border: var(--border-hard);
+            border-radius: var(--radius-cards);
+            padding: 28px 36px;
+        }
+        .poster-card-black {
+            background: var(--color-ink);
+            border: var(--border-hard);
+            border-radius: var(--radius-cards);
+            padding: 40px 44px;
+            color: var(--color-on-ink);
+        }
+        .card-num {
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 400; letter-spacing: 0.02em;
+            color: var(--color-ink);
+        }
+        .card-title {
+            font-family: var(--font-ui);
+            font-size: 52px; font-weight: 300;
+            letter-spacing: -0.02em; line-height: 1.1;
+            color: var(--color-ink);
+            text-transform: uppercase;
+            margin-top: 28px;
+        }
+        .card-body {
+            font-family: var(--font-ui);
+            font-size: 30px; line-height: 1.5;
+            color: var(--color-ink);
+            margin-top: 20px;
+        }
+        .poster-card-black .card-title,
+        .poster-card-black .card-body { color: var(--color-on-ink); }
+
+        /* Agenda rows — stamped list, solid rules */
+        .agenda-row {
+            display: flex; align-items: baseline; gap: 48px;
+            padding: 30px 0;
+            border-bottom: var(--border-hard);
+        }
+        .a-num {
+            font-family: var(--font-ui);
+            font-size: 28px; font-weight: 500;
+            color: var(--color-ink);
+            flex: none;
+        }
+        .a-title {
+            font-family: var(--font-ui);
+            font-size: 72px; font-weight: 300;
+            letter-spacing: -0.03em; line-height: 1.1;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+        .a-tag {
+            margin-left: auto;
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 400;
+            letter-spacing: 0.02em; text-transform: uppercase;
+            color: var(--color-ink);
+            border: var(--border-hard);
+            border-radius: var(--radius-full);
+            padding: 10px 24px;
+            white-space: nowrap;
+        }
+
+        /* Glyphs — the product itself, white on the black band */
+        .glyph {
+            font-family: var(--font-ui);
+            color: var(--color-on-ink);
+            line-height: 1;
+            user-select: none;
+        }
+        .glyph-band {
+            background: var(--color-ink);
+            border-radius: var(--radius-cards);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Stats — poster numerals */
+        .stat-num {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: 112px; line-height: 0.9;
+            letter-spacing: -0.03em;
+            color: var(--color-ink);
+        }
+        .stat-label {
+            font-family: var(--font-ui);
+            font-size: 28px; line-height: 1.5;
+            color: var(--color-ink);
+            margin-top: 24px;
+            max-width: 420px;
+        }
+
+        /* Quote — poster scale */
+        .quote-text {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: 88px; line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+        .quote-by {
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 400; letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            margin-top: 48px;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-ui);
+            font-size: 22px;
+            color: var(--color-muted);
+            letter-spacing: 0.04em;
+        }
+        /* Dot progress navigation — clickable, current slide solid */
+                .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }        /* Dark-tone capsule: light version for dark/saturated slides · 胶囊颜色随 slide 底色自适应 */
+        .dot-nav[data-tone="dark"] {
+            color: rgb(255, 255, 255);
+            background: var(--nav-pill-bg-dark, rgba(255, 255, 255, var(--nav-pill-alpha)));
+            border-color: var(--nav-pill-border-dark, rgba(255, 255, 255, var(--nav-pill-border-alpha)));
+        }
+        @supports (background: color-mix(in srgb, black 10%, transparent)) {
+            .dot-nav[data-tone="dark"] {
+                background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+                border-color: color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            }
+        }
+
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-ui);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-ink);
+            color: var(--color-on-ink);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;     /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：Good Glyphs 是一张印在薄荷纸上的慈善海报 —— 三种颜色、一块字墙、一个黑带。按 N 关闭备注。">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x);">
+                    Good Glyphs
+                </div>
+                <span class="tag reveal d1" style="margin-top:40px;">THE MINT PAPER CHARITY POSTER</span>
+                <h1 class="h-display reveal d2" style="margin-top:32px;">GOOD<br>GLYPHS</h1>
+                <p class="body reveal d3" style="max-width:900px; margin-top:32px; color:var(--color-ink);">Every letter you buy feeds a reader. 100% of proceeds go to literacy programs — the type does the talking.</p>
+                <div style="display:flex; gap:32px; margin-top:24px;" class="reveal d4">
+                    <button class="btn-pill" type="button">DONATE A LETTER</button>
+                    <button class="btn-pill-outline" type="button">SEE THE GLYPHS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    Good Glyphs
+                </div>
+                <div class="tag reveal d1" style="margin-top:64px;">POSTER CONTENTS</div>
+                <div style="margin-top:56px;">
+                    <div class="agenda-row reveal d1">
+                        <span class="a-num">01</span>
+                        <span class="a-title">A wall of type</span>
+                        <span class="a-tag">THE SIGNATURE</span>
+                    </div>
+                    <div class="agenda-row reveal d2">
+                        <span class="a-num">02</span>
+                        <span class="a-title">The glyphs themselves</span>
+                        <span class="a-tag">THE PRODUCT</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">03</span>
+                        <span class="a-title">The showcase band</span>
+                        <span class="a-tag">THE BLACK</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">04</span>
+                        <span class="a-title">Keep the poster</span>
+                        <span class="a-tag">THE CLOSE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE BLACK BAND ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-ink);">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-bottom-color:var(--color-on-ink);">
+                    Good Glyphs
+                </div>
+                <span class="tag reveal d1" style="margin-top:64px; color:var(--color-on-ink);">THE SHOWCASE BAND</span>
+                <div class="glyph-band reveal d2" style="margin-top:56px; height:340px; background:var(--color-canvas); gap:56px; padding:0 80px; justify-content:flex-start;">
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#10022;</span>
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#10038;</span>
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#10070;</span>
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#9670;</span>
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#9679;</span>
+                    <span class="glyph" style="font-size:180px; color:var(--color-ink);">&#10048;</span>
+                </div>
+                <p class="body-cream reveal d3" style="max-width:1000px; margin-top:48px; color:rgba(255,255,255,0.92);">The glyphs are the product — dingbats rendered at full display scale, proof that the font works at the size it was made for.</p>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — THE NUMBERS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    Good Glyphs
+                </div>
+                <div class="tag reveal d1" style="margin-top:48px;">THE NUMBERS</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">Poster-sized impact</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:32px;">
+                    <div class="reveal d2">
+                        <div class="stat-num">288</div>
+                        <div class="stat-label">glyphs in the set — every mark drawn at display scale</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num">3</div>
+                        <div class="stat-label">colors in the system: mint, black, and the white on black</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">shadows, gradients, or gray areas — the poster has no soft parts</div>
+                    </div>
+                </div>
+                <div class="poster-card reveal d4" style="margin-top:32px; max-width:1560px;">
+                    <div style="display:flex; align-items:center; gap:48px;">
+                        <span class="glyph" style="font-size:96px; color:var(--color-ink);">&#10022;</span>
+                        <p class="card-body" style="flex:1;">One glyph donated = one month of reading support. The set sells as a single block — you get the whole alphabet of marks.</p>
+                        <button class="btn-pill" type="button" style="white-space:nowrap;">GET THE SET</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    Good Glyphs
+                </div>
+                <div class="tag reveal d1" style="margin-top:64px;">ON THE POSTER</div>
+                <p class="quote-text reveal d2" style="margin-top:48px; max-width:1680px;">&ldquo;Type this big is not decoration. It is a building you can read.&rdquo;</p>
+                <div class="quote-by reveal d3">THE GOOD GLYPHS FOUNDRY</div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — THE WALL ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-ink);">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-bottom-color:var(--color-on-ink);">
+                    Good Glyphs
+                </div>
+                <span class="tag reveal d1" style="margin-top:64px; color:var(--color-on-ink);">A WALL OF MARKS</span>
+                <div class="reveal d2" style="margin-top:56px; display:flex; flex-wrap:wrap; gap:48px; align-items:center; justify-content:center;">
+                    <span class="glyph" style="font-size:200px;">&#10022;</span>
+                    <span class="glyph" style="font-size:200px;">&#10038;</span>
+                    <span class="glyph" style="font-size:200px;">&#10070;</span>
+                    <span class="glyph" style="font-size:200px;">&#9670;</span>
+                    <span class="glyph" style="font-size:200px;">&#9679;</span>
+                    <span class="glyph" style="font-size:200px;">&#10048;</span>
+                    <span class="glyph" style="font-size:200px;">&#9998;</span>
+                    <span class="glyph" style="font-size:200px;">&#10003;</span>
+                </div>
+                <p class="body-cream reveal d3" style="max-width:1100px; margin-top:48px; color:rgba(255,255,255,0.92);">Borderlines, stars, diamonds, checks, and flowers — each drawn to lock into the same black band. No gray, no glow, no gradient.</p>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — HOW IT WORKS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    Good Glyphs
+                </div>
+                <div class="tag reveal d1" style="margin-top:64px;">HOW IT WORKS</div>
+                <h2 class="h-title reveal d1" style="margin-top:28px;">Three stamped steps</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:64px;">
+                    <div class="poster-card reveal d2">
+                        <div class="card-num">01</div>
+                        <h3 class="card-title">Buy the set</h3>
+                        <p class="card-body">One payment, the whole alphabet of marks, forever. No subscriptions, no tiers.</p>
+                    </div>
+                    <div class="poster-card reveal d3">
+                        <div class="card-num">02</div>
+                        <h3 class="card-title">Post it</h3>
+                        <p class="card-body">Print the poster, pin it, project it. The glyphs are licensed for everything.</p>
+                    </div>
+                    <div class="poster-card-black reveal d3">
+                        <div class="card-num" style="color:rgba(255,255,255,0.85);">03</div>
+                        <h3 class="card-title">Keep it</h3>
+                        <p class="card-body">One glyph funds a month of reading support. The poster stays on the wall.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSE ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-ink);">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-bottom-color:var(--color-on-ink);">
+                    Good Glyphs
+                </div>
+                <span class="tag reveal d1" style="margin-top:40px; color:var(--color-on-ink);">THE FINAL LINE</span>
+                <h1 class="h-display reveal d2" style="margin-top:32px; color:var(--color-on-ink);">KEEP THE<br>POSTER</h1>
+                <p class="body-cream reveal d3" style="max-width:860px; margin-top:32px; color:rgba(255,255,255,0.92);">Buy once, read forever. The mint paper is the charity; the black ink is the cause. Pin it where people read.</p>
+                <div style="margin-top:24px;" class="reveal d4">
+                    <button class="btn-pill" type="button" style="background:var(--color-canvas); border-color:var(--color-canvas); color:var(--color-ink);">DONATE A LETTER</button>
+                </div>
+            </div>
+        </section>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale();
+            this.setupDotNav();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                const activeSlide = this.slides[this.currentSlide];
+                const tone = activeSlide ? activeSlide.getAttribute('data-nav-tone') : null;
+                if (tone === 'dark') this.dotNav.dataset.tone = 'dark';
+                else this.dotNav.removeAttribute('data-tone');
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>
+</body>
+</html>

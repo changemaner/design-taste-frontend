@@ -1,0 +1,19 @@
+# 成品导出（体积大、可本地随时重导，不推 GitHub）
+showcase/exports/
+
+# Python
+__pycache__/
+*.pyc
+
+# 本地服务器 / 临时
+.DS_Store
+qa_shots/brand-sites/_check_superhi_fix.png
+
+# deck 全量截图 + 品牌官网截图（本地可再生/包外素材，不入库）
+showcase/*/screenshots/
+qa_shots/
+
+# 妙搭发布本地暂存与应用映射（deploy.py --target miaoda）
+.miaoda/
+# Vercel 单 deck 发布本地暂存（deploy.py --deck）
+.vercel-stage/

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lpalo — A storybook store</title>
+
+    <!-- Fonts: Alfa Slab One (direct) + Manrope -> Inter, per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+
+    <style>
+        :root {
+            /* Colors — exact 1:1 from tokens.json */
+            --color-canvas: #f6e0db;      /* Peach Paper — the storybook ground */
+            --color-ink: #000000;         /* Charcoal Ink */
+            --color-snow: #ffffff;        /* Snow — white outlines & surfaces */
+            --color-ember: #ef724f;       /* Ember Orange — crayon accent */
+            --color-magenta: #981082;     /* Magenta Pop — crayon accent */
+            --color-sunbeam: #e7db4c;     /* Sunbeam Yellow — crayon accent */
+            --color-mint: #ace2df;        /* Mint Wash — crayon accent */
+            --color-powder: #84bfff;      /* Powder Blue — crayon accent */
+            --color-lilac: #e69dff;       /* Lilac Tint — crayon accent */
+            --color-lime: #6ed311;        /* Lime Zest — crayon accent */
+            --color-cobalt: #5196ff;      /* Cobalt Spark — crayon accent */
+            --color-on-ink: #ffffff;
+
+            /* Fonts */
+            --font-display: 'Alfa Slab One', 'Bowlby One', Georgia, serif;
+            --font-ui: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — x2 for stage (source 25-50px; hero 120px) */
+            --text-caption: 32px;
+            --text-body: 34px;
+            --leading-body: 1.6;          /* source --leading-body */
+            --text-title: 68px;
+            --text-display: 120px;
+
+            /* Spacing — x2 (spacious: 46-64px source sections) */
+            --sp-1: 16px;
+            --sp-2: 32px;
+            --sp-3: 48px;
+            --sp-4: 80px;
+            --sp-5: 128px;
+
+            /* Radii — exact 1:1 */
+            --radius-lg: 10px;
+            --radius-3xl: 40px;
+            --radius-pill: 9999px;
+        }
+
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-canvas);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-canvas);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: var(--color-canvas); }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ═══════════ BRAND ─ 品牌组件 CSS（每套素材独立） ═══════════ */
+        /* Frame — content padding with bottom safety zone */
+        .frame {
+            position: absolute; inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Wordmark — slab block on a sunbeam pill */
+        .wordmark {
+            position: absolute; top: 56px; left: var(--frame-pad-x);
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 32px; letter-spacing: 0.02em;
+            color: var(--color-ink);
+            background: var(--color-sunbeam);
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-pill);
+            padding: 14px 32px;
+            text-transform: uppercase;
+        }
+
+        /* Tag — crayon underline */
+        .tag {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 24px; letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            border-bottom: 6px solid var(--color-ember);
+            padding-bottom: 8px;
+        }
+        .tag-blue { border-bottom-color: var(--color-powder); }
+        .tag-lilac { border-bottom-color: var(--color-lilac); }
+
+        /* Display — the shouting slab headline */
+        .h-display {
+            font-family: var(--font-display);
+            font-size: var(--text-display);
+            line-height: 1.0;
+            letter-spacing: 0.01em;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+        .h-title {
+            font-family: var(--font-display);
+            font-size: 72px; line-height: 1.05;
+            letter-spacing: 0.01em;
+            color: var(--color-ink);
+            text-transform: uppercase;
+        }
+
+        /* Body — Manrope, lh 1.6 (source --leading-body) */
+        .body {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.6;
+            color: var(--color-ink);
+        }
+        .body-muted {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.6;
+            color: var(--color-magenta);
+        }
+        .body-cream {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.6;
+            color: var(--color-on-ink);
+        }
+
+        /* Buttons — chunky crayon pills */
+        .btn-crayon {
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 26px; letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            background: var(--color-sunbeam);
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-pill);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+        .btn-crayon-blue {
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 26px; letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-on-ink);
+            background: var(--color-cobalt);
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-pill);
+            padding: 24px 48px;
+            cursor: pointer;
+        }
+
+        /* Crayon cards — loosely rotated, colored bands */
+        .crayon-card {
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-3xl);
+            padding: 18px 26px;
+        }
+        .cc-ember { background: var(--color-ember); }
+        .cc-powder { background: var(--color-powder); }
+        .cc-mint { background: var(--color-mint); }
+        .cc-lilac { background: var(--color-lilac); }
+        .cc-sunbeam { background: var(--color-sunbeam); }
+        .cc-lime { background: var(--color-lime); }
+        .tilt-l { transform: rotate(-1.5deg); }
+        .tilt-r { transform: rotate(1.5deg); }
+        .card-kicker {
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 22px; letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 34px; line-height: 1.05;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            margin-top: 16px;
+        }
+        .card-body {
+            font-family: var(--font-ui);
+            font-size: 24px; line-height: 1.6;
+            margin-top: 14px;
+        }
+
+        /* Agenda rows — color band stripes */
+        .agenda-row {
+            display: flex; align-items: center; gap: 48px;
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-3xl);
+            padding: 24px 40px;
+            margin-top: 22px;
+        }
+        .row-sunbeam { background: var(--color-sunbeam); }
+        .row-mint { background: var(--color-mint); }
+        .row-powder { background: var(--color-powder); }
+        .row-lilac { background: var(--color-lilac); }
+        .a-num {
+            font-family: var(--font-display);
+            font-size: 36px;
+            color: var(--color-ink);
+        }
+        .a-title {
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 40px; letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+        }
+        .a-tag {
+            margin-left: auto;
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 20px; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            background: var(--color-snow);
+            border: 3px solid var(--color-ink);
+            border-radius: var(--radius-pill);
+            padding: 8px 18px;
+            white-space: nowrap;
+        }
+
+        /* Stats */
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 110px; line-height: 1.0;
+            letter-spacing: 0.01em;
+            color: var(--color-ink);
+        }
+        .stat-label {
+            font-family: var(--font-ui);
+            font-size: 28px; line-height: 1.6;
+            color: var(--color-magenta);
+            margin-top: 14px;
+            max-width: 420px;
+        }
+
+        /* Quote */
+        .quote-text {
+            font-family: var(--font-display);
+            font-size: 60px; line-height: 1.2;
+            letter-spacing: 0.01em;
+            color: var(--color-ink);
+        }
+        .quote-by {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 22px; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-on-ink);
+            background: var(--color-magenta);
+            border: 4px solid var(--color-ink);
+            border-radius: var(--radius-pill);
+            padding: 12px 24px;
+            margin-top: 48px;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-ui);
+            font-size: 22px;
+            color: var(--color-muted);
+            letter-spacing: 0.04em;
+        }
+        /* Dot progress navigation — clickable, current slide solid */
+                .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-ui);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-ink);
+            color: var(--color-on-ink);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;     /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：Lpalo 是一本摊在暖桃纸上的儿童绘本 —— slab 大标题喊出来，蜡笔涂鸦绕着飞。按 N 关闭备注。">
+            <svg class="crayon-art" style="position:absolute; left:150px; top:180px; width:200px; height:200px;" viewBox="0 0 200 200" aria-hidden="true">
+                <circle cx="100" cy="100" r="46" fill="#ef724f"/>
+                <g stroke="#000000" stroke-width="5">
+                    <line x1="100" y1="30" x2="100" y2="10"/><line x1="100" y1="170" x2="100" y2="190"/>
+                    <line x1="30" y1="100" x2="10" y2="100"/><line x1="170" y1="100" x2="190" y2="100"/>
+                    <line x1="50" y1="50" x2="36" y2="36"/><line x1="150" y1="50" x2="164" y2="36"/>
+                    <line x1="50" y1="150" x2="36" y2="164"/><line x1="150" y1="150" x2="164" y2="164"/>
+                </g>
+            </svg>
+            <svg class="crayon-art" style="position:absolute; right:180px; top:200px; width:180px; height:140px;" viewBox="0 0 180 140" aria-hidden="true">
+                <path d="M10,110 Q55,20 90,60 Q125,20 170,110 Z" fill="#84bfff" stroke="#000000" stroke-width="5"/>
+            </svg>
+            <svg class="crayon-art" style="position:absolute; left:240px; bottom:260px; width:160px; height:120px;" viewBox="0 0 160 120" aria-hidden="true">
+                <path d="M10,60 Q80,10 150,60 Q80,110 10,60 Z" fill="#ace2df" stroke="#000000" stroke-width="5"/>
+                <path d="M10,60 Q80,25 150,60" stroke="#000000" stroke-width="5" fill="none"/>
+            </svg>
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x);">
+                    LPALO
+                </div>
+                <span class="tag reveal d1" style="margin-top:56px;">A STORYBOOK STORE</span>
+                <h1 class="h-display reveal d2" style="margin-top:32px;">READ<br>ALOUD</h1>
+                <p class="body reveal d3" style="max-width:820px; margin-top:40px; color:var(--color-ink);">Big slab headlines, scattered crayon doodles, and stories that fit in a lap. Peach paper since day one.</p>
+                <div style="display:flex; gap:32px; margin-top:40px;" class="reveal d4">
+                    <button class="btn-crayon" type="button">OPEN A STORY</button>
+                    <button class="btn-crayon-blue" type="button">MEET THE DRAWS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    LPALO
+                </div>
+                <div class="tag tag-blue reveal d1" style="margin-top:64px;">THE STORYBOARD</div>
+                <div style="margin-top:40px;">
+                    <div class="agenda-row row-sunbeam reveal d1">
+                        <span class="a-num">01</span>
+                        <span class="a-title">The crayons</span>
+                        <span class="a-tag">ART</span>
+                    </div>
+                    <div class="agenda-row row-mint reveal d2">
+                        <span class="a-num">02</span>
+                        <span class="a-title">The pages</span>
+                        <span class="a-tag">BOOKS</span>
+                    </div>
+                    <div class="agenda-row row-powder reveal d3">
+                        <span class="a-num">03</span>
+                        <span class="a-title">The count</span>
+                        <span class="a-tag">NUMBERS</span>
+                    </div>
+                    <div class="agenda-row row-lilac reveal d3">
+                        <span class="a-num">04</span>
+                        <span class="a-title">The end</span>
+                        <span class="a-tag">THE END</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE CRAYONS ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    LPALO
+                </div>
+                <div class="tag tag-lilac reveal d1" style="margin-top:48px;">THE CRAYONS</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">Eight colors, one rule</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;">
+                    <div class="crayon-card cc-ember tilt-l reveal d2">
+                        <div class="card-kicker">01 / EMBER</div>
+                        <h3 class="card-title">The shout</h3>
+                        <p class="card-body">Every page gets one loud orange. One. The rest stay quiet.</p>
+                    </div>
+                    <div class="crayon-card cc-powder tilt-r reveal d3">
+                        <div class="card-kicker">02 / POWDER</div>
+                        <h3 class="card-title">The sky</h3>
+                        <p class="card-body">Clouds, rain, and the wide part of the page where nothing happens.</p>
+                    </div>
+                    <div class="crayon-card cc-sunbeam tilt-l reveal d3">
+                        <div class="card-kicker">03 / SUNBEAM</div>
+                        <h3 class="card-title">The light</h3>
+                        <p class="card-body">Stars, butter, and every happy ending. Yellow is the applause.</p>
+                    </div>
+                    <div class="crayon-card cc-mint tilt-r reveal d2">
+                        <div class="card-kicker">04 / MINT</div>
+                        <h3 class="card-title">The wave</h3>
+                        <p class="card-body">Rivers and oceans drawn as one long line that never closes.</p>
+                    </div>
+                    <div class="crayon-card cc-lilac tilt-l reveal d3">
+                        <div class="card-kicker">05 / LILAC</div>
+                        <h3 class="card-title">The dream</h3>
+                        <p class="card-body">Night pages and things that are almost asleep.</p>
+                    </div>
+                    <div class="crayon-card cc-lime tilt-r reveal d3">
+                        <div class="card-kicker">06 / LIME</div>
+                        <h3 class="card-title">The moss</h3>
+                        <p class="card-body">Forests, frogs, and the bottom margin where bugs live.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — THE COUNT ========== -->
+        <section class="slide" style="background:var(--color-cobalt);">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-color:var(--color-on-ink); background:var(--color-magenta);">
+                    LPALO
+                </div>
+                <span class="tag reveal d1" style="margin-top:64px; border-bottom-color:var(--color-sunbeam); color:var(--color-on-ink);">THE COUNT</span>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:56px;">
+                    <div class="reveal d2">
+                        <div class="stat-num" style="color:var(--color-on-ink);">128</div>
+                        <div class="stat-label" style="color:rgba(255,255,255,0.9);">stories printed on peach paper since the first page</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num" style="color:var(--color-on-ink);">8</div>
+                        <div class="stat-label" style="color:rgba(255,255,255,0.9);">crayon colors — enough to draw any page twice</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num" style="color:var(--color-on-ink);">0</div>
+                        <div class="stat-label" style="color:rgba(255,255,255,0.9);">quiet endings. Every story ends loud or not at all.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    LPALO
+                </div>
+                <div class="tag tag-blue reveal d1" style="margin-top:64px;">FROM THE LAST PAGE</div>
+                <div class="reveal d2" style="margin-top:44px; max-width:1680px;">
+                    <p class="quote-text">&ldquo;Every good story is just a crayon drawing that learned to talk.&rdquo;</p>
+                    <div class="quote-by">THE DRAWS OF LPALO</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — THE PAGES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    LPALO
+                </div>
+                <div class="tag tag-lilac reveal d1" style="margin-top:64px;">THE PAGES</div>
+                <h2 class="h-title reveal d1" style="margin-top:20px;">This week's shelf</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:44px;">
+                    <div class="crayon-card cc-sunbeam tilt-l reveal d2" style="padding:0; overflow:hidden;">
+                        <div style="background:var(--color-ember); padding:36px 40px; border-bottom:4px solid var(--color-ink);">
+                            <div class="card-title" style="color:var(--color-on-ink);">THE<br>LOUD SUN</div>
+                        </div>
+                        <div style="padding:28px 36px;">
+                            <p class="card-body" style="font-size:26px;">One sun, one shout, one very orange page.</p>
+                        </div>
+                    </div>
+                    <div class="crayon-card cc-mint tilt-r reveal d3" style="padding:0; overflow:hidden;">
+                        <div style="background:var(--color-powder); padding:36px 40px; border-bottom:4px solid var(--color-ink);">
+                            <div class="card-title" style="color:var(--color-on-ink);">THE<br>WIDE SKY</div>
+                        </div>
+                        <div style="padding:28px 36px;">
+                            <p class="card-body" style="font-size:26px;">A whole page where the cloud is the hero.</p>
+                        </div>
+                    </div>
+                    <div class="crayon-card cc-lilac tilt-l reveal d3" style="padding:0; overflow:hidden;">
+                        <div style="background:var(--color-magenta); padding:36px 40px; border-bottom:4px solid var(--color-ink);">
+                            <div class="card-title" style="color:var(--color-on-ink);">THE<br>DREAM FROG</div>
+                        </div>
+                        <div style="padding:28px 36px;">
+                            <p class="card-body" style="font-size:26px;">Lilac night, lime frog, zero resolution.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — THE RULES ========== -->
+        <section class="slide">
+            <div class="frame">
+                <div class="wordmark reveal">
+                    LPALO
+                </div>
+                <div class="tag tag-blue reveal d1" style="margin-top:64px;">THE HOUSE RULES</div>
+                <h2 class="h-title reveal d1" style="margin-top:20px;">Drawn by hand</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:44px;">
+                    <div class="crayon-card cc-powder tilt-l reveal d2">
+                        <div class="card-kicker">RULE 01</div>
+                        <h3 class="card-title">Full bleed</h3>
+                        <p class="card-body">No margins, no white walls — the peach paper goes to every edge.</p>
+                    </div>
+                    <div class="crayon-card cc-ember tilt-r reveal d3">
+                        <div class="card-kicker">RULE 02</div>
+                        <h3 class="card-title">Shout once</h3>
+                        <p class="card-body">One slab headline per page, at full voice. Everything else whispers.</p>
+                    </div>
+                    <div class="crayon-card cc-lime tilt-l reveal d3">
+                        <div class="card-kicker">RULE 03</div>
+                        <h3 class="card-title">Tilt it</h3>
+                        <p class="card-body">Cards sit at a slight angle, like a page still warm from the press.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — THE END ========== -->
+        <section class="slide" style="background:var(--color-magenta);">
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); color:var(--color-on-ink); border-color:var(--color-on-ink); background:var(--color-cobalt);">
+                    LPALO
+                </div>
+                <span class="tag reveal d1" style="margin-top:56px; border-bottom-color:var(--color-sunbeam); color:var(--color-on-ink);">THE END</span>
+                <h1 class="h-display reveal d2" style="margin-top:32px; color:var(--color-on-ink);">THE END</h1>
+                <p class="body-cream reveal d3" style="max-width:800px; margin-top:40px; color:rgba(255,255,255,0.92);">Open a story, turn the page, and read it loud. The crayons will handle the rest.</p>
+                <div style="display:flex; gap:32px; margin-top:40px;" class="reveal d4">
+                    <button class="btn-crayon" type="button">READ ALOUD</button>
+                    <button class="btn-crayon-blue" type="button" style="background:var(--color-sunbeam); color:var(--color-ink);">MORE STORIES</button>
+                </div>
+            </div>
+        </section>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale();
+            this.setupDotNav();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>
+</body>
+</html>

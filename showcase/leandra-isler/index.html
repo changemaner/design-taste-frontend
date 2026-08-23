@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praxis Leandra Isler — Pressed botanicals</title>
+
+    <!-- Fonts: PP Neue Montreal -> Inter (one typeface carries the whole scale), per DESIGN.md -->
+    <link rel="stylesheet" href="../fonts/fonts.css">
+
+
+    <style>
+        :root {
+            /* Colors — exact 1:1 from tokens.json. Monochromatic earth palette, no UI colors */
+            --color-canvas: #f4e6cd;      /* Vellum Sand — edge-to-edge canvas */
+            --color-linen: #edddc3;       /* Pressed Linen — secondary surface */
+            --color-ink: #1e211e;         /* Aged Ink — the only type color */
+            --color-black: #000000;       /* Charcoal Black — deepest accents */
+            --color-bronze: #8f774b;      /* Twilight Bronze — muted earth accent */
+            --color-hayfield: #ba9d6a;    /* Hayfield — botanical illustration */
+            --color-wheat: #d6bd97;       /* Wheat Sheaf — light botanical tone */
+            --color-on-ink: #f4e6cd;      /* vellum on dark */
+
+            /* Fonts — PP Neue Montreal -> Inter */
+            --font-ui: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+            /* Type scale — x2 for stage (source 14px caption → 173px display, one family) */
+            --text-caption: 28px;
+            --text-body: 36px;
+            --leading-body: 1.5;          /* source --leading-body */
+            --text-title: 72px;
+            --text-display: 158px;
+
+            /* Spacing — x2 (base 4px) */
+            --sp-1: 8px;
+            --sp-2: 16px;
+            --sp-3: 24px;
+            --sp-4: 48px;
+            --sp-5: 80px;
+
+            /* Radii — exact 1:1: 4px, nothing rounder except the full pill */
+            --radius-sm: 4px;
+            --radius-full: 50px;
+
+            /* Hairline rules — every chrome is a thin underline */
+            --rule: 2px solid var(--color-ink);
+        }
+
+            overflow: hidden;
+        }
+
+        /* Fixed 1920×1080 stage, uniformly scaled to viewport (letterboxed) */
+        .deck-viewport {
+            position: fixed; inset: 0;
+            overflow: hidden;
+            background: var(--color-canvas);
+        }
+        .deck-stage {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1920px; height: 1080px;
+            transform-origin: 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px; height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--color-canvas);
+        }
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: var(--color-canvas); }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px; height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-chrome { display: none !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ═══════════ BRAND ─ 品牌组件 CSS（每套素材独立） ═══════════ */
+        /* Frame — content padding with bottom safety zone */
+        .frame {
+            position: absolute; inset: 0;
+            padding: var(--frame-pad-top) var(--frame-pad-x) var(--safety-bottom);
+        }
+
+        /* Vellum light — the one sanctioned gradient, raking light from the top */
+        .vellum-dark {
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, rgba(186, 157, 106, 0.22) 0%, rgba(30, 33, 30, 0) 30%);
+        }
+        .vellum-light {
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, rgba(214, 189, 151, 0.55) 0%, rgba(244, 230, 205, 0) 34%),
+                var(--color-canvas);
+        }
+
+        /* Wordmark — small caps + hairline underline */
+        .wordmark {
+            position: absolute; top: 56px; left: var(--frame-pad-x);
+            display: flex; align-items: baseline; gap: 20px;
+            font-family: var(--font-ui);
+            font-size: 24px; font-weight: 500; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            padding-bottom: 14px;
+            border-bottom: var(--rule);
+        }
+        .wm-sub {
+            font-size: 20px; font-weight: 400; letter-spacing: 0.08em;
+            color: var(--color-bronze);
+        }
+
+        /* Tag — caption scale, no fill, just letterspaced caps */
+        .tag {
+            font-family: var(--font-ui);
+            font-size: 24px; font-weight: 500; letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+        }
+
+        /* Display — single family at full scale; scale itself is the hierarchy */
+        .h-display {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: var(--text-display);
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+            color: var(--color-ink);
+        }
+        .h-title {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: 64px; line-height: 1.0;
+            letter-spacing: -0.02em;
+            color: var(--color-ink);
+        }
+        .h-serif-note {
+            font-family: var(--font-ui);
+            font-weight: 300;
+            font-size: 38px; line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: var(--color-ink);
+        }
+
+        /* Body — single family, 1.5 leading */
+        .body {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.5;
+            color: var(--color-ink);
+        }
+        .body-muted {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.5;
+            color: var(--color-bronze);
+        }
+        .body-cream {
+            font-family: var(--font-ui);
+            font-size: 34px; line-height: 1.5;
+            color: var(--color-on-ink);
+        }
+
+        /* Links — the only buttons are thin underlines, never filled chips */
+        .link-cta {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-size: 26px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-ink);
+            border-bottom: var(--rule);
+            padding-bottom: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .link-cta-light { color: var(--color-on-ink); border-bottom-color: var(--color-on-ink); }
+
+        /* Pressed cards — flat paper, hairline rule, no shadow */
+        .press-card {
+            background: var(--color-linen);
+            border-radius: var(--radius-sm);
+            border: var(--rule);
+            padding: 18px 26px;
+        }
+        .press-card-plain {
+            background: transparent;
+            border-radius: var(--radius-sm);
+            border: var(--rule);
+            padding: 18px 26px;
+        }
+        .card-num {
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+        }
+        .card-title {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: 36px; line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-ink);
+            margin-top: 20px;
+        }
+        .card-body {
+            font-family: var(--font-ui);
+            font-size: 26px; line-height: 1.5;
+            color: var(--color-ink);
+            margin-top: 16px;
+        }
+
+        /* Botanical illustration — palette-only pressed plants */
+        .botanical { display: block; }
+
+        /* Agenda rows — hairline list */
+        .agenda-row {
+            display: flex; align-items: baseline; gap: 56px;
+            padding: 28px 0;
+            border-bottom: var(--rule);
+        }
+        .a-num {
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.16em;
+            color: var(--color-bronze);
+            flex: none;
+        }
+        .a-title {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: 52px; line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--color-ink);
+        }
+        .a-tag {
+            margin-left: auto;
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+            white-space: nowrap;
+        }
+
+        /* Stats */
+        .stat-num {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: 120px; line-height: 0.95;
+            letter-spacing: -0.02em;
+            color: var(--color-ink);
+        }
+        .stat-label {
+            font-family: var(--font-ui);
+            font-size: 26px; line-height: 1.5;
+            color: var(--color-bronze);
+            margin-top: 16px;
+            max-width: 420px;
+        }
+
+        /* Quote */
+        .quote-text {
+            font-family: var(--font-ui);
+            font-weight: 300;
+            font-size: 60px; line-height: 1.35;
+            letter-spacing: -0.015em;
+            color: var(--color-ink);
+        }
+        .quote-by {
+            font-family: var(--font-ui);
+            font-size: 22px; font-weight: 500; letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+            margin-top: 48px;
+        }
+
+        /* Process rows */
+        .proc-row {
+            display: flex; align-items: baseline; gap: 56px;
+            padding: 24px 0;
+            border-bottom: var(--rule);
+        }
+        .proc-num {
+            font-family: var(--font-ui);
+            font-size: 20px; font-weight: 500; letter-spacing: 0.16em;
+            color: var(--color-bronze);
+            flex: none; width: 64px;
+        }
+        .proc-title {
+            font-family: var(--font-ui);
+            font-weight: 400;
+            font-size: 44px; line-height: 1.15;
+            letter-spacing: -0.015em;
+            color: var(--color-ink);
+        }
+        .proc-note {
+            margin-left: auto;
+            font-family: var(--font-ui);
+            font-size: 26px; line-height: 1.5;
+            color: var(--color-bronze);
+            max-width: 620px;
+        }
+
+        /* Deck chrome — fixed to viewport, outside slide layout (safety zone 160px) */
+        .deck-chrome {
+            position: fixed;
+            left: 0; right: 0; bottom: 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 48px;
+            pointer-events: none;
+            font-family: var(--font-ui);
+            font-size: 22px;
+            color: var(--color-muted);
+            letter-spacing: 0.04em;
+        }
+        /* Dot progress navigation — clickable, current slide solid */
+                .dot-nav {
+            display: flex;
+            gap: var(--nav-dot-gap);
+            align-items: center;
+            pointer-events: auto;
+            width: fit-content;
+            color: var(--color-ink);
+            background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+            border: 1px solid color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            border-radius: 9999px;
+            padding: var(--nav-pill-pad-y) var(--nav-pill-pad-x);
+        }        /* Dark-tone capsule: light version for dark/saturated slides · 胶囊颜色随 slide 底色自适应 */
+        .dot-nav[data-tone="dark"] {
+            color: rgb(244, 230, 205);
+            background: var(--nav-pill-bg-dark, rgba(255, 255, 255, var(--nav-pill-alpha)));
+            border-color: var(--nav-pill-border-dark, rgba(255, 255, 255, var(--nav-pill-border-alpha)));
+        }
+        @supports (background: color-mix(in srgb, black 10%, transparent)) {
+            .dot-nav[data-tone="dark"] {
+                background: color-mix(in srgb, currentColor calc(var(--nav-pill-alpha) * 100%), transparent);
+                border-color: color-mix(in srgb, currentColor calc(var(--nav-pill-border-alpha) * 100%), transparent);
+            }
+        }
+
+        .nav-dot {
+            width: var(--nav-dot-size); height: var(--nav-dot-size);
+            color: inherit;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .nav-dot.active {
+            background: currentColor;
+            transform: scale(var(--nav-active-scale));
+        }
+        .nav-dot:hover { transform: scale(var(--nav-hover-scale)); }
+        /* Speaker notes — N toggles an overlay of the current slide's note */
+        .speaker-note {
+            display: none;
+            position: fixed;
+            left: 50%; bottom: 96px;
+            transform: translateX(-50%);
+            z-index: 2000;
+            max-width: 780px;
+            max-height: 240px;
+            overflow: auto;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-family: var(--font-ui);
+            font-size: 24px;
+            line-height: 1.6;
+            background: var(--color-ink);
+            color: var(--color-on-ink);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            pointer-events: none;
+            text-align: left;
+        }
+
+
+        /* ════════════════════════════════════════════════════════════
+           CONFIG — 克隆后改这里即可自定义整套 UI（改完刷新即生效）
+           默认值 = 已验证的编辑稿 Expo 手感（动效）+ 自适应胶囊导航
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            /* —— 动效 MOTION —— */
+            --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* 入场缓动：编辑稿 Expo（落地平缓） */
+            --motion-duration: 0.7s;    /* 元素入场时长（0.5~0.9s 常用，越大越慢） */
+            --motion-distance: 28px;    /* 入场上移距离（16~40px，越大越明显） */
+            --motion-stagger-step: 0.12s; /* 交错步长（0.08 更快 / 0.16 更分明） */
+
+            /* —— 底部胶囊导航 NAV —— */
+            --nav-dot-size: 14px;       /* 圆点直径 */
+            --nav-dot-gap: 18px;        /* 圆点间距 */
+            --nav-pill-pad-y: 14px;     /* 胶囊上下内边距（越高胶囊越高） */
+            --nav-pill-pad-x: 28px;     /* 胶囊左右内边距（越宽胶囊越长） */
+            --nav-pill-alpha: 0.08;     /* 胶囊背景透明度（0 无底 / 0.15 更实） */
+            --nav-pill-border-alpha: 0.28; /* 胶囊描边透明度 */
+            --nav-active-scale: 1.15;   /* 当前页圆点放大倍数 */
+            --nav-hover-scale: 1.35;    /* 悬停圆点放大倍数 */
+
+            /* —— 布局 LAYOUT —— */
+            --safety-bottom: 160px;     /* 底部安全区（勿小于胶囊高度） */
+            --frame-pad-top: 112px;     /* 内容区上内边距 */
+            --frame-pad-x: 120px;       /* 内容区左右内边距（含 wordmark 对齐） */
+
+            /* —— 数据可视化 DATA-VIZ —— */
+            --chart-draw-duration: 1.4s; /* 折线/环形图描边绘制时长 */
+        }
+
+
+        /* Reveal — transition-driven staged entrance, driven by .visible */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--motion-distance));
+            transition: opacity var(--motion-duration) var(--motion-ease),
+                        transform var(--motion-duration) var(--motion-ease);
+        }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .slide.visible .reveal.d1 { transition-delay: calc(var(--motion-stagger-step) * 1); }
+        .slide.visible .reveal.d2 { transition-delay: calc(var(--motion-stagger-step) * 2); }
+        .slide.visible .reveal.d3 { transition-delay: calc(var(--motion-stagger-step) * 3); }
+        .slide.visible .reveal.d4 { transition-delay: calc(var(--motion-stagger-step) * 4); }
+        /* Interaction stays snappy after entrance */
+        .slide.visible [class*="btn"], .slide.visible .artifact, .slide.visible .link-arrow {
+            transition: opacity 0.2s ease, transform 0.25s ease,
+                        box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+    </style>
+    </style>
+</head>
+<body>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <section class="slide" data-note="开场：Praxis Leandra Isler 把干燥植物压进暖羊皮纸 —— 单一家族、细线、植物是主角。按 N 关闭备注。">
+            <div class="vellum-light"></div>
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x);">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <svg class="botanical reveal d2" style="position:absolute; right:140px; bottom:220px; width:420px; height:560px;" viewBox="0 0 420 560" aria-hidden="true">
+                    <path d="M210,540 C205,420 190,300 210,60" stroke="#8f774b" stroke-width="4" fill="none"/>
+                    <path d="M210,420 C150,380 110,330 90,260 C150,280 190,320 210,360 C230,320 270,280 330,260 C310,330 270,380 210,420 Z" fill="#ba9d6a"/>
+                    <path d="M210,300 C165,270 130,230 115,175 C165,190 195,225 210,255 C225,225 255,190 305,175 C290,230 255,270 210,300 Z" fill="#d6bd97"/>
+                    <path d="M210,200 C180,180 155,150 145,110 C180,120 200,150 210,175 C220,150 240,120 275,110 C265,150 240,180 210,200 Z" fill="#ba9d6a"/>
+                </svg>
+                <span class="tag reveal d1" style="margin-top:56px;">PRESSED BOTANICALS &mdash; MMXXVI</span>
+                <h1 class="h-display reveal d2" style="margin-top:32px;">PRAXIS</h1>
+                <p class="body reveal d3" style="max-width:760px; margin-top:40px; color:var(--color-ink);">Dried botanicals pressed into warm vellum — calm, tactile, editorial. One typeface carries every scale, from caption to wall.</p>
+                <div style="display:flex; gap:48px; margin-top:48px;" class="reveal d4">
+                    <a class="link-cta" href="#">VISIT THE HERBARIUM</a>
+                    <a class="link-cta" href="#" style="border-bottom-color:var(--color-bronze); color:var(--color-bronze);">READ THE JOURNAL</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 2 — AGENDA ========== -->
+        <section class="slide">
+            <div class="vellum-light"></div>
+            <div class="frame">
+                <div class="wordmark reveal">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">CONTENTS</div>
+                <div style="margin-top:44px;">
+                    <div class="agenda-row reveal d1">
+                        <span class="a-num">I.</span>
+                        <span class="a-title">The pressings</span>
+                        <span class="a-tag">THE WORK</span>
+                    </div>
+                    <div class="agenda-row reveal d2">
+                        <span class="a-num">II.</span>
+                        <span class="a-title">The herbarium</span>
+                        <span class="a-tag">THE COUNT</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">III.</span>
+                        <span class="a-title">The process</span>
+                        <span class="a-tag">THE CRAFT</span>
+                    </div>
+                    <div class="agenda-row reveal d3">
+                        <span class="a-num">IV.</span>
+                        <span class="a-title">The wall</span>
+                        <span class="a-tag">THE CLOSE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 3 — THE PRESSINGS ========== -->
+        <section class="slide">
+            <div class="vellum-light"></div>
+            <div class="frame">
+                <div class="wordmark reveal">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">THE PRESSINGS</div>
+                <h2 class="h-title reveal d1" style="margin-top:20px;">Three specimens</h2>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:44px;">
+                    <div class="press-card reveal d2">
+                        <svg class="botanical" style="width:100%; height:200px;" viewBox="0 0 300 200" aria-hidden="true">
+                            <path d="M150,190 C145,140 130,90 150,20" stroke="#8f774b" stroke-width="3" fill="none"/>
+                            <path d="M150,140 C110,115 85,80 75,40 C120,55 140,90 150,110 C160,90 180,55 225,40 C215,80 190,115 150,140 Z" fill="#ba9d6a"/>
+                        </svg>
+                        <div class="card-num" style="margin-top:20px;">N&deg; 1</div>
+                        <h3 class="card-title">Wild fennel</h3>
+                        <p class="card-body">Pressed in June, kept dry since. The stem reads like a ruled line.</p>
+                    </div>
+                    <div class="press-card reveal d3">
+                        <svg class="botanical" style="width:100%; height:200px;" viewBox="0 0 300 200" aria-hidden="true">
+                            <path d="M60,190 C100,150 140,110 240,20" stroke="#8f774b" stroke-width="3" fill="none"/>
+                            <circle cx="100" cy="150" r="16" fill="#d6bd97"/>
+                            <circle cx="150" cy="105" r="14" fill="#ba9d6a"/>
+                            <circle cx="195" cy="65" r="12" fill="#d6bd97"/>
+                        </svg>
+                        <div class="card-num" style="margin-top:20px;">N&deg; 2</div>
+                        <h3 class="card-title">Dried poppy</h3>
+                        <p class="card-body">Seed heads kept whole; the pods hold their dusk tone for years.</p>
+                    </div>
+                    <div class="press-card reveal d3">
+                        <svg class="botanical" style="width:100%; height:200px;" viewBox="0 0 300 200" aria-hidden="true">
+                            <path d="M150,190 C150,140 150,90 150,20" stroke="#8f774b" stroke-width="3" fill="none"/>
+                            <ellipse cx="150" cy="70" rx="45" ry="60" fill="none" stroke="#ba9d6a" stroke-width="4"/>
+                            <path d="M150,130 C125,115 110,95 105,70 C130,80 145,100 150,115 C155,100 170,80 195,70 C190,95 175,115 150,130 Z" fill="#d6bd97"/>
+                        </svg>
+                        <div class="card-num" style="margin-top:20px;">N&deg; 3</div>
+                        <h3 class="card-title">Field oat</h3>
+                        <p class="card-body">Awns still standing, pressed flat enough to read every bristle.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 4 — THE HERBARIUM ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-ink);">
+            <div class="vellum-dark"></div>
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); border-bottom-color:var(--color-on-ink);">
+                    <span style="color:var(--color-on-ink);">PRAXIS LEANDRA ISLER</span> <span class="wm-sub" style="color:rgba(244,230,205,0.6);">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px; color:rgba(244,230,205,0.6);">THE HERBARIUM</div>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:48px;">
+                    <div class="reveal d2">
+                        <div class="stat-num" style="color:var(--color-on-ink);">312</div>
+                        <div class="stat-label" style="color:rgba(244,230,205,0.6);">specimens pressed and filed since the first season</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num" style="color:var(--color-on-ink);">7</div>
+                        <div class="stat-label" style="color:rgba(244,230,205,0.6);">years of continuous pressing — one sheet per week</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-num" style="color:var(--color-on-ink);">1</div>
+                        <div class="stat-label" style="color:rgba(244,230,205,0.6);">typeface across the whole scale — the paper does the hierarchy</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 5 — QUOTE ========== -->
+        <section class="slide">
+            <div class="vellum-light"></div>
+            <div class="frame" style="display:flex; flex-direction:column; justify-content:center;">
+                <div class="wordmark reveal">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">FROM THE STUDIO</div>
+                <div class="reveal d2" style="margin-top:44px; max-width:1620px;">
+                    <p class="quote-text">&ldquo;Press it slowly, and the plant keeps the shape of the day it was picked. That is the whole method.&rdquo;</p>
+                    <div class="quote-by">LEANDRA ISLER &mdash; PRESSER</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 6 — THE PROCESS ========== -->
+        <section class="slide">
+            <div class="vellum-light"></div>
+            <div class="frame">
+                <div class="wordmark reveal">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:56px;">THE PROCESS</div>
+                <h2 class="h-title reveal d1" style="margin-top:20px;">Four quiet steps</h2>
+                <div style="margin-top:40px;">
+                    <div class="proc-row reveal d1">
+                        <span class="proc-num">01</span>
+                        <span class="proc-title">Gather at dawn</span>
+                        <span class="proc-note">Cut before the dew dries; the shape is truest then.</span>
+                    </div>
+                    <div class="proc-row reveal d2">
+                        <span class="proc-num">02</span>
+                        <span class="proc-title">Press six weeks</span>
+                        <span class="proc-note">Between blotters and boards. No heat, no hurry.</span>
+                    </div>
+                    <div class="proc-row reveal d3">
+                        <span class="proc-num">03</span>
+                        <span class="proc-title">Mount on vellum</span>
+                        <span class="proc-note">A sheet of sand, a ruled caption, a single needle of glue.</span>
+                    </div>
+                    <div class="proc-row reveal d3">
+                        <span class="proc-num">04</span>
+                        <span class="proc-title">File by season</span>
+                        <span class="proc-note">The herbarium is ordered by month, not by name.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 7 — THE WALL ========== -->
+        <section class="slide">
+            <div class="vellum-light"></div>
+            <div class="frame">
+                <div class="wordmark reveal">
+                    PRAXIS LEANDRA ISLER <span class="wm-sub">HERBARIUM</span>
+                </div>
+                <div class="tag reveal d1" style="margin-top:40px;">THE WALL</div>
+                <h2 class="h-title reveal d1" style="margin-top:16px;">On view this season</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:32px;">
+                    <div class="press-card reveal d2">
+                        <div class="card-num">GALLERY 01</div>
+                        <h3 class="card-title">Summer presses</h3>
+                        <p class="card-body">Twelve wild fennels, one field oat, and the poppies of the dry July.</p>
+                    </div>
+                    <div class="press-card reveal d3">
+                        <div class="card-num">GALLERY 02</div>
+                        <h3 class="card-title">The ruled stems</h3>
+                        <p class="card-body">A study of stems that read as typographic rules — nature's hairline.</p>
+                    </div>
+                    <div class="press-card reveal d3">
+                        <div class="card-num">GALLERY 03</div>
+                        <h3 class="card-title">Pressed at dusk</h3>
+                        <p class="card-body">Evening cuttings in twilight bronze — the darkest sheets in the file.</p>
+                    </div>
+                    <div class="press-card-plain reveal d3" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start;">
+                        <p class="h-serif-note" style="font-weight:300;">The interface gets out of the way.<br>The plant is the hero.</p>
+                        <a class="link-cta" href="#" style="margin-top:20px;">WALK THE WALL</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SLIDE 8 — CLOSE ========== -->
+        <section class="slide" data-nav-tone="dark" style="background:var(--color-ink);">
+            <div class="vellum-dark"></div>
+            <div class="frame" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div class="wordmark reveal" style="position:absolute; top:110px; left:var(--frame-pad-x); border-bottom-color:var(--color-on-ink);">
+                    <span style="color:var(--color-on-ink);">PRAXIS LEANDRA ISLER</span> <span class="wm-sub" style="color:rgba(244,230,205,0.6);">HERBARIUM</span>
+                </div>
+                <span class="tag reveal d1" style="margin-top:40px; color:rgba(244,230,205,0.6);">THE WALL</span>
+                <h1 class="h-display reveal d2" style="margin-top:20px; color:var(--color-on-ink);">KEEP<br>IT DRY</h1>
+                <p class="body-cream reveal d3" style="max-width:760px; margin-top:28px; color:rgba(244,230,205,0.85);">The herbarium opens to visitors by appointment. Sheets are handled one at a time, in the order they were pressed.</p>
+                <div style="display:flex; gap:48px; margin-top:32px;" class="reveal d4">
+                    <a class="link-cta link-cta-light" href="#">BOOK A VISIT</a>
+                    <a class="link-cta link-cta-light" href="#" style="border-bottom-color:rgba(244,230,205,0.5);">REQUEST A PRESSING</a>
+                </div>
+            </div>
+        </section>
+
+<!-- Deck chrome — fixed to viewport, outside the slide design system -->
+<div class="speaker-note" id="speakerNote"></div>
+<div class="deck-chrome">
+    <div class="dot-nav" id="dotNav" role="navigation" aria-label="Slide navigation"></div>
+</div>
+
+
+<script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.stage = document.getElementById('deckStage');
+            this.dotNav = document.getElementById('dotNav');
+            this.notesOn = false;
+            this.noteEl = document.getElementById('speakerNote');
+            this.setupStageScale();
+            this.setupDotNav();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.initFromQuery();
+            this.showSlide(this.currentSlide);
+        }
+
+        /* Uniform stage scale: 1920×1080 → viewport, letterboxed */
+        setupStageScale() {
+            const scale = () => {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            };
+            scale();
+            window.addEventListener('resize', scale);
+        }
+
+        /* Dot navigation: one clickable dot per slide */
+        setupDotNav() {
+            if (!this.dotNav) return;
+            this.slides.forEach((slide, i) => {
+                const d = document.createElement('button');
+                d.className = 'nav-dot';
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.title = 'Slide ' + (i + 1);
+                d.addEventListener('click', () => this.showSlide(i));
+                this.dotNav.appendChild(d);
+            });
+        }
+
+        /* Keyboard: arrows, space, page up/down, home/end */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide + 1); }
+                else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); this.showSlide(this.currentSlide - 1); }
+                else if (e.key === 'Home') { this.showSlide(0); }
+                else if (e.key === 'End') { this.showSlide(this.slides.length - 1); }
+                else if (e.key === 'n' || e.key === 'N') { this.toggleNotes(); }
+            });
+        }
+
+        /* Touch swipe */
+        setupTouchNav() {
+            let startX = null;
+            document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            document.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 60) this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        }
+
+        /* Speaker notes: N toggles the overlay, page turn refreshes content */
+        toggleNotes() {
+            this.notesOn = !this.notesOn;
+            if (this.noteEl) this.noteEl.style.display = this.notesOn ? 'block' : 'none';
+            this.updateNotes();
+        }
+        updateNotes() {
+            if (!this.noteEl) return;
+            const cur = this.slides[this.currentSlide];
+            const n = cur ? cur.getAttribute('data-note') : null;
+            this.noteEl.textContent = n || '（本页无讲者备注 · N 关闭）';
+        }
+
+        /* Deep-link support: ?slide=N */
+        initFromQuery() {
+            const m = location.search.match(/[?&]slide=(\d+)/);
+            if (m) this.currentSlide = Math.max(0, Math.min(parseInt(m[1], 10), this.slides.length - 1));
+        }
+
+        showSlide(index) {
+            this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+            this.slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+                slide.classList.toggle('visible', i === this.currentSlide);
+            });
+            if (this.dotNav) {
+                const activeSlide = this.slides[this.currentSlide];
+                const tone = activeSlide ? activeSlide.getAttribute('data-nav-tone') : null;
+                if (tone === 'dark') this.dotNav.dataset.tone = 'dark';
+                else this.dotNav.removeAttribute('data-tone');
+                this.dotNav.querySelectorAll('.nav-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+            this.updateNotes();
+        }
+    }
+
+    new SlidePresentation();
+</script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "avoid_for": "Consumer retail, playful multi-color brands, light-mode marketing pages, or any context needing a welcoming or friendly register — the 98% achromatic near-black cockpit, single coral accent, and key-cap card treatment read as a serious power-user product, not a consumer pitch.",
+  "best_for": "Developer-tool and power-user productivity landing pages (launcher, automation, keyboard-first apps) that want a dark power-tool cockpit: near-black canvas, hairline borders, inset key-shadow cards, a neutral light-gray CTA, and one cinematic hero artwork.",
+  "density": "comfortable",
+  "formality": "medium",
+  "mood": [
+    "technical",
+    "quiet",
+    "monochrome"
+  ],
+  "name": "Raycast",
+  "palette_voice": "A near-pure-black Void canvas (#040506) with barely-visible elevation steps (Ink #07080a, Obsidian #111214, Graphite #1b1c1e) is the whole surface system — the page is 98% achromatic; a single warm Coral Pulse (#ff6363) is the brand accent, rationed to the logo diamond, AI badge, hero artwork, and warm-tinted card surfaces; mist white (#e6e6e6) fills the only CTA; the blue/green hues exist only inside the hero's red/blue gradient composition, never in interface controls.",
+  "scheme": "dark",
+  "signature_moves": [
+    "The 'keyboard key' inner-shadow stack (inset top highlight + outer 1px ring + inset bottom shadow) on every elevated card — cards read as pressed key caps, not floating panels",
+    "One full-bleed cinematic hero: massive abstract red/coral (#ff6363) and blue radial-gradient geometry — the only place the system breaks its own austere rules",
+    "Neutral Mist (#e6e6e6) filled download buttons with Iron text as the only CTA — the system deliberately has no chromatic action button",
+    "Glass navigation bar with backdrop-blur(48px) floating over the dark hero as a translucent pill",
+    "Geist Mono 12px footer metadata (version | platform | install command) separated by vertical pipes — technical signals as data"
+  ],
+  "slug": "raycast",
+  "source": {
+    "leading_body": 1.15,
+    "path": "refero-styles/Raycast/",
+    "radius": "8px buttons/inputs/badges, 16–20px cards, 9999px pills, 99999px circular icon containers",
+    "shadow": "inset key stack on cards: rgba(255,255,255,0.05) 0px 1px 0px inset + rgba(255,255,255,0.25) 0px 0px 0px 1px + rgba(0,0,0,0.2) 0px -1px 0px inset; hero depth via gradients/blur, no drop shadows on cards",
+    "theme": "dark"
+  },
+  "tagline": "Midnight command center, coral neon",
+  "tone": [
+    "confident",
+    "authoritative",
+    "calm"
+  ],
+  "typographic_voice": "Inter everywhere as the sole sans (11–64px, weights 400/500/600) — the signature is the 56px hero headline at weight 400, an anti-convention whisper that lets size do the work, with slightly positive tracking (0.004em at 56px) rather than negative; Geist Mono handles version strings, command hints, and 10px uppercase eyebrow tags to read as engineered metadata; SF Pro Text is reserved strictly for icons and 24–32px numeric stat callouts; no bold shouting, no serif, no negative letter-spacing on display."
+}
