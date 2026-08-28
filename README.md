@@ -8,15 +8,15 @@ AI 生成的页面一眼假，多半败在值层，颜色、字号、间距是�
 
 纯 skill 目录，克隆进去就能被 Agent 加载，没有构建步骤。推荐装到跨 Agent 的通用目录 `~/.agents/skills/`，这个包不绑定任何一个 Agent；个别 Agent 只认自家 skills 目录（如 `~/.claude/skills/`、`~/.zcode/skills/`），克隆过去即可。
 
-**人手动装**
+**手动安装**
 
 ```bash
 git clone --depth 1 https://github.com/changemaner/design-taste-frontend.git ~/.agents/skills/design-taste-frontend
 ```
 
-**让 AI 装**
+**AI参考安装**
 
-现在很多人不手动配 skill 了，直接让 AI 代劳。把下面这段发给你的 Agent，剩下的它来。
+把下面这段发给你的 Agent，剩下的它来。
 
 ```text
 帮我把 https://github.com/changemaner/design-taste-frontend 装成 skill。浅克隆（--depth 1）到 ~/.agents/skills/design-taste-frontend（跨 Agent 的通用目录；如果你只从别的 skills 目录加载，就克隆到你认的那个）。装完告诉我装到了哪里。之后的前端设计任务按这个 skill 的 SKILL.md 走。
